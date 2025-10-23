@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -90,7 +91,7 @@ export default function PackageDetailsPage({
             </div>
           </section>
 
-          <div className="container mx-auto px-4 py-16 md:py-24">
+          <div className="container mx-auto px-4 py-16 md:py-24 animate-fade-in">
             <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
               
               {/* Left Column */}
