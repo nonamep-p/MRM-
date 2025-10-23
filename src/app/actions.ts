@@ -7,7 +7,8 @@ import {
   type PersonalizedPackageRecommendationsInput,
 } from "@/ai/flows/personalized-package-recommendations";
 import { getSdks } from "@/firebase/firebase-server";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, updateDoc } from "firebase/firestore";
+import type { ContactFormSubmission } from "@/lib/types";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required."),
@@ -31,6 +32,7 @@ export async function handleContactForm(values: z.infer<typeof contactSchema>) {
     await addDoc(submissionsCollection, {
       ...validatedData,
       submittedAt: serverTimestamp(),
+      status: 'Pending', // Default status
     });
     return { success: true, message: "Form submitted successfully." };
   } catch (error) {
@@ -38,6 +40,19 @@ export async function handleContactForm(values: z.infer<typeof contactSchema>) {
     return { success: false, message: "Failed to submit form. Please try again." };
   }
 }
+
+export async function updateSubmissionStatus(submissionId: string, status: ContactFormSubmission['status']) {
+    const { firestore } = getSdks();
+    try {
+        const submissionRef = doc(firestore, 'contactFormSubmissions', submissionId);
+        await updateDoc(submissionRef, { status });
+        return { success: true, message: `Status updated to ${status}` };
+    } catch (error) {
+        console.error("Error updating submission status:", error);
+        return { success: false, message: "Failed to update status." };
+    }
+}
+
 
 export async function getPersonalizedPackageRecommendations(
   input: PersonalizedPackageRecommendationsInput
@@ -51,3 +66,5 @@ export async function getPersonalizedPackageRecommendations(
   const recommendations = await getPersonalizedPackageRecommendationsFlow(flowInput);
   return recommendations;
 }
+
+    

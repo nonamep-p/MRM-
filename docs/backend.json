@@ -117,13 +117,19 @@
         "sourcePackage": {
           "type": "string",
           "description": "The travel package the user was viewing when they submitted the form."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "Confirmed", "Canceled"],
+          "description": "The current status of the submission."
         }
       },
       "required": [
         "name",
         "email",
         "message",
-        "submittedAt"
+        "submittedAt",
+        "status"
       ]
     },
     "SiteSettings": {
@@ -269,3 +275,5 @@
     "reasoning": "The Firestore data structure is designed to support the VoyageVista travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\n3. **Site Settings:** The `siteSettings` collection holds a single document 'main' for global configurations like contact info. This data is public and readable by anyone, but writable only by authenticated admins.\n\n4. **Hero Slides**: The `heroSlides` collection stores the content for the homepage carousel. This data is publicly readable by all users to display on the homepage, and writable only by authenticated admins to allow for content management."
   }
 }
+
+    
