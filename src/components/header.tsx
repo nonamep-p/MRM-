@@ -43,7 +43,7 @@ export function Header({ onContactClick }: HeaderProps) {
         <div className="flex-1 flex items-center justify-start">
             <Link href="/" className="flex items-center gap-2">
               {siteSettings?.logoUrl ? (
-                <div className="relative h-10 w-32">
+                <div className="relative h-12 w-40">
                   <Image src={siteSettings.logoUrl} alt="MRM Internationals Logo" fill className="object-contain" />
                 </div>
               ) : (

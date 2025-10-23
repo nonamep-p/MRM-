@@ -42,7 +42,7 @@ export function Footer() {
           <div className="flex flex-col">
             <Link href="/" className="flex items-center gap-2 mb-4">
                {siteSettings?.logoUrl ? (
-                <div className="relative h-12 w-48">
+                <div className="relative h-16 w-52">
                   <Image src={siteSettings.logoUrl} alt="MRM Internationals Logo" fill className="object-contain" />
                 </div>
               ) : (

@@ -173,8 +173,8 @@ export default function SettingsPage() {
                     {watchedLogoUrl && (
                         <div className="flex flex-col gap-2">
                             <FormLabel>Preview</FormLabel>
-                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-32 flex items-center justify-center">
-                                <div className="relative h-28 w-full">
+                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-40 w-56 flex items-center justify-center">
+                                <div className="relative h-36 w-full">
                                     <Image src={watchedLogoUrl} alt="Logo preview" fill className="object-contain" />
                                 </div>
                             </div>
@@ -203,8 +203,7 @@ export default function SettingsPage() {
                           <SelectItem value="EUR">EUR - Euro</SelectItem>
                           <SelectItem value="GBP">GBP - British Pound</SelectItem>
                         </SelectContent>
-                      </Select>
-                       <FormMessage />
+                       </FormMessage>
                     </FormItem>
                   )}
                 />
