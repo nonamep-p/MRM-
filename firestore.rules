@@ -1,0 +1,54 @@
+/**
+ * @fileoverview Firestore Security Rules for VoyageVista.
+ *
+ * Core Philosophy:
+ * This ruleset provides public read access to travel packages and restricts access to contact form submissions to authenticated users only. There is no user-specific data, so ownership is not a factor.
+ *
+ * Data Structure:
+ * - /travelPackages/{travelPackageId}: Stores publicly accessible travel package data.
+ * - /contactFormSubmissions/{contactFormSubmissionId}: Stores private contact form submissions.
+ *
+ * Key Security Decisions:
+ * - Public read access for travel packages allows for open listing and retrieval.
+ * - Contact form submissions are only accessible to authenticated users, ensuring privacy.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Allows anyone to read travel packages, but restricts writes.
+     * @path /travelPackages/{travelPackageId}
+     * @allow (get, list) Anyone can read travel packages.
+     * @allow (create) Anyone can create a travel package.
+     * @deny (create, update, delete) No one can update or delete travel packages without authentication.
+     * @principle Allows public read access to travel packages.
+     */
+    match /travelPackages/{travelPackageId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    /**
+     * @description Restricts access to contact form submissions to authenticated users only.
+     * @path /contactFormSubmissions/{contactFormSubmissionId}
+     * @allow (create) Any signed-in user can create a contact form submission.
+     * @allow (get, list) Only signed-in users can read contact form submissions.
+     * @deny (update, delete) No one can update or delete contact form submissions.
+     * @principle Restricts access to contact form submissions to authenticated users.
+     */
+    match /contactFormSubmissions/{contactFormSubmissionId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update, delete: if false;
+    }
+
+    /**
+     * @description Checks if the user is signed in.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+  }
+}

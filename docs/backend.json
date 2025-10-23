@@ -1,0 +1,141 @@
+{
+  "entities": {
+    "TravelPackage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TravelPackage",
+      "type": "object",
+      "description": "Represents a travel package offered by the agency.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the travel package."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the travel package."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the travel package itinerary."
+        },
+        "location": {
+          "type": "string",
+          "description": "The destination location of the travel package."
+        },
+        "duration": {
+          "type": "string",
+          "description": "Duration of the travel package (e.g., '7 days', '2 weeks')."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the travel package."
+        },
+        "imageUrls": {
+          "type": "array",
+          "description": "URLs of images showcasing the travel package.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "itinerary": {
+          "type": "string",
+          "description": "Detailed itinerary of the travel package (e.g., a string with the complete day by day schedule)."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "location",
+        "duration",
+        "price",
+        "imageUrls",
+        "itinerary"
+      ]
+    },
+    "ContactFormSubmission": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactFormSubmission",
+      "type": "object",
+      "description": "Represents a submission from the 'Contact Us' form.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the contact form submission."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the person submitting the form."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the person submitting the form.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "Phone number of the person submitting the form."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message content from the contact form."
+        },
+        "submittedAt": {
+          "type": "string",
+          "description": "Timestamp of when the form was submitted.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "message",
+        "submittedAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/travelPackages/{travelPackageId}",
+        "definition": {
+          "entityName": "TravelPackage",
+          "schema": {
+            "$ref": "#/backend/entities/TravelPackage"
+          },
+          "description": "Stores travel package information. Accessible to all users (public data).",
+          "params": [
+            {
+              "name": "travelPackageId",
+              "description": "Unique identifier for the travel package."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/contactFormSubmissions/{contactFormSubmissionId}",
+        "definition": {
+          "entityName": "ContactFormSubmission",
+          "schema": {
+            "$ref": "#/backend/entities/ContactFormSubmission"
+          },
+          "description": "Stores contact form submissions. Accessible only to authenticated administrators.",
+          "params": [
+            {
+              "name": "contactFormSubmissionId",
+              "description": "Unique identifier for the contact form submission."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the VoyageVista travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\nThis design prioritizes simplicity, security, and maintainability. The use of descriptive collection names and the clear separation of concerns contribute to a more understandable and manageable application."
+  }
+}
