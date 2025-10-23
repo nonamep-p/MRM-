@@ -1,8 +1,9 @@
 
 'use client';
 
-import { Compass, Mail, Phone, MapPin, Twitter, Instagram, Facebook, Linkedin, Youtube, Pin } from "lucide-react";
+import { Mail, Phone, MapPin, Twitter, Instagram, Facebook, Linkedin, Youtube, Pin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
 import type { SiteSettings } from "@/lib/types";
@@ -30,11 +31,18 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <Compass className="h-8 w-8 text-accent" />
-              <span className="font-bold text-2xl font-headline">
-                VoyageVista
-              </span>
+            <Link href="/" className="flex items-center gap-2 mb-4">
+               <div className="relative h-10 w-10">
+                <Image src="/Logo.png" alt="VoyageVista Logo" fill className="object-contain" />
+              </div>
+              <div className="flex flex-col">
+                <div className="relative h-5 w-28">
+                   <Image src="/INTERNATIONALS.png" alt="Internationals" fill className="object-contain" />
+                </div>
+                <div className="relative h-4 w-32">
+                   <Image src="/TRAVEL_TOURISM.png" alt="Travel & Tourism" fill className="object-contain" />
+                </div>
+              </div>
             </Link>
             <p className="text-foreground/80 max-w-sm">
               Crafting unforgettable travel experiences tailored just for you.

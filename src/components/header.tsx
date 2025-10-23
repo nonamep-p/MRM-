@@ -2,11 +2,11 @@
 "use client";
 
 import Link from "next/link";
-import { Compass, LogOut, User } from "lucide-react";
+import Image from "next/image";
+import { LogOut, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { DialogTrigger } from "./ui/dialog";
 import { useAuth, useUser } from "@/firebase";
-import { getAuth } from "firebase/auth";
 
 interface HeaderProps {
   onContactClick: () => void;
@@ -32,11 +32,18 @@ export function Header({ onContactClick }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         <div className="flex-1 flex items-center justify-start">
-            <Link href="/" className="flex items-center space-x-2">
-            <Compass className="h-6 w-6 text-accent" />
-            <span className="font-bold sm:inline-block font-headline text-lg">
-                VoyageVista
-            </span>
+            <Link href="/" className="flex items-center gap-2">
+              <div className="relative h-8 w-8">
+                <Image src="/Logo.png" alt="VoyageVista Logo" fill className="object-contain" />
+              </div>
+              <div className="flex flex-col">
+                <div className="relative h-4 w-24">
+                   <Image src="/INTERNATIONALS.png" alt="Internationals" fill className="object-contain" />
+                </div>
+                <div className="relative h-3 w-28">
+                   <Image src="/TRAVEL_TOURISM.png" alt="Travel & Tourism" fill className="object-contain" />
+                </div>
+              </div>
             </Link>
         </div>
         <nav className="hidden md:flex flex-1 items-center justify-center">
