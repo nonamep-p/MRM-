@@ -57,7 +57,7 @@ export default function LoginPage() {
     }
   }, [user, isUserLoading, router]);
 
-  const handleAuthAction = async (values: z.infer<typeof loginSchema>, action: 'signIn' | 'signUp') => {
+  const handleSignIn = async (values: z.infer<typeof loginSchema>) => {
     setIsLoading(true);
     setError(null);
     if (!auth) {
@@ -66,18 +66,36 @@ export default function LoginPage() {
         return;
     }
     try {
-      if (action === 'signIn') {
-        await signInWithEmailAndPassword(auth, values.email, values.password);
-      } else {
-        await createUserWithEmailAndPassword(auth, values.email, values.password);
-      }
+      await signInWithEmailAndPassword(auth, values.email, values.password);
       router.push('/admin');
     } catch (err: any) {
-      setError(err.message);
+      setError("Invalid email or password. Please try again or sign up.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handleSignUp = async (values: z.infer<typeof loginSchema>) => {
+    setIsLoading(true);
+    setError(null);
+    if (!auth) {
+        setError("Authentication service is not available.");
+        setIsLoading(false);
+        return;
+    }
+    try {
+        await createUserWithEmailAndPassword(auth, values.email, values.password);
+        router.push('/admin');
+    } catch (err: any) {
+        if (err.code === 'auth/email-already-in-use') {
+            setError("An account with this email already exists. Please sign in.");
+        } else {
+            setError("Failed to create an account. Please try again.");
+        }
+    } finally {
+        setIsLoading(false);
+    }
+  }
 
   if (isUserLoading || user) {
       return <div className="flex h-screen items-center justify-center">Loading...</div>
@@ -94,7 +112,7 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit((values) => handleAuthAction(values, 'signIn'))} className="space-y-4">
+            <form onSubmit={form.handleSubmit(handleSignIn)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -135,7 +153,7 @@ export default function LoginPage() {
                     type="button"
                     variant="secondary"
                     disabled={isLoading}
-                    onClick={form.handleSubmit((values) => handleAuthAction(values, 'signUp'))}
+                    onClick={form.handleSubmit(handleSignUp)}
                 >
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Sign Up (First Time)
