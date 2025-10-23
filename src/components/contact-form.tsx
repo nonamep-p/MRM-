@@ -4,7 +4,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,21 +19,25 @@ import { useToast } from "@/hooks/use-toast";
 import { handleContactForm } from "@/app/actions";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
   phoneNumber: z.string().optional(),
-  message: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
-  }),
+  travelers: z.coerce.number().optional(),
+  travelDates: z.string().optional(),
+  budget: z.string().optional(),
+  interests: z.string().optional(),
+  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  sourcePackage: z.string().optional(),
 });
 
-export function ContactForm() {
+interface ContactFormProps {
+  sourcePackage?: string;
+}
+
+export function ContactForm({ sourcePackage }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -44,7 +47,12 @@ export function ContactForm() {
       name: "",
       email: "",
       phoneNumber: "",
+      travelers: 1,
+      travelDates: "",
+      budget: "",
+      interests: "",
       message: "",
+      sourcePackage: sourcePackage || "",
     },
   });
 
@@ -116,15 +124,79 @@ export function ContactForm() {
               )}
             />
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="travelers"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of Travelers</FormLabel>
+                  <FormControl>
+                    <Input type="number" min="1" placeholder="2" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="travelDates"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Preferred Travel Dates</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., June 2025" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+           <FormField
+              control={form.control}
+              name="budget"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Budget per Person</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your budget range" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="<2000">&lt; $2,000</SelectItem>
+                      <SelectItem value="2000-4000">$2,000 - $4,000</SelectItem>
+                      <SelectItem value="4000-6000">$4,000 - $6,000</SelectItem>
+                      <SelectItem value="6000+">$6,000+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="interests"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Interests</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="What are you looking for in a trip? (e.g., adventure, relaxation, cultural experiences)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           <FormField
             control={form.control}
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your Message</FormLabel>
+                <FormLabel>Additional Message</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Tell us about your dream vacation..."
+                    placeholder="Any other details or questions?"
                     className="min-h-[100px]"
                     {...field}
                   />

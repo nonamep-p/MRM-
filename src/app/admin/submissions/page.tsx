@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { format } from 'date-fns';
+import { Badge } from "@/components/ui/badge";
 
 export default function AdminSubmissionsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -54,7 +55,7 @@ export default function AdminSubmissionsPage() {
                 <TableHead>Date</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Phone</TableHead>
+                <TableHead>Package</TableHead>
                 <TableHead className="w-[100px] text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -80,7 +81,13 @@ export default function AdminSubmissionsPage() {
                   </TableCell>
                   <TableCell className="font-medium">{sub.name}</TableCell>
                   <TableCell>{sub.email}</TableCell>
-                  <TableCell>{sub.phoneNumber || 'N/A'}</TableCell>
+                  <TableCell>
+                    {sub.sourcePackage ? (
+                      <Badge variant="secondary">{sub.sourcePackage}</Badge>
+                    ) : (
+                      <span className="text-muted-foreground">General Inquiry</span>
+                    )}
+                  </TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" onClick={() => handleView(sub)}>
                       <Eye className="h-4 w-4" />
@@ -103,10 +110,36 @@ export default function AdminSubmissionsPage() {
             </DialogDescription>
           </DialogHeader>
           {selectedSubmission && (
-            <div className="py-4 space-y-4">
+            <div className="py-4 space-y-4 text-sm">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-semibold">Phone Number</h4>
+                    <p className="text-muted-foreground">{selectedSubmission.phoneNumber || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Source</h4>
+                    <p className="text-muted-foreground">{selectedSubmission.sourcePackage || 'General Inquiry'}</p>
+                  </div>
+                   <div>
+                    <h4 className="font-semibold">Travelers</h4>
+                    <p className="text-muted-foreground">{selectedSubmission.travelers || 'Not provided'}</p>
+                  </div>
+                   <div>
+                    <h4 className="font-semibold">Preferred Dates</h4>
+                    <p className="text-muted-foreground">{selectedSubmission.travelDates || 'Not provided'}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <h4 className="font-semibold">Budget Per Person</h4>
+                    <p className="text-muted-foreground">{selectedSubmission.budget ? selectedSubmission.budget.replace('-', ' - ').replace('<', '< ').replace('+', ' +') : 'Not provided'}</p>
+                  </div>
+                </div>
+                 <div>
+                    <h4 className="font-semibold">Interests</h4>
+                    <p className="mt-1 p-3 bg-muted rounded-md">{selectedSubmission.interests || 'Not provided'}</p>
+                </div>
                 <div>
-                    <h4 className="font-semibold">Message:</h4>
-                    <p className="mt-2 p-4 bg-muted rounded-md text-sm">{selectedSubmission.message}</p>
+                    <h4 className="font-semibold">Message</h4>
+                    <p className="mt-1 p-3 bg-muted rounded-md">{selectedSubmission.message}</p>
                 </div>
             </div>
           )}

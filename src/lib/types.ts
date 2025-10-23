@@ -51,4 +51,9 @@ export type ContactFormSubmission = {
     phoneNumber?: string;
     message: string;
     submittedAt: Timestamp;
+    travelers?: number;
+    travelDates?: string;
+    budget?: string;
+    interests?: string;
+    sourcePackage?: string; // e.g., The title of the package they were viewing
 };

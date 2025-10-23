@@ -175,7 +175,7 @@ export default function Home() {
 
         </main>
         <Footer />
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Contact Us</DialogTitle>
             <DialogDescription>

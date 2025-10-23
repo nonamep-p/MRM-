@@ -19,14 +19,6 @@
           "type": "string",
           "description": "Detailed description of the travel package itinerary."
         },
-        "location": {
-          "type": "string",
-          "description": "The destination location of the travel package."
-        },
-        "duration": {
-          "type": "string",
-          "description": "Duration of the travel package (e.g., '7 days', '2 weeks')."
-        },
         "price": {
           "type": "number",
           "description": "Price of the travel package."
@@ -35,29 +27,48 @@
           "type": "string",
           "description": "Currency of the travel package price (e.g., USD, EUR, GBP)."
         },
-        "imageUrls": {
-          "type": "array",
-          "description": "URLs of images showcasing the travel package.",
-          "items": {
-            "type": "string"
+        "image": {
+          "type": "string",
+          "description": "URL of an image showcasing the travel package.",
+          "format": "uri"
+        },
+        "duration": {
+          "type": "string",
+          "description": "Duration of the travel package (e.g., '7 days', '2 weeks')."
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
           }
         },
-        "itinerary": {
+        "grade": {
           "type": "string",
-          "description": "Detailed itinerary of the travel package (e.g., a string with the complete day by day schedule)."
+          "enum": ["Luxury", "Comfort", "Adventure"]
+        },
+        "inclusions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "exclusions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "itinerary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "day": { "type": "number" },
+              "title": { "type": "string" },
+              "description": { "type": "string" }
+            },
+            "required": ["day", "title", "description"]
+          }
         }
       },
-      "required": [
-        "id",
-        "title",
-        "description",
-        "location",
-        "duration",
-        "price",
-        "currency",
-        "imageUrls",
-        "itinerary"
-      ]
+      "required": ["title", "description", "price", "currency", "image", "duration", "location", "grade"]
     },
     "ContactFormSubmission": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -90,10 +101,29 @@
           "type": "string",
           "description": "Timestamp of when the form was submitted.",
           "format": "date-time"
+        },
+        "travelers": {
+          "type": "number",
+          "description": "Number of people traveling."
+        },
+        "travelDates": {
+          "type": "string",
+          "description": "Preferred travel dates."
+        },
+        "budget": {
+          "type": "string",
+          "description": "Budget per person."
+        },
+        "interests": {
+          "type": "string",
+          "description": "User's travel interests."
+        },
+        "sourcePackage": {
+          "type": "string",
+          "description": "The travel package the user was viewing when they submitted the form."
         }
       },
       "required": [
-        "id",
         "name",
         "email",
         "message",
@@ -166,7 +196,7 @@
           "format": "uri"
         }
       },
-      "required": ["id", "title", "description", "imageUrl"]
+      "required": ["title", "description", "imageUrl"]
     }
   },
   "auth": {

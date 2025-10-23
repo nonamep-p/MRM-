@@ -14,6 +14,11 @@ const contactSchema = z.object({
   email: z.string().email(),
   phoneNumber: z.string().optional(),
   message: z.string().min(10, "Message is too short."),
+  travelers: z.coerce.number().optional(),
+  travelDates: z.string().optional(),
+  budget: z.string().optional(),
+  interests: z.string().optional(),
+  sourcePackage: z.string().optional(),
 });
 
 export async function handleContactForm(values: z.infer<typeof contactSchema>) {
