@@ -26,13 +26,13 @@ export default function AdminPage() {
   return (
     <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold font-headline">Admin Panel</h1>
+        <h1 className="text-3xl font-bold font-headline">Manage Travel Packages</h1>
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" /> Add New Package
         </Button>
       </div>
       
-      <div className="border rounded-lg">
+      <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
         <Table>
           <TableHeader>
             <TableRow>
@@ -40,29 +40,38 @@ export default function AdminPage() {
               <TableHead>Location</TableHead>
               <TableHead>Duration</TableHead>
               <TableHead>Price</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[100px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading && (
               <TableRow>
-                <TableCell colSpan={5} className="text-center">
+                <TableCell colSpan={5} className="text-center h-24">
                   Loading packages...
+                </TableCell>
+              </TableRow>
+            )}
+            {!isLoading && travelPackages?.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center h-24">
+                  No packages found. Add your first package!
                 </TableCell>
               </TableRow>
             )}
             {travelPackages?.map((pkg) => (
               <TableRow key={pkg.id}>
                 <TableCell className="font-medium">{pkg.title}</TableCell>
-                <TableCell>{Object.keys(pkg.location).length > 0 ? `${pkg.location.lat.toFixed(2)}, ${pkg.location.lng.toFixed(2)}` : 'N/A'}</TableCell>
+                <TableCell>{pkg.location ? `${pkg.location.lat.toFixed(2)}, ${pkg.location.lng.toFixed(2)}` : 'N/A'}</TableCell>
                 <TableCell>{pkg.duration}</TableCell>
                 <TableCell>${pkg.price.toLocaleString()}</TableCell>
                 <TableCell className="text-right">
                   <Button variant="ghost" size="icon">
                     <Edit className="h-4 w-4" />
+                    <span className="sr-only">Edit</span>
                   </Button>
                   <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
                     <Trash2 className="h-4 w-4" />
+                    <span className="sr-only">Delete</span>
                   </Button>
                 </TableCell>
               </TableRow>
