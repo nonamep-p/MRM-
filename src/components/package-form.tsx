@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useFirestore } from "@/firebase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,8 +29,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import type { TravelPackage } from "@/lib/types";
-import { Loader2, PlusCircle, Trash2, Upload } from "lucide-react";
+import { Loader2, PlusCircle, Trash2 } from "lucide-react";
 import { Separator } from "./ui/separator";
+import { addDocumentNonBlocking, setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 const packageSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters."),
@@ -145,35 +146,25 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
       exclusions: values.exclusions?.map(e => e.value),
     };
     
-    try {
-      if (travelPackage) {
-        // Update existing package
-        const packageRef = doc(firestore, "travelPackages", travelPackage.id);
-        await setDoc(packageRef, dataToSave, { merge: true });
-        toast({
-          title: "Package Updated",
-          description: `"${values.title}" has been successfully updated.`,
-        });
-      } else {
-        // Add new package
-        const collectionRef = collection(firestore, "travelPackages");
-        await addDoc(collectionRef, dataToSave);
-        toast({
-          title: "Package Added",
-          description: `"${values.title}" has been successfully added.`,
-        });
-      }
-      onSuccess();
-    } catch (error) {
-      console.error("Error saving package: ", error);
+    if (travelPackage) {
+      // Update existing package
+      const packageRef = doc(firestore, "travelPackages", travelPackage.id);
+      setDocumentNonBlocking(packageRef, dataToSave, { merge: true });
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem saving the package. Please try again.",
+        title: "Package Updated",
+        description: `"${values.title}" has been successfully updated.`,
       });
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      // Add new package
+      const collectionRef = collection(firestore, "travelPackages");
+      addDocumentNonBlocking(collectionRef, dataToSave);
+      toast({
+        title: "Package Added",
+        description: `"${values.title}" has been successfully added.`,
+      });
     }
+    setIsSubmitting(false);
+    onSuccess();
   }
 
   return (
@@ -453,5 +444,3 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
     </Form>
   );
 }
-
-    

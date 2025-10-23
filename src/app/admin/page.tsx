@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
-import { collection, query, doc, deleteDoc } from "firebase/firestore";
+import { collection, query, doc } from "firebase/firestore";
 import type { TravelPackage } from "@/lib/types";
 import {
   Table,
@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/dialog';
 import { PackageForm } from "@/components/package-form";
 import { useToast } from "@/hooks/use-toast";
+import { deleteDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 export default function AdminPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -47,23 +48,14 @@ export default function AdminPage() {
     setIsDialogOpen(true);
   };
 
-  const handleDelete = async (packageId: string) => {
+  const handleDelete = (packageId: string) => {
     if (!firestore) return;
     if (confirm("Are you sure you want to delete this package?")) {
-      try {
-        await deleteDoc(doc(firestore, "travelPackages", packageId));
-        toast({
-          title: "Package Deleted",
-          description: "The travel package has been successfully deleted.",
-        });
-      } catch (error) {
-        console.error("Error deleting package:", error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to delete the package. Please try again.",
-        });
-      }
+      deleteDocumentNonBlocking(doc(firestore, "travelPackages", packageId));
+      toast({
+        title: "Package Deletion Initiated",
+        description: "The travel package will be deleted shortly.",
+      });
     }
   };
 
