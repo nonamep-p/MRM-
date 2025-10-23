@@ -32,7 +32,7 @@ import { CalendarDays, Check, MapPin, Plane, Tag, X } from 'lucide-react';
 export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelPackage }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   
-  const { title, description, duration, price, currency, location, grade, inclusions, exclusions, itinerary, image } = travelPackage;
+  const { title, description, duration, price, currency, location, category, inclusions, exclusions, itinerary, image } = travelPackage;
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -53,7 +53,7 @@ export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelP
             <div className="absolute inset-0 bg-black/50" />
             <div className="relative z-10 p-4 max-w-4xl mx-auto">
                 <Badge variant="outline" className="mb-4 border-accent text-accent bg-background/20 backdrop-blur-sm">
-                  {grade}
+                  {category}
                 </Badge>
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
                   {title}

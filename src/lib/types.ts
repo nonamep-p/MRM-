@@ -19,7 +19,7 @@ export type TravelPackage = {
     lat: number;
     lng: number;
   };
-  grade: 'Luxury' | 'Comfort' | 'Adventure';
+  category: 'Luxury' | 'Comfort' | 'Adventure' | 'Family' | 'Honeymoon' | 'Cultural' | 'Budget';
   inclusions?: string[];
   exclusions?: string[];
   itinerary?: ItineraryItem[];

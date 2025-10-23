@@ -44,7 +44,7 @@ const packageSchema = z.object({
     lat: z.coerce.number().min(-90).max(90, "Latitude must be between -90 and 90."),
     lng: z.coerce.number().min(-180).max(180, "Longitude must be between -180 and 180."),
   }),
-  grade: z.enum(['Luxury', 'Comfort', 'Adventure']),
+  category: z.enum(['Luxury', 'Comfort', 'Adventure', 'Family', 'Honeymoon', 'Cultural', 'Budget']),
   inclusions: z.array(z.object({ value: z.string().min(1, "Inclusion cannot be empty.") })).optional(),
   exclusions: z.array(z.object({ value: z.string().min(1, "Exclusion cannot be empty.") })).optional(),
   itinerary: z.array(z.object({
@@ -77,7 +77,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
       image: "",
       duration: "",
       location: { lat: 0, lng: 0 },
-      grade: 'Comfort',
+      category: 'Comfort',
       inclusions: [],
       exclusions: [],
       itinerary: [],
@@ -326,20 +326,24 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
         </div>
         <FormField
           control={form.control}
-          name="grade"
+          name="category"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Grade</FormLabel>
+              <FormLabel>Category</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a package grade" />
+                    <SelectValue placeholder="Select a package category" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="Luxury">Luxury</SelectItem>
                   <SelectItem value="Comfort">Comfort</SelectItem>
                   <SelectItem value="Adventure">Adventure</SelectItem>
+                  <SelectItem value="Family">Family</SelectItem>
+                  <SelectItem value="Honeymoon">Honeymoon</SelectItem>
+                  <SelectItem value="Cultural">Cultural</SelectItem>
+                  <SelectItem value="Budget">Budget</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

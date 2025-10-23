@@ -23,7 +23,7 @@ async function getPackage(id: string): Promise<TravelPackage | null> {
             image: data.image,
             duration: data.duration,
             location: data.location,
-            grade: data.grade,
+            category: data.category,
             inclusions: data.inclusions,
             exclusions: data.exclusions,
             itinerary: data.itinerary,
