@@ -23,7 +23,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
@@ -55,7 +54,7 @@ export default function Home() {
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
       <div className="flex flex-col min-h-screen">
-        <Header onContactClick={() => setIsContactOpen(true)} />
+        <Header onContactClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} />
         <main className="flex-1">
           {/* Hero Carousel Section */}
           <section className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center text-center text-white">
@@ -158,11 +157,9 @@ export default function Home() {
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Have questions or need a custom package? Our travel experts are here to help. Get in touch with us today!
               </p>
-              <DialogTrigger asChild>
-                  <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Mail className="mr-2 h-5 w-5" /> Get in Touch
-                  </Button>
-              </DialogTrigger>
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => setIsContactOpen(true)}>
+                <Mail className="mr-2 h-5 w-5" /> Get in Touch
+              </Button>
             </div>
           </section>
           
