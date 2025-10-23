@@ -4,7 +4,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { TravelPackage } from "@/lib/types";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import {
   Card,
   CardContent,
@@ -29,8 +28,7 @@ interface PackageCardProps {
 }
 
 export function PackageCard({ travelPackage }: PackageCardProps) {
-  const image = PlaceHolderImages.find((img) => img.id === travelPackage.image);
-  const { id, title, description, duration, price, location, inclusions } = travelPackage;
+  const { id, title, description, duration, price, location, inclusions, image } = travelPackage;
 
   return (
     <Dialog>
@@ -39,11 +37,10 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
           <div className="relative h-56 w-full">
             {image && (
               <Image
-                src={image.imageUrl}
+                src={image}
                 alt={title}
                 fill
                 className="object-cover"
-                data-ai-hint={image.imageHint}
               />
             )}
           </div>
@@ -91,11 +88,10 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
             <div className="relative h-72 w-full rounded-lg overflow-hidden">
                 {image && (
                     <Image
-                        src={image.imageUrl}
+                        src={image}
                         alt={title}
                         fill
                         className="object-cover"
-                        data-ai-hint={image.imageHint}
                     />
                 )}
             </div>
