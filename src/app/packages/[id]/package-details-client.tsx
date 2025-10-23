@@ -38,11 +38,16 @@ export function PackageDetailsClient({ travelPackage, siteSettings, availability
   const { title, description, duration, price, location, category, inclusions, exclusions, itinerary, image } = travelPackage;
 
   const availability = useMemo(() => {
-    return rawAvailability.map(item => ({
-      ...item,
-      startDate: new Date(item.startDate),
-      endDate: new Date(item.endDate),
-    }));
+    return rawAvailability.map(item => {
+      // Parse date string as UTC to avoid timezone hydration issues
+      const startParts = item.startDate.split('T')[0].split('-').map(Number);
+      const endParts = item.endDate.split('T')[0].split('-').map(Number);
+      return {
+          ...item,
+          startDate: new Date(Date.UTC(startParts[0], startParts[1] - 1, startParts[2])),
+          endDate: new Date(Date.UTC(endParts[0], endParts[1] - 1, endParts[2])),
+      }
+    });
   }, [rawAvailability]);
 
   return (
