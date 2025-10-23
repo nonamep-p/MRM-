@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,9 +67,8 @@ export function ContactForm() {
   }
 
   return (
-    <Card className="p-6 md:p-8">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4">
           <FormField
             control={form.control}
             name="name"
@@ -104,7 +104,7 @@ export function ContactForm() {
                 <FormControl>
                   <Textarea
                     placeholder="Tell us about your dream vacation..."
-                    className="min-h-[120px]"
+                    className="min-h-[100px]"
                     {...field}
                   />
                 </FormControl>
@@ -118,15 +118,5 @@ export function ContactForm() {
           </Button>
         </form>
       </Form>
-    </Card>
   );
 }
-
-// A simple Card component wrapper to avoid importing it in page.tsx as well for this.
-// This is a common pattern for self-contained sections.
-const Card = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={`bg-card text-card-foreground shadow-lg rounded-lg ${className}`}
-    {...props}
-  />
-);

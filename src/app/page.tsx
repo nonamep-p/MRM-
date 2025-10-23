@@ -10,14 +10,22 @@ import { MapSection } from "@/components/map-section";
 import { PersonalizedRecommendations } from "@/components/personalized-recommendations";
 import { travelPackages } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero");
@@ -102,16 +110,29 @@ export default function Home() {
 
         {/* Contact Section */}
         <section id="contact" className="py-16 md:py-24 bg-primary/20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto">
-                <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 font-headline">
-                    Get in Touch
-                </h2>
-                <p className="text-center text-muted-foreground mb-8">
-                    Have questions or ready to book your next adventure? Send us a message!
-                </p>
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">
+              Ready for Your Next Adventure?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Have questions or need a custom package? Our travel experts are here to help. Get in touch with us today!
+            </p>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                  <Mail className="mr-2 h-5 w-5" /> Get in Touch
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Contact Us</DialogTitle>
+                  <DialogDescription>
+                    Fill out the form below and we'll get back to you as soon as possible.
+                  </DialogDescription>
+                </DialogHeader>
                 <ContactForm />
-            </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </section>
       </main>
