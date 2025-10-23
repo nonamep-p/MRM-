@@ -1,4 +1,5 @@
 
+      
 'use client';
 
 import Link from "next/link";
@@ -9,6 +10,7 @@ import { DialogTrigger } from "./ui/dialog";
 import { useAuth, useDoc, useFirestore, useMemoFirebase, useUser } from "@/firebase";
 import { doc } from "firebase/firestore";
 import type { SiteSettings } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 interface HeaderProps {
   onContactClick: () => void;
@@ -40,18 +42,16 @@ export function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-20 items-center">
+      <div className="container flex h-24 items-center">
         <div className="mr-8 flex items-center">
             <Link href="/" className="flex items-center gap-2">
-              {siteSettings?.logoUrl ? (
-                <div className="relative h-16 w-36">
-                  <Image src={siteSettings.logoUrl} alt="VoyageVista Logo" fill className="object-contain" />
+              {siteSettings?.logoUrl && (
+                <div className="relative h-20 w-52">
+                  <Image src={siteSettings.logoUrl} alt="Logo" fill className="object-contain" />
                 </div>
-              ) : (
-                <span className="font-bold text-lg">VoyageVista</span>
               )}
               {siteSettings?.logoText && (
-                <span style={{ color: siteSettings.logoTextColor, fontFamily: siteSettings.logoFontFamily }} className="text-xl font-bold">{siteSettings.logoText}</span>
+                <span className={cn("font-bold", siteSettings.logoTextSize)} style={{ color: siteSettings.logoTextColor, fontFamily: siteSettings.logoFontFamily }}>{siteSettings.logoText}</span>
               )}
             </Link>
         </div>
@@ -95,3 +95,5 @@ export function Header({ onContactClick }: HeaderProps) {
     </header>
   );
 }
+
+    

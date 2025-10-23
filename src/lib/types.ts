@@ -1,3 +1,5 @@
+
+      
 import { type DocumentReference, type Timestamp } from 'firebase/firestore';
 
 export type ItineraryItem = {
@@ -47,6 +49,7 @@ export type SiteSettings = {
     logoText?: string;
     logoTextColor?: string;
     logoFontFamily?: string;
+    logoTextSize?: string;
 };
 
 export type HeroSlide = {
@@ -70,3 +73,5 @@ export type ContactFormSubmission = {
     sourcePackage?: string; // e.g., The title of the package they were viewing
     status: 'Pending' | 'Confirmed' | 'Canceled';
 };
+
+    

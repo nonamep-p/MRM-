@@ -1,4 +1,5 @@
-'use client';
+
+      'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -33,6 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { HexColorPicker } from "react-colorful";
+import { cn } from "@/lib/utils";
 
 
 const settingsSchema = z.object({
@@ -50,9 +52,17 @@ const settingsSchema = z.object({
   logoText: z.string().optional(),
   logoTextColor: z.string().optional(),
   logoFontFamily: z.string().optional(),
+  logoTextSize: z.string().optional(),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
+
+const fontSizes = [
+  { label: 'Small', value: 'text-lg' },
+  { label: 'Medium', value: 'text-xl' },
+  { label: 'Large', value: 'text-2xl' },
+  { label: 'Extra Large', value: 'text-3xl' },
+];
 
 export default function SettingsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -83,6 +93,7 @@ export default function SettingsPage() {
       logoText: "",
       logoTextColor: "#000000",
       logoFontFamily: "sans-serif",
+      logoTextSize: "text-2xl",
     },
   });
 
@@ -90,6 +101,7 @@ export default function SettingsPage() {
   const watchedLogoText = form.watch("logoText");
   const watchedLogoTextColor = form.watch("logoTextColor");
   const watchedLogoFontFamily = form.watch("logoFontFamily");
+  const watchedLogoTextSize = form.watch("logoTextSize");
 
 
   useEffect(() => {
@@ -106,6 +118,7 @@ export default function SettingsPage() {
         logoText: siteSettings.logoText || "",
         logoTextColor: siteSettings.logoTextColor || "#000000",
         logoFontFamily: siteSettings.logoFontFamily || "sans-serif",
+        logoTextSize: siteSettings.logoTextSize || "text-2xl",
       });
     }
   }, [siteSettings, form]);
@@ -154,7 +167,7 @@ export default function SettingsPage() {
            </CardHeader>
            <CardContent>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 
                 <h3 className="text-lg font-medium">Logo Settings</h3>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
@@ -219,6 +232,11 @@ export default function SettingsPage() {
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0">
                                       <HexColorPicker color={field.value} onChange={field.onChange} />
+                                       <Input
+                                        className="mt-2"
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                      />
                                     </PopoverContent>
                                   </Popover>
                                 </FormControl>
@@ -249,6 +267,30 @@ export default function SettingsPage() {
                             )}
                           />
                         </div>
+                        <FormField
+                            control={form.control}
+                            name="logoTextSize"
+                            render={({ field }) => (
+                                <FormItem className="mt-4">
+                                <FormLabel>Font Size</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a size" />
+                                    </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                    {fontSizes.map((size) => (
+                                        <SelectItem key={size.value} value={size.value}>
+                                        {size.label}
+                                        </SelectItem>
+                                    ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                     {(watchedLogoUrl || watchedLogoText) && (
                         <div className="flex flex-col gap-2">
@@ -261,7 +303,7 @@ export default function SettingsPage() {
                                         </div>
                                     )}
                                     {watchedLogoText && (
-                                        <span style={{ color: watchedLogoTextColor, fontFamily: watchedLogoFontFamily, fontSize: '24px', fontWeight: 'bold' }}>{watchedLogoText}</span>
+                                        <span className={cn(watchedLogoTextSize)} style={{ color: watchedLogoTextColor, fontFamily: watchedLogoFontFamily }}>{watchedLogoText}</span>
                                     )}
                                 </div>
                             </div>
@@ -433,7 +475,7 @@ export default function SettingsPage() {
             </Form>
            </CardContent>
        </Card>
-      
     </div>
   );
 }
+    
