@@ -39,15 +39,15 @@ export function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
+      <div className="container flex h-20 items-center">
         <div className="flex-1 flex items-center justify-start">
             <Link href="/" className="flex items-center gap-2">
               {siteSettings?.logoUrl ? (
-                <div className="relative h-12 w-40">
-                  <Image src={siteSettings.logoUrl} alt="MRM Internationals Logo" fill className="object-contain" />
+                <div className="relative h-16 w-52">
+                  <Image src={siteSettings.logoUrl} alt="VoyageVista Logo" fill className="object-contain" />
                 </div>
               ) : (
-                <span className="font-bold text-lg">MRM Internationals</span>
+                <span className="font-bold text-lg">VoyageVista</span>
               )}
             </Link>
         </div>
@@ -67,7 +67,7 @@ export function Header({ onContactClick }: HeaderProps) {
         <div className="flex flex-1 items-center justify-end space-x-4">
           {!isUserLoading && user ? (
             <>
-              <Button variant="ghost" asChild className="ml-4 text-base">
+              <Button variant="ghost" asChild className="ml-auto text-base">
                 <Link href="/admin">
                   <User className="mr-2 h-4 w-4" /> Admin
                 </Link>

@@ -173,7 +173,7 @@ export default function SettingsPage() {
                     {watchedLogoUrl && (
                         <div className="flex flex-col gap-2">
                             <FormLabel>Preview</FormLabel>
-                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-40 w-56 flex items-center justify-center">
+                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-40 w-60 flex items-center justify-center">
                                 <div className="relative h-36 w-full">
                                     <Image src={watchedLogoUrl} alt="Logo preview" fill className="object-contain" />
                                 </div>
@@ -246,7 +246,7 @@ export default function SettingsPage() {
                         <FormItem>
                             <FormLabel>Email Address</FormLabel>
                             <FormControl>
-                            <Input placeholder="hello@mrminternationals.com" {...field} />
+                            <Input placeholder="hello@voyagevista.com" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
