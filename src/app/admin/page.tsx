@@ -110,7 +110,7 @@ export default function AdminPage() {
               {travelPackages?.map((pkg) => (
                 <TableRow key={pkg.id}>
                   <TableCell className="font-medium">{pkg.title}</TableCell>
-                  <TableCell>{pkg.location ? `${pkg.location.lat.toFixed(2)}, ${pkg.location.lng.toFixed(2)}` : 'N/A'}</TableCell>
+                  <TableCell>{pkg.location || 'N/A'}</TableCell>
                   <TableCell>{pkg.duration}</TableCell>
                   <TableCell className="text-right font-medium">{siteSettings?.defaultCurrency} {pkg.price.toLocaleString()}</TableCell>
                   <TableCell className="text-right">
@@ -147,3 +147,5 @@ export default function AdminPage() {
     </>
   );
 }
+
+    

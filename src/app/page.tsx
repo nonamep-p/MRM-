@@ -48,9 +48,6 @@ export default function Home() {
   }, [firestore]);
   const { data: heroSlides, isLoading: isLoadingSlides } = useCollection<HeroSlide>(heroSlidesCollection);
 
-
-  const packageLocations = travelPackages?.map(pkg => ({ id: pkg.id, location: pkg.location })) || [];
-  
   const handleContactClick = () => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
@@ -146,17 +143,7 @@ export default function Home() {
               )}
             </div>
           </section>
-
-          {/* Map Section */}
-          <section id="map" className="py-12 md:py-20 bg-background">
-            <div className="container mx-auto px-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 font-headline">
-                Our Destinations
-              </h2>
-              <MapSection locations={packageLocations} />
-            </div>
-          </section>
-
+          
           {/* Contact Section */}
           <section id="contact" className="py-12 md:py-20 bg-primary/20">
             <div className="container mx-auto px-4 text-center">
@@ -194,3 +181,5 @@ export default function Home() {
     </Dialog>
   );
 }
+
+    

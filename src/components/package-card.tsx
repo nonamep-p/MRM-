@@ -91,7 +91,7 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
           <DialogTitle className="font-headline text-2xl">{title}</DialogTitle>
           <DialogDescription className="flex items-center gap-2 pt-2">
             <MapPin className="h-4 w-4 text-muted-foreground" />
-            <span>{Object.keys(location).length > 0 ? `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}` : 'Location not available'}</span>
+            <span>{location || 'Location not available'}</span>
             <span className="text-muted-foreground mx-2">|</span>
             <Clock className="h-4 w-4 text-muted-foreground" />
             <span>{duration}</span>
@@ -140,3 +140,5 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
     </Dialog>
   );
 }
+
+    

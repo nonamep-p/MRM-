@@ -77,7 +77,7 @@ export function PackageDetailsClient({ travelPackage, siteSettings, availability
                 <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-lg">
                     <div className="flex items-center gap-2">
                         <MapPin className="h-5 w-5"/>
-                        <span>{location ? `Location: ${location.lat.toFixed(2)}, ${location.lng.toFixed(2)}` : 'Location not available'}</span>
+                        <span>{location || 'Location not available'}</span>
                     </div>
                      <div className="flex items-center gap-2">
                         <CalendarDays className="h-5 w-5" />
@@ -218,3 +218,5 @@ export function PackageDetailsClient({ travelPackage, siteSettings, availability
     </Dialog>
   );
 }
+
+    

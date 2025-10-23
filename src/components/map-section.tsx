@@ -1,12 +1,12 @@
+
 "use client";
 
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
-import type { TravelPackage } from "@/lib/types";
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 interface MapSectionProps {
-  locations: { id: string; location: { lat: number; lng: number } }[];
+  locations: any[]; // Can be string or object
 }
 
 export function MapSection({ locations }: MapSectionProps) {
@@ -78,6 +78,23 @@ export function MapSection({ locations }: MapSectionProps) {
     }
   ];
 
+  const hasCoordinates = locations.every(loc => loc.location && typeof loc.location === 'object' && 'lat' in loc.location && 'lng' in loc.location);
+
+  if (!hasCoordinates) {
+     return (
+      <div className="flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner">
+        <div className="text-center p-4">
+          <h3 className="text-lg font-semibold text-foreground">Interactive Map is Unavailable</h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The map requires latitude and longitude, but location names are being used.
+            <br/>
+            To re-enable the map, update the package data to include coordinates.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (!apiKey || apiKey === "YOUR_API_KEY") {
     return (
       <div className="flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner">
@@ -112,3 +129,5 @@ export function MapSection({ locations }: MapSectionProps) {
     </APIProvider>
   );
 }
+
+    
