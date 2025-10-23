@@ -3,7 +3,6 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PackageCard } from "@/components/package-card";
-import { travelPackages } from "@/lib/data";
 import { useState } from "react";
 import {
   Dialog,
@@ -13,9 +12,18 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { ContactForm } from "@/components/contact-form";
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import { collection, query } from "firebase/firestore";
+import type { TravelPackage } from "@/lib/types";
 
 export default function PackagesPage() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const firestore = useFirestore();
+  const packagesCollection = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, "travelPackages"));
+  }, [firestore]);
+  const { data: travelPackages, isLoading } = useCollection<TravelPackage>(packagesCollection);
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -26,11 +34,14 @@ export default function PackagesPage() {
             <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 font-headline">
               Our Travel Packages
             </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {travelPackages.map((pkg) => (
-                <PackageCard key={pkg.id} travelPackage={pkg} />
-              ))}
-            </div>
+            {isLoading && <p className="text-center">Loading packages...</p>}
+            {travelPackages && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {travelPackages.map((pkg) => (
+                  <PackageCard key={pkg.id} travelPackage={pkg} />
+                ))}
+              </div>
+            )}
           </div>
         </main>
         <Footer />

@@ -9,7 +9,6 @@ import { PackageCard } from "@/components/package-card";
 import { ContactForm } from "@/components/contact-form";
 import { MapSection } from "@/components/map-section";
 import { PersonalizedRecommendations } from "@/components/personalized-recommendations";
-import { travelPackages } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, Mail } from "lucide-react";
 import {
@@ -28,11 +27,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import { collection, query } from "firebase/firestore";
+import type { TravelPackage } from "@/lib/types";
 
 export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero");
-  const packageLocations = travelPackages.map(pkg => ({ id: pkg.id, location: pkg.location }));
+  
+  const firestore = useFirestore();
+  const packagesCollection = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, "travelPackages"));
+  }, [firestore]);
+  const { data: travelPackages, isLoading } = useCollection<TravelPackage>(packagesCollection);
+
+
+  const packageLocations = travelPackages?.map(pkg => ({ id: pkg.id, location: pkg.location })) || [];
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -73,25 +84,28 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 font-headline">
                 Featured Travel Packages
               </h2>
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full max-w-6xl mx-auto"
-              >
-                <CarouselContent>
-                  {travelPackages.map((pkg) => (
-                    <CarouselItem key={pkg.id} className="md:basis-1/2 lg:basis-1/3">
-                      <div className="p-1">
-                        <PackageCard travelPackage={pkg} />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="hidden sm:flex" />
-                <CarouselNext className="hidden sm:flex" />
-              </Carousel>
+              {isLoading && <p>Loading packages...</p>}
+              {travelPackages && (
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-full max-w-6xl mx-auto"
+                >
+                  <CarouselContent>
+                    {travelPackages.map((pkg) => (
+                      <CarouselItem key={pkg.id} className="md:basis-1/2 lg:basis-1/3">
+                        <div className="p-1">
+                          <PackageCard travelPackage={pkg} />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="hidden sm:flex" />
+                  <CarouselNext className="hidden sm:flex" />
+                </Carousel>
+              )}
             </div>
           </section>
 

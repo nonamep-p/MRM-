@@ -1,3 +1,4 @@
+import { type DocumentReference } from 'firebase/firestore';
 
 export type ItineraryItem = {
   day: number;

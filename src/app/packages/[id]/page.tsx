@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { travelPackages } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 import { Header } from '@/components/header';
@@ -31,15 +30,30 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { ArrowLeft, Award, CalendarDays, Check, Clock, MapPin, Plane, Tag, X } from 'lucide-react';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import type { TravelPackage } from '@/lib/types';
 
 export default function PackageDetailsPage({
-  params: { id },
+  params,
 }: {
   params: { id: string };
 }) {
+  const { id } = params;
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const travelPackage = travelPackages.find((p) => p.id === id);
+  const firestore = useFirestore();
 
+  const packageDocRef = useMemoFirebase(() => {
+    if (!firestore || !id) return null;
+    return doc(firestore, 'travelPackages', id);
+  }, [firestore, id]);
+
+  const { data: travelPackage, isLoading } = useDoc<TravelPackage>(packageDocRef);
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-screen">Loading package details...</div>;
+  }
+  
   if (!travelPackage) {
     notFound();
   }
