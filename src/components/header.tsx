@@ -2,7 +2,11 @@ import Link from "next/link";
 import { Compass } from "lucide-react";
 import { Button } from "./ui/button";
 
-export function Header() {
+interface HeaderProps {
+  onContactClick: () => void;
+}
+
+export function Header({ onContactClick }: HeaderProps) {
   const navLinks = [
     { name: "Packages", href: "#packages" },
     { name: "Destinations", href: "#map" },
@@ -20,7 +24,7 @@ export function Header() {
             </span>
             </Link>
         </div>
-        <nav className="hidden md:flex">
+        <nav className="hidden md:flex flex-1 items-center justify-center">
             <div className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
                 <Link
@@ -34,8 +38,11 @@ export function Header() {
             </div>
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-            <Link href="#contact">Contact Us</Link>
+          <Button 
+            onClick={onContactClick} 
+            className="bg-accent hover:bg-accent/90 text-accent-foreground"
+          >
+            Contact Us
           </Button>
         </div>
       </div>
