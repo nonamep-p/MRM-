@@ -1,6 +1,6 @@
 
       
-import { type DocumentReference, type Timestamp } from 'firebase/firestore';
+import { type DocumentReference, type Timestamp, type FieldValue } from 'firebase/firestore';
 
 export type ItineraryItem = {
   day: number;
@@ -64,7 +64,7 @@ export type ContactFormSubmission = {
     email: string;
     phoneNumber?: string;
     message: string;
-    submittedAt: Timestamp;
+    submittedAt: Timestamp | FieldValue;
     travelers?: number;
     travelDates?: string;
     budget?: string;

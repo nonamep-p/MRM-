@@ -16,13 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { handleContactForm } from "@/app/actions";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
+import { collection, doc, serverTimestamp } from "firebase/firestore";
 import type { SiteSettings } from "@/lib/types";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -76,18 +76,29 @@ export function ContactForm({ sourcePackage }: ContactFormProps) {
   const currencySymbol = siteSettings ? currencySymbols[siteSettings.defaultCurrency] : '$';
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!firestore) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "Firestore not available. Please try again later.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const result = await handleContactForm(values);
-      if (result.success) {
-        toast({
-          title: "Message Sent!",
-          description: "Thank you for reaching out. We'll get back to you shortly.",
-        });
-        form.reset();
-      } else {
-        throw new Error(result.message);
-      }
+      const submissionsCollection = collection(firestore, "contactFormSubmissions");
+      addDocumentNonBlocking(submissionsCollection, {
+        ...values,
+        submittedAt: serverTimestamp(),
+        status: 'Pending',
+      });
+
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for reaching out. We'll get back to you shortly.",
+      });
+      form.reset();
     } catch (error: any) {
       toast({
         variant: "destructive",

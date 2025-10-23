@@ -10,37 +10,6 @@ import { getSdks } from "@/firebase/firebase-server";
 import { collection, addDoc, serverTimestamp, doc, updateDoc } from "firebase/firestore";
 import type { ContactFormSubmission } from "@/lib/types";
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Name is required."),
-  email: z.string().email(),
-  phoneNumber: z.string().optional(),
-  message: z.string().min(10, "Message is too short."),
-  travelers: z.coerce.number().optional(),
-  travelDates: z.string().optional(),
-  budget: z.string().optional(),
-  interests: z.string().optional(),
-  sourcePackage: z.string().optional(),
-});
-
-export async function handleContactForm(values: z.infer<typeof contactSchema>) {
-  const validatedData = contactSchema.parse(values);
-  
-  const { firestore } = getSdks();
-  
-  try {
-    const submissionsCollection = collection(firestore, "contactFormSubmissions");
-    await addDoc(submissionsCollection, {
-      ...validatedData,
-      submittedAt: serverTimestamp(),
-      status: 'Pending', // Default status
-    });
-    return { success: true, message: "Form submitted successfully." };
-  } catch (error) {
-    console.error("Error saving contact form submission:", error);
-    return { success: false, message: "Failed to submit form. Please try again." };
-  }
-}
-
 export async function updateSubmissionStatus(submissionId: string, status: ContactFormSubmission['status']) {
     const { firestore } = getSdks();
     try {
