@@ -1,10 +1,11 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Image from 'next/image';
 
-import type { TravelPackage, SiteSettings, PackageAvailability } from '@/lib/types';
+import type { TravelPackage, SiteSettings } from '@/lib/types';
+import { type PackageAvailabilitySerializable } from './page';
 
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -31,10 +32,18 @@ import { CalendarDays, Check, MapPin, Plane, Tag, X, Users } from 'lucide-react'
 import { format } from 'date-fns';
 import { Progress } from '@/components/ui/progress';
 
-export function PackageDetailsClient({ travelPackage, siteSettings, availability }: { travelPackage: TravelPackage, siteSettings: SiteSettings | null, availability: PackageAvailability[] }) {
+export function PackageDetailsClient({ travelPackage, siteSettings, availability: rawAvailability }: { travelPackage: TravelPackage, siteSettings: SiteSettings | null, availability: PackageAvailabilitySerializable[] }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   
   const { title, description, duration, price, location, category, inclusions, exclusions, itinerary, image } = travelPackage;
+
+  const availability = useMemo(() => {
+    return rawAvailability.map(item => ({
+      ...item,
+      startDate: new Date(item.startDate),
+      endDate: new Date(item.endDate),
+    }));
+  }, [rawAvailability]);
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -99,7 +108,7 @@ export function PackageDetailsClient({ travelPackage, siteSettings, availability
                                 <Card key={item.id}>
                                     <CardContent className="p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                         <div>
-                                            <p className="font-semibold text-lg">{format(item.startDate.toDate(), 'PPP')} - {format(item.endDate.toDate(), 'PPP')}</p>
+                                            <p className="font-semibold text-lg">{format(item.startDate, 'PPP')} - {format(item.endDate, 'PPP')}</p>
                                             <p className="text-sm text-muted-foreground">Limited spots available for this period.</p>
                                         </div>
                                         <div className="flex items-center gap-3">

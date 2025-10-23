@@ -1,14 +1,20 @@
 
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
 import { getSdks } from '@/firebase/firebase-server';
 import { notFound } from 'next/navigation';
 import type { TravelPackage, SiteSettings, PackageAvailability } from '@/lib/types';
 import { PackageDetailsClient } from './package-details-client';
 
+export type PackageAvailabilitySerializable = Omit<PackageAvailability, 'startDate' | 'endDate'> & {
+  startDate: string;
+  endDate: string;
+};
+
+
 type PackageDetailsProps = {
   travelPackage: TravelPackage,
   siteSettings: SiteSettings | null,
-  availability: PackageAvailability[]
+  availability: PackageAvailabilitySerializable[]
 }
 
 async function getPageData(id: string): Promise<PackageDetailsProps> {
@@ -47,10 +53,17 @@ async function getPageData(id: string): Promise<PackageDetailsProps> {
     
     const siteSettings = settingsSnap.exists() ? settingsSnap.data() as SiteSettings : null;
 
-    const availability = availabilitySnap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    })) as PackageAvailability[];
+    const availability = availabilitySnap.docs.map(doc => {
+        const data = doc.data() as Omit<PackageAvailability, 'id'>;
+        return {
+            id: doc.id,
+            packageId: data.packageId,
+            startDate: (data.startDate as Timestamp).toDate().toISOString(),
+            endDate: (data.endDate as Timestamp).toDate().toISOString(),
+            slots: data.slots,
+            bookedSlots: data.bookedSlots,
+        }
+    }) as PackageAvailabilitySerializable[];
 
 
     return { travelPackage, siteSettings, availability };
