@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 
-export function Header() {
+export function Header({ onContactClick }: { onContactClick?: () => void }) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -60,26 +60,39 @@ export function Header() {
 
   const NavMenu = ({ isMobile = false }) => (
     <nav className={cn("items-center text-sm font-medium", isMobile ? "flex flex-col space-y-2 p-6 text-lg" : "hidden md:flex space-x-6")}>
-      {navLinks.map((link) => (
-        <SheetClose asChild={isMobile} key={link.href}>
-          <Link
-            href={link.href}
-            className={cn(
-                "relative text-foreground/60 transition-colors hover:text-foreground", 
-                isMobile 
-                    ? "p-2 rounded-md hover:bg-accent/10"
-                    : "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:origin-center after:scale-x-0 after:bg-accent after:transition-transform hover:after:scale-x-100"
-            )}
-          >
-            {link.name}
-          </Link>
-        </SheetClose>
-      ))}
+      {navLinks.map((link) => {
+          const navLink = (
+             <Link
+                href={link.href}
+                className={cn(
+                    "relative text-foreground/60 transition-colors hover:text-foreground", 
+                    isMobile 
+                        ? "p-2 rounded-md hover:bg-accent/10 w-full text-left"
+                        : "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:origin-center after:scale-x-0 after:bg-accent after:transition-transform hover:after:scale-x-100"
+                )}
+            >
+                {link.name}
+            </Link>
+          );
+          
+          if (isMobile) {
+              return (
+                  <SheetClose asChild key={link.href}>
+                      {navLink}
+                  </SheetClose>
+              );
+          }
+          return (
+            <div key={link.href}>
+              {navLink}
+            </div>
+          );
+      })}
     </nav>
   );
-
+  
   const ActionButtons = ({ isMobile = false }) => (
-     <div className={cn("items-center", isMobile ? "mt-auto p-6 border-t" : "hidden md:flex")}>
+     <div className={cn("items-center", isMobile ? "mt-auto p-6 border-t" : "flex")}>
       {!isUserLoading && user ? (
         <div className="flex items-center space-x-2 md:space-x-4">
           <Button variant="ghost" asChild>
@@ -92,11 +105,9 @@ export function Header() {
           </Button>
         </div>
       ) : !user && (
-         <SheetClose asChild={isMobile}>
-            <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground w-full">
-              <Link href="/#contact">Contact Us</Link>
-            </Button>
-         </SheetClose>
+         <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground w-full" onClick={onContactClick ? onContactClick : undefined}>
+            {onContactClick ? <span>Contact Us</span> : <Link href="/#contact">Contact Us</Link>}
+         </Button>
       )}
     </div>
   );
@@ -104,15 +115,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-20 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center">
+        <div className="flex flex-1 items-center justify-start">
           <Logo />
         </div>
         
-        <div className="hidden md:flex justify-center">
+        <div className="hidden md:flex flex-1 justify-center">
             <NavMenu />
         </div>
         
-        <div className="hidden md:flex justify-end">
+        <div className="hidden md:flex flex-1 justify-end">
             <ActionButtons />
         </div>
         
@@ -127,7 +138,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:w-[300px] p-0 flex flex-col">
               <SheetHeader className="p-4 border-b">
-                 <SheetTitle><Logo /></SheetTitle>
+                 <SheetTitle className="sr-only">Main Navigation</SheetTitle>
               </SheetHeader>
               <NavMenu isMobile={true} />
               <ActionButtons isMobile={true} />
