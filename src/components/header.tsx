@@ -6,7 +6,7 @@ export function Header() {
   const navLinks = [
     { name: "Packages", href: "#packages" },
     { name: "Destinations", href: "#map" },
-    { name: "Contact", href: "#contact" },
+    { name: "Recommendations", href: "#recommendations" },
   ];
 
   return (
@@ -31,7 +31,7 @@ export function Header() {
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-            <Link href="#recommendations">Get Inspired</Link>
+            <Link href="#contact">Contact Us</Link>
           </Button>
         </div>
       </div>
