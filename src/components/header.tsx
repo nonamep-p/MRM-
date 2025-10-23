@@ -18,7 +18,7 @@ export function Header() {
             VoyageVista
           </span>
         </Link>
-        <nav className="flex-1 items-center justify-center space-x-6 text-sm font-medium hidden md:flex">
+        <nav className="flex flex-1 items-center justify-center space-x-6 text-sm font-medium hidden md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
