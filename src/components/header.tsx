@@ -44,9 +44,9 @@ export function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-24 items-center justify-between">
+      <div className="container flex h-24 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left Section - Logo */}
-        <div className="flex items-center">
+        <div className="flex items-center justify-start">
              <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}}>
               {siteSettings?.logoUrl && (
                 <div className="relative h-12 flex-shrink-0">
@@ -75,9 +75,9 @@ export function Header({ onContactClick }: HeaderProps) {
         </nav>
         
         {/* Right Section - Actions */}
-        <div className="flex items-center justify-end space-x-4">
+        <div className="flex items-center justify-end">
           {!isUserLoading && user ? (
-            <>
+            <div className="flex items-center space-x-4">
               <Button variant="ghost" asChild>
                 <Link href="/admin">
                   <User className="mr-2 h-4 w-4" /> Admin
@@ -86,7 +86,7 @@ export function Header({ onContactClick }: HeaderProps) {
               <Button variant="outline" onClick={handleSignOut}>
                 <LogOut className="mr-2 h-4 w-4" /> Sign Out
               </Button>
-            </>
+            </div>
           ) : (
             <DialogTrigger asChild>
               <Button 
