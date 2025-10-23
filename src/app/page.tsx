@@ -90,13 +90,6 @@ export default function Home() {
             </Carousel>
           </div>
         </section>
-        
-        {/* Personalized Recommendations Section */}
-        <section id="recommendations" className="py-16 md:py-24 bg-primary/20">
-          <div className="container mx-auto px-4">
-            <PersonalizedRecommendations />
-          </div>
-        </section>
 
         {/* Map Section */}
         <section id="map" className="py-16 md:py-24 bg-background">
@@ -135,6 +128,14 @@ export default function Home() {
             </Dialog>
           </div>
         </section>
+        
+        {/* Personalized Recommendations Section */}
+        <section id="recommendations" className="py-16 md:py-24 bg-background">
+          <div className="container mx-auto px-4">
+            <PersonalizedRecommendations />
+          </div>
+        </section>
+
       </main>
       <Footer />
     </div>
