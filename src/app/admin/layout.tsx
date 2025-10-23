@@ -8,7 +8,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Package, Settings, Image, MessageSquare, CalendarCheck, Menu, X } from 'lucide-react';
+import { Package, Settings, Image, MessageSquare, CalendarCheck, Menu, X, LayoutDashboard } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
@@ -39,6 +39,12 @@ export default function AdminLayout({
      <nav className="flex flex-col space-y-2">
         <Button variant="ghost" className="justify-start" asChild>
             <Link href="/admin">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Dashboard
+            </Link>
+        </Button>
+        <Button variant="ghost" className="justify-start" asChild>
+            <Link href="/admin/packages">
                 <Package className="mr-2 h-4 w-4" />
                 Packages
             </Link>
