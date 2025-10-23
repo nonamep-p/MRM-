@@ -1,6 +1,7 @@
 {
   "/admin/packages/page": "app/admin/packages/page.js",
   "/admin/page": "app/admin/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/login/page": "app/login/page.js",
   "/page": "app/page.js"
 }
