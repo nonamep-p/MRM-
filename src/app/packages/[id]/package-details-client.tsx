@@ -32,7 +32,7 @@ import { CalendarDays, Check, MapPin, Plane, Tag, X } from 'lucide-react';
 export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelPackage }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   
-  const { title, description, duration, price, location, grade, inclusions, exclusions, itinerary, image } = travelPackage;
+  const { title, description, duration, price, currency, location, grade, inclusions, exclusions, itinerary, image } = travelPackage;
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -70,7 +70,7 @@ export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelP
                     <div className="flex items-center gap-2">
                          <Tag className="h-5 w-5" />
                         <span className="font-bold">
-                            ${price.toLocaleString()}
+                            {currency} {price.toLocaleString()}
                         </span>
                     </div>
                 </div>

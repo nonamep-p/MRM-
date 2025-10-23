@@ -28,7 +28,7 @@ interface PackageCardProps {
 }
 
 export function PackageCard({ travelPackage }: PackageCardProps) {
-  const { id, title, description, duration, price, location, inclusions, image } = travelPackage;
+  const { id, title, description, duration, price, currency, location, inclusions, image } = travelPackage;
 
   return (
     <Dialog>
@@ -58,7 +58,7 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
               <div className="flex items-center gap-2">
                   <Tag className="h-4 w-4" />
                   <span className="font-semibold text-foreground">
-                      ${price.toLocaleString()}
+                      {currency} {price.toLocaleString()}
                   </span>
               </div>
           </div>

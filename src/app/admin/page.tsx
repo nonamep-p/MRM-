@@ -105,7 +105,7 @@ export default function AdminPage() {
                   <TableCell className="font-medium">{pkg.title}</TableCell>
                   <TableCell>{pkg.location ? `${pkg.location.lat.toFixed(2)}, ${pkg.location.lng.toFixed(2)}` : 'N/A'}</TableCell>
                   <TableCell>{pkg.duration}</TableCell>
-                  <TableCell>${pkg.price.toLocaleString()}</TableCell>
+                  <TableCell>{pkg.currency} {pkg.price.toLocaleString()}</TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" onClick={() => handleEdit(pkg)}>
                       <Edit className="h-4 w-4" />

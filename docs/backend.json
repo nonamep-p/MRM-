@@ -30,6 +30,10 @@
           "type": "number",
           "description": "Price of the travel package."
         },
+        "currency": {
+          "type": "string",
+          "description": "Currency of the travel package price (e.g., USD, EUR, GBP)."
+        },
         "imageUrls": {
           "type": "array",
           "description": "URLs of images showcasing the travel package.",
@@ -49,6 +53,7 @@
         "location",
         "duration",
         "price",
+        "currency",
         "imageUrls",
         "itinerary"
       ]
