@@ -31,4 +31,7 @@ export type SiteSettings = {
     twitterUrl: string;
     instagramUrl: string;
     facebookUrl: string;
+    linkedinUrl?: string;
+    youtubeUrl?: string;
+    pinterestUrl?: string;
 };

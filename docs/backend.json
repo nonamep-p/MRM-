@@ -126,6 +126,18 @@
         "facebookUrl": {
           "type": "string",
           "format": "uri"
+        },
+        "linkedinUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "youtubeUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "pinterestUrl": {
+          "type": "string",
+          "format": "uri"
         }
       }
     }

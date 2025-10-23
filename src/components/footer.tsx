@@ -1,12 +1,20 @@
 
 'use client';
 
-import { Compass, Mail, Phone, MapPin, Twitter, Instagram, Facebook } from "lucide-react";
+import { Compass, Mail, Phone, MapPin, Twitter, Instagram, Facebook, Linkedin, Youtube, Pin } from "lucide-react";
 import Link from "next/link";
 import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
 import type { SiteSettings } from "@/lib/types";
 import { Skeleton } from "./ui/skeleton";
+
+function PinterestIcon(props: React.ComponentProps<"svg">) {
+    return (
+        <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12.5 12c0-2.5 1.5-4.5 4-4.5 2.5 0 4.5 2 4.5 4.5 0 2.5-1.5 4.5-4 4.5-1.25 0-2.4-.5-3.2-1.3-.5.3-.8.7-1.1 1.2-.3.6-.5 1.2-.5 1.8 0 .5.2 1 .5 1.3 1.5 1.7 1.5 4.7 0 6.4-1.5 1.7-4.5 1.7-6 0-1.5-1.7-1.5-4.7 0-6.4.3-.3.5-.8.5-1.3 0-.6-.2-1.2-.5-1.8-.3-.5-.6-1-1.1-1.2-.8.8-1.9 1.3-3.2 1.3-2.5 0-4-2-4-4.5S3.5 7.5 6 7.5c2.5 0 4 2 4 4.5 0 1-.2 1.9-.6 2.7.4.3.8.5 1.3.6.8-.7 1.2-1.6 1.2-2.6a4.3 4.3 0 0 0-1.2-3.1c-.6-.6-1.5-.8-2.3-.6-1.5.3-2.5 1.7-2.5 3.1 0 1.5 1.1 2.8 2.6 2.8.5 0 1-.2 1.4-.4.4.7.9 1.3 1.5 1.8-.6.5-1.3.8-2.1.8-1.7 0-3.1-1.4-3.1-3.1 0-1.7 1.4-3.1 3.1-3.1.5 0 1 .1 1.4.3.4-.6.8-1.2 1.1-1.8.3-.6.5-1.3.5-2 .5-1.5 0-3.1-1.4-3.8-1.8-.8-3.1-1-4.8.4-1.8 1.4-2.8 3.5-2.8 5.6 0 3.8 3.1 6.9 6.9 6.9s6.9-3.1 6.9-6.9c0-1.4-.4-2.7-1.1-3.8.3-.2.6-.4.8-.7.6.8 1 1.8 1 2.9 0 2.5-2 4.5-4.5 4.5-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5c1.1 0 2.2.4 3 1.2.2.3.4.6.5.9.3.8.5 1.6.5 2.5z"></path>
+        </svg>
+    )
+}
 
 export function Footer() {
   const firestore = useFirestore();
@@ -93,6 +101,18 @@ export function Footer() {
                      {siteSettings.facebookUrl && (<Link href={siteSettings.facebookUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
                         <Facebook className="h-6 w-6" />
                         <span className="sr-only">Facebook</span>
+                    </Link>)}
+                    {siteSettings.linkedinUrl && (<Link href={siteSettings.linkedinUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                        <Linkedin className="h-6 w-6" />
+                        <span className="sr-only">LinkedIn</span>
+                    </Link>)}
+                    {siteSettings.youtubeUrl && (<Link href={siteSettings.youtubeUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                        <Youtube className="h-6 w-6" />
+                        <span className="sr-only">YouTube</span>
+                    </Link>)}
+                    {siteSettings.pinterestUrl && (<Link href={siteSettings.pinterestUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                        <PinterestIcon className="h-6 w-6" />
+                        <span className="sr-only">Pinterest</span>
                     </Link>)}
                 </div>
             ) : (

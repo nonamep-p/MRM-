@@ -22,6 +22,7 @@ import type { SiteSettings } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const settingsSchema = z.object({
   address: z.string().min(1, "Address is required."),
@@ -30,6 +31,9 @@ const settingsSchema = z.object({
   twitterUrl: z.string().url().or(z.literal('')),
   instagramUrl: z.string().url().or(z.literal('')),
   facebookUrl: z.string().url().or(z.literal('')),
+  linkedinUrl: z.string().url().or(z.literal('')),
+  youtubeUrl: z.string().url().or(z.literal('')),
+  pinterestUrl: z.string().url().or(z.literal('')),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -55,6 +59,9 @@ export default function SettingsPage() {
       twitterUrl: "",
       instagramUrl: "",
       facebookUrl: "",
+      linkedinUrl: "",
+      youtubeUrl: "",
+      pinterestUrl: "",
     },
   });
 
@@ -90,12 +97,14 @@ export default function SettingsPage() {
        <h1 className="text-3xl font-bold font-headline mb-8">Site Settings</h1>
        <Card>
            <CardHeader>
-               <CardTitle>Contact Information & Social Media</CardTitle>
-               <CardDescription>Update the details that appear in your site's footer.</CardDescription>
+               <CardTitle>Contact & Social Media</CardTitle>
+               <CardDescription>Update the contact details and social media links for your site.</CardDescription>
            </CardHeader>
            <CardContent>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                
+                <h3 className="text-lg font-medium">Contact Information</h3>
                 <FormField
                     control={form.control}
                     name="address"
@@ -137,7 +146,11 @@ export default function SettingsPage() {
                         )}
                     />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <Separator />
+                
+                <h3 className="text-lg font-medium">Social Media URLs</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                         control={form.control}
                         name="twitterUrl"
@@ -172,6 +185,45 @@ export default function SettingsPage() {
                             <FormLabel>Facebook URL</FormLabel>
                             <FormControl>
                             <Input placeholder="https://facebook.com/..." {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                     <FormField
+                        control={form.control}
+                        name="linkedinUrl"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>LinkedIn URL</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://linkedin.com/..." {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                     <FormField
+                        control={form.control}
+                        name="youtubeUrl"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>YouTube URL</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://youtube.com/..." {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                     <FormField
+                        control={form.control}
+                        name="pinterestUrl"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Pinterest URL</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://pinterest.com/..." {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
