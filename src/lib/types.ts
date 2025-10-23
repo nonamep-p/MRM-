@@ -1,3 +1,4 @@
+
 import { type DocumentReference } from 'firebase/firestore';
 
 export type ItineraryItem = {
@@ -34,4 +35,11 @@ export type SiteSettings = {
     linkedinUrl?: string;
     youtubeUrl?: string;
     pinterestUrl?: string;
+};
+
+export type HeroSlide = {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
 };

@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "TravelPackage": {
@@ -140,6 +141,32 @@
           "format": "uri"
         }
       }
+    },
+    "HeroSlide": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "HeroSlide",
+      "type": "object",
+      "description": "Represents a single slide in the homepage hero carousel.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the hero slide."
+        },
+        "title": {
+          "type": "string",
+          "description": "The main headline for the slide."
+        },
+        "description": {
+          "type": "string",
+          "description": "The subtext or description for the slide."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the background image for the slide.",
+          "format": "uri"
+        }
+      },
+      "required": ["id", "title", "description", "imageUrl"]
     }
   },
   "auth": {
@@ -189,8 +216,24 @@
             "schema": { "$ref": "#/backend/entities/SiteSettings" },
             "description": "Stores the main site settings as a single document. Publicly readable."
         }
+      },
+      {
+        "path": "/heroSlides/{heroSlideId}",
+        "definition": {
+          "entityName": "HeroSlide",
+          "schema": {
+            "$ref": "#/backend/entities/HeroSlide"
+          },
+          "description": "Stores content for the homepage hero carousel slides. Publicly readable.",
+           "params": [
+            {
+              "name": "heroSlideId",
+              "description": "Unique identifier for the slide."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to support the VoyageVista travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\n3. **Site Settings:** The `siteSettings` collection holds a single document 'main' for global configurations like contact info. This data is public and readable by anyone, but writable only by authenticated admins."
+    "reasoning": "The Firestore data structure is designed to support the VoyageVista travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\n3. **Site Settings:** The `siteSettings` collection holds a single document 'main' for global configurations like contact info. This data is public and readable by anyone, but writable only by authenticated admins.\n\n4. **Hero Slides**: The `heroSlides` collection stores the content for the homepage carousel. This data is publicly readable by all users to display on the homepage, and writable only by authenticated admins to allow for content management."
   }
 }

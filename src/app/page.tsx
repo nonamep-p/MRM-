@@ -9,7 +9,6 @@ import { PackageCard } from "@/components/package-card";
 import { ContactForm } from "@/components/contact-form";
 import { MapSection } from "@/components/map-section";
 import { PersonalizedRecommendations } from "@/components/personalized-recommendations";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, Mail } from "lucide-react";
 import {
   Carousel,
@@ -29,35 +28,27 @@ import {
 import { useState } from "react";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, query } from "firebase/firestore";
-import type { TravelPackage } from "@/lib/types";
+import type { TravelPackage, HeroSlide } from "@/lib/types";
 import Autoplay from "embla-carousel-autoplay";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   
   const firestore = useFirestore();
+  
   const packagesCollection = useMemoFirebase(() => {
     if (!firestore) return null;
     return query(collection(firestore, "travelPackages"));
   }, [firestore]);
-  const { data: travelPackages, isLoading } = useCollection<TravelPackage>(packagesCollection);
+  const { data: travelPackages, isLoading: isLoadingPackages } = useCollection<TravelPackage>(packagesCollection);
+  
+  const heroSlidesCollection = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, "heroSlides"));
+  }, [firestore]);
+  const { data: heroSlides, isLoading: isLoadingSlides } = useCollection<HeroSlide>(heroSlidesCollection);
 
-  const heroSlides = PlaceHolderImages.filter(img => 
-    ['hero', 'santorini', 'safari', 'andes'].includes(img.id)
-  ).map((img, index) => {
-    switch (index) {
-      case 0:
-        return { ...img, title: "Your Journey Begins Here", description: "Discover breathtaking destinations and create unforgettable memories with VoyageVista." };
-      case 1:
-        return { ...img, title: "Experience Santorini Sunsets", description: "Book your dream trip to the Greek isles today." };
-      case 2:
-        return { ...img, title: "An Unforgettable Safari", description: "Witness the majestic wildlife of Africa up close." };
-      case 3:
-        return { ...img, title: "Adventure in the Andes", description: "Explore the stunning landscapes of South America." };
-      default:
-        return { ...img, title: "Your Next Adventure Awaits", description: "Explore our curated travel packages." };
-    }
-  });
 
   const packageLocations = travelPackages?.map(pkg => ({ id: pkg.id, location: pkg.location })) || [];
 
@@ -68,42 +59,54 @@ export default function Home() {
         <main className="flex-1">
           {/* Hero Carousel Section */}
           <section className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center text-center text-white">
-            <Carousel
-              className="w-full h-full"
-              opts={{ loop: true }}
-              plugins={[Autoplay({ delay: 5000, stopOnInteraction: false })]}
-            >
-              <CarouselContent>
-                {heroSlides.map((slide) => (
-                  <CarouselItem key={slide.id} className="relative w-full h-[60vh] md:h-[80vh]">
-                    <Image
-                      src={slide.imageUrl}
-                      alt={slide.description}
-                      fill
-                      className="object-cover"
-                      priority={slide.id === 'hero'}
-                      data-ai-hint={slide.imageHint}
-                    />
-                    <div className="absolute inset-0 bg-black/50" />
-                    <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center justify-center h-full">
-                      <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
-                        {slide.title}
-                      </h1>
-                      <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">
-                        {slide.description}
-                      </p>
-                      <Button size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                        <Link href="/packages">
-                          Explore Packages <ArrowRight className="ml-2 h-5 w-5" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
-              <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
-            </Carousel>
+            {isLoadingSlides ? (
+              <Skeleton className="w-full h-full" />
+            ) : heroSlides && heroSlides.length > 0 ? (
+              <Carousel
+                className="w-full h-full"
+                opts={{ loop: true }}
+                plugins={[Autoplay({ delay: 5000, stopOnInteraction: false })]}
+              >
+                <CarouselContent>
+                  {heroSlides.map((slide, index) => (
+                    <CarouselItem key={slide.id} className="relative w-full h-[60vh] md:h-[80vh]">
+                      <Image
+                        src={slide.imageUrl}
+                        alt={slide.title}
+                        fill
+                        className="object-cover"
+                        priority={index === 0}
+                      />
+                      <div className="absolute inset-0 bg-black/50" />
+                      <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center justify-center h-full">
+                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
+                          {slide.title}
+                        </h1>
+                        <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">
+                          {slide.description}
+                        </p>
+                        <Button size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
+                          <Link href="/packages">
+                            Explore Packages <ArrowRight className="ml-2 h-5 w-5" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
+                <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden sm:flex" />
+              </Carousel>
+            ) : (
+               <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center justify-center h-full text-foreground">
+                  <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
+                    Welcome to VoyageVista
+                  </h1>
+                  <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">
+                    Add slides in the admin panel to populate the hero carousel.
+                  </p>
+               </div>
+            )}
           </section>
 
           {/* Packages Section */}
@@ -112,7 +115,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 font-headline">
                 Featured Travel Packages
               </h2>
-              {isLoading && <p>Loading packages...</p>}
+              {isLoadingPackages && <p>Loading packages...</p>}
               {travelPackages && (
                 <Carousel
                   opts={{
