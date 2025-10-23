@@ -24,6 +24,15 @@ export type TravelPackage = {
   itinerary?: ItineraryItem[];
 };
 
+export type PackageAvailability = {
+  id: string;
+  packageId: string;
+  startDate: Timestamp;
+  endDate: Timestamp;
+  slots: number;
+  bookedSlots: number;
+}
+
 export type SiteSettings = {
     address: string;
     phone: string;

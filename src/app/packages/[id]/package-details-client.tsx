@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import type { TravelPackage, SiteSettings } from '@/lib/types';
+import type { TravelPackage, SiteSettings, PackageAvailability } from '@/lib/types';
 
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -27,9 +27,11 @@ import {
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { CalendarDays, Check, MapPin, Plane, Tag, X } from 'lucide-react';
+import { CalendarDays, Check, MapPin, Plane, Tag, X, Users } from 'lucide-react';
+import { format } from 'date-fns';
+import { Progress } from '@/components/ui/progress';
 
-export function PackageDetailsClient({ travelPackage, siteSettings }: { travelPackage: TravelPackage, siteSettings: SiteSettings | null }) {
+export function PackageDetailsClient({ travelPackage, siteSettings, availability }: { travelPackage: TravelPackage, siteSettings: SiteSettings | null, availability: PackageAvailability[] }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   
   const { title, description, duration, price, location, category, inclusions, exclusions, itinerary, image } = travelPackage;
@@ -86,6 +88,33 @@ export function PackageDetailsClient({ travelPackage, siteSettings }: { travelPa
                     <h2 className="text-2xl md:text-3xl font-bold font-headline mb-4">About this trip</h2>
                     <p className="text-lg text-muted-foreground">{description}</p>
                  </div>
+
+                 {availability && availability.length > 0 && (
+                     <div className="mb-12">
+                        <h2 className="text-2xl md:text-3xl font-bold font-headline mb-4">Availability</h2>
+                         <div className="space-y-4">
+                            {availability.map(item => {
+                                const bookedPercentage = item.slots > 0 ? (item.bookedSlots / item.slots) * 100 : 0;
+                                return (
+                                <Card key={item.id}>
+                                    <CardContent className="p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                        <div>
+                                            <p className="font-semibold text-lg">{format(item.startDate.toDate(), 'PPP')} - {format(item.endDate.toDate(), 'PPP')}</p>
+                                            <p className="text-sm text-muted-foreground">Limited spots available for this period.</p>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <Users className="h-5 w-5" />
+                                            <div>
+                                                <p className="font-semibold">{item.slots - item.bookedSlots} / {item.slots} slots open</p>
+                                                <Progress value={bookedPercentage} className="w-32 h-2 mt-1" />
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )})}
+                        </div>
+                     </div>
+                 )}
 
                 {itinerary && itinerary.length > 0 && (
                   <div>
@@ -153,7 +182,7 @@ export function PackageDetailsClient({ travelPackage, siteSettings }: { travelPa
                             </div>
                          )}
                          <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground mt-4" onClick={() => setIsContactOpen(true)}>
-                            <Plane className="mr-2 h-5 w-5" /> Book This Trip
+                            <Plane className="mr-2 h-5 w-5" /> Inquire Now
                         </Button>
                     </CardContent>
                 </Card>

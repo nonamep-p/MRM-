@@ -1,13 +1,14 @@
 
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { getSdks } from '@/firebase/firebase-server';
 import { notFound } from 'next/navigation';
-import type { TravelPackage, SiteSettings } from '@/lib/types';
+import type { TravelPackage, SiteSettings, PackageAvailability } from '@/lib/types';
 import { PackageDetailsClient } from './package-details-client';
 
 type PackageDetailsProps = {
   travelPackage: TravelPackage,
-  siteSettings: SiteSettings | null
+  siteSettings: SiteSettings | null,
+  availability: PackageAvailability[]
 }
 
 async function getPageData(id: string): Promise<PackageDetailsProps> {
@@ -15,10 +16,13 @@ async function getPageData(id: string): Promise<PackageDetailsProps> {
     
     const packageDocRef = doc(firestore, 'travelPackages', id);
     const settingsDocRef = doc(firestore, "siteSettings", "main");
+    
+    const availabilityQuery = query(collection(firestore, "packageAvailability"), where("packageId", "==", id));
 
-    const [packageSnap, settingsSnap] = await Promise.all([
+    const [packageSnap, settingsSnap, availabilitySnap] = await Promise.all([
         getDoc(packageDocRef),
-        getDoc(settingsDocRef)
+        getDoc(settingsDocRef),
+        getDocs(availabilityQuery)
     ]);
 
     let travelPackage: TravelPackage | null = null;
@@ -43,7 +47,13 @@ async function getPageData(id: string): Promise<PackageDetailsProps> {
     
     const siteSettings = settingsSnap.exists() ? settingsSnap.data() as SiteSettings : null;
 
-    return { travelPackage, siteSettings };
+    const availability = availabilitySnap.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    })) as PackageAvailability[];
+
+
+    return { travelPackage, siteSettings, availability };
 }
 
 
@@ -52,11 +62,11 @@ export default async function PackageDetailsPage({
 }: {
   params: { id: string };
 }) {
-  const { travelPackage, siteSettings } = await getPageData(params.id);
+  const { travelPackage, siteSettings, availability } = await getPageData(params.id);
 
   if (!travelPackage) {
     notFound();
   }
 
-  return <PackageDetailsClient travelPackage={travelPackage} siteSettings={siteSettings} />;
+  return <PackageDetailsClient travelPackage={travelPackage} siteSettings={siteSettings} availability={availability} />;
 }

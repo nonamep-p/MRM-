@@ -8,7 +8,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Package, Settings, Image, MessageSquare } from 'lucide-react';
+import { Package, Settings, Image, MessageSquare, CalendarCheck } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -42,6 +42,12 @@ export default function AdminLayout({
                         <Link href="/admin">
                             <Package className="mr-2 h-4 w-4" />
                             Packages
+                        </Link>
+                    </Button>
+                    <Button variant="ghost" className="justify-start" asChild>
+                        <Link href="/admin/availability">
+                            <CalendarCheck className="mr-2 h-4 w-4" />
+                            Availability
                         </Link>
                     </Button>
                     <Button variant="ghost" className="justify-start" asChild>
