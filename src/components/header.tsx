@@ -44,9 +44,9 @@ export function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-24 items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left Section - Logo */}
-        <div className="flex items-center justify-start">
+      <div className="container flex h-24 items-center">
+        {/* Left: Logo */}
+        <div className="flex-1 flex justify-start">
              <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}}>
               {siteSettings?.logoUrl && (
                 <div className="relative h-12 flex-shrink-0">
@@ -59,8 +59,8 @@ export function Header({ onContactClick }: HeaderProps) {
             </Link>
         </div>
         
-        {/* Center Section - Navigation */}
-        <nav className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        {/* Center: Navigation */}
+        <nav className="hidden md:flex justify-center">
             <div className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
                 <Link
@@ -71,11 +71,22 @@ export function Header({ onContactClick }: HeaderProps) {
                 {link.name}
                 </Link>
             ))}
+            {!isUserLoading && !user && (
+                 <DialogTrigger asChild>
+                    <Button
+                        variant="link"
+                        onClick={onContactClick} 
+                        className="relative text-foreground/60 transition-colors hover:text-foreground after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:origin-center after:scale-x-0 after:bg-accent after:transition-transform hover:after:scale-x-100 hover:no-underline p-0"
+                    >
+                        Contact Us
+                    </Button>
+                </DialogTrigger>
+            )}
             </div>
         </nav>
         
-        {/* Right Section - Actions */}
-        <div className="flex items-center justify-end">
+        {/* Right: Actions */}
+        <div className="flex-1 flex justify-end">
           {!isUserLoading && user ? (
             <div className="flex items-center space-x-4">
               <Button variant="ghost" asChild>
@@ -87,16 +98,7 @@ export function Header({ onContactClick }: HeaderProps) {
                 <LogOut className="mr-2 h-4 w-4" /> Sign Out
               </Button>
             </div>
-          ) : (
-            <DialogTrigger asChild>
-              <Button 
-                onClick={onContactClick} 
-                className="bg-accent hover:bg-accent/90 text-accent-foreground"
-              >
-                Contact Us
-              </Button>
-            </DialogTrigger>
-          )}
+          ) : null}
         </div>
       </div>
     </header>
