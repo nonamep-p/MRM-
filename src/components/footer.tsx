@@ -42,7 +42,7 @@ export function Footer() {
 
   return (
     <footer className="bg-primary/50 text-foreground">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col">
           <Link href="/" className={cn("flex mb-4", logoAlignment)} style={{gap: logoSpacing}}>
