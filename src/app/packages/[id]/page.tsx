@@ -28,7 +28,7 @@ async function getPageData(id: string): Promise<PackageDetailsProps> {
 
     const [packageSnap, settingsSnap, availabilitySnap] = await Promise.all([
         getDoc(packageDocRef),
-        getDoc(settingsSnap),
+        getDoc(settingsDocRef),
         getDocs(availabilityQuery)
     ]);
 
