@@ -5,7 +5,8 @@ import { notFound } from 'next/navigation';
 import type { TravelPackage, SiteSettings, PackageAvailability } from '@/lib/types';
 import { PackageDetailsClient } from './package-details-client';
 
-export type PackageAvailabilitySerializable = Omit<PackageAvailability, 'startDate' | 'endDate'> & {
+export type PackageAvailabilitySerializable = Omit<PackageAvailability, 'startDate' | 'endDate' | 'id'> & {
+  id: string;
   startDate: string;
   endDate: string;
 };
@@ -55,6 +56,7 @@ async function getPageData(id: string): Promise<PackageDetailsProps> {
 
     const availability = availabilitySnap.docs.map(doc => {
         const data = doc.data() as Omit<PackageAvailability, 'id'>;
+        // When serializing, we convert Timestamps to ISO strings
         return {
             id: doc.id,
             packageId: data.packageId,
@@ -62,8 +64,8 @@ async function getPageData(id: string): Promise<PackageDetailsProps> {
             endDate: (data.endDate as Timestamp).toDate().toISOString(),
             slots: data.slots,
             bookedSlots: data.bookedSlots,
-        }
-    }) as PackageAvailabilitySerializable[];
+        } as PackageAvailabilitySerializable
+    });
 
 
     return { travelPackage, siteSettings, availability };
