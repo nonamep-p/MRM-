@@ -9,7 +9,7 @@ import { Footer } from '@/components/footer';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Package, Settings, Image, MessageSquare, CalendarCheck, Menu, X } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
 export default function AdminLayout({
@@ -72,7 +72,7 @@ export default function AdminLayout({
 
   return (
     <div className="flex flex-col min-h-screen">
-        <Header onContactClick={() => {}} /> 
+        <Header /> 
         <div className="flex flex-1">
             {/* Desktop Sidebar */}
             <aside className={cn("w-64 bg-background border-r p-4 transition-all duration-300 hidden md:block", isSidebarOpen ? "translate-x-0" : "-translate-x-full w-0 p-0")}>
@@ -88,6 +88,9 @@ export default function AdminLayout({
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-64 p-4">
+                  <SheetHeader>
+                    <SheetTitle className="sr-only">Admin Navigation</SheetTitle>
+                  </SheetHeader>
                   <NavLinks />
                 </SheetContent>
               </Sheet>
