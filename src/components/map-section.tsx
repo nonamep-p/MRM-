@@ -97,11 +97,11 @@ export function MapSection() {
       <div className="text-center p-4">
         <h3 className="text-lg font-semibold text-foreground">Interactive Map is Unavailable</h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          The map requires latitude and longitude coordinates to display markers.
-          <br/>
-          To re-enable the map, the package data structure would need to be updated to include coordinates.
+          The interactive map feature is currently unavailable.
         </p>
       </div>
     </div>
   );
 }
+
+    
