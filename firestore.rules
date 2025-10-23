@@ -2,94 +2,87 @@
  * @fileoverview Firestore Security Rules for VoyageVista Travel Agency.
  *
  * Core Philosophy:
- * This ruleset prioritizes public read access for general content (travel packages, site settings, hero slides)
- * while strictly controlling access to sensitive data like contact form submissions.
- * Authorization decisions are made without `get()` calls, ensuring efficient and scalable security checks.
+ * This ruleset provides role-based and public data access, ensuring data integrity.
+ * Public collections (travelPackages, packageAvailability, heroSlides, siteSettings) are readable by anyone,
+ * while sensitive collections (contactFormSubmissions) are restricted to authenticated administrators.
  *
  * Data Structure:
- * - /travelPackages/{travelPackageId}: Publicly readable travel package data.
- * - /packageAvailability/{availabilityId}: Publicly readable travel package availability data.
- * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submissions, accessible only to authenticated administrators.
+ * - /travelPackages/{travelPackageId}: Publicly accessible travel package information.
+ * - /packageAvailability/{availabilityId}: Publicly accessible package availability data.
+ * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submissions, restricted to authenticated administrators.
  * - /siteSettings/main: Global site settings, publicly readable.
- * - /heroSlides/{heroSlideId}: Publicly readable hero slide data.
+ * - /heroSlides/{heroSlideId}: Publicly accessible hero slide data for the homepage.
  *
  * Key Security Decisions:
- * - Travel Packages and Hero Slides are publicly readable, allowing anyone to view travel offers and site content.
- * - Contact Form Submissions are secured to prevent unauthorized access to sensitive user data.
- * - Site Settings are publicly readable, but write access is restricted.
- * - No user-specific private data is stored, simplifying the authorization model.
+ * - Read-only collections (travelPackages, packageAvailability, heroSlides, siteSettings) are readable by all users, including unauthenticated ones.
+ * - Listing of contactFormSubmissions is only allowed for authenticated users, not for public access.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Allows anyone to read travel package information, but restricts writes.
+     * @description Allows read access to travel packages for all users and restricts write access.
      * @path /travelPackages/{travelPackageId}
-     * @allow (get, list): if true
-     * @deny (create, update, delete): if false
-     * @principle Allows public read access to travel package data.
+     * @allow (get, list): Any user can read travel package information.
+     * @deny (create, update, delete): No user can create, update, or delete travel packages.
+     * @principle Allows public read access while restricting write access.
      */
     match /travelPackages/{travelPackageId} {
       allow get, list: if true;
       allow create, update, delete: if false;
     }
 
-   /**
-    * @description Allows anyone to read travel package availability information, but restricts writes.
-    * @path /packageAvailability/{availabilityId}
-    * @allow (get, list): if true
-    * @deny (create, update, delete): if false
-    * @principle Allows public read access to package availability data.
-    */
+    /**
+     * @description Allows read access to package availability for all users and restricts write access.
+     * @path /packageAvailability/{availabilityId}
+     * @allow (get, list): Any user can read package availability information.
+     * @deny (create, update, delete): No user can create, update, or delete package availability records.
+     * @principle Allows public read access while restricting write access.
+     */
     match /packageAvailability/{availabilityId} {
       allow get, list: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    /**
+     * @description Restricts access to contact form submissions to authenticated users.
+     * @path /contactFormSubmissions/{contactFormSubmissionId}
+     * @allow (get, list): Only authenticated users can read contact form submissions.
+     * @deny (create, update, delete): No user can create, update, or delete contact form submissions through the client.
+     * @principle Restricts access to sensitive data, requiring authentication.
+     */
+    match /contactFormSubmissions/{contactFormSubmissionId} {
+      allow get, list: if isSignedIn();
       allow create, update, delete: if false;
     }
 
     /**
-     * @description Only allows authenticated users to read, create, update, and delete contact form submissions.
-     * @path /contactFormSubmissions/{contactFormSubmissionId}
-     * @allow (get, list, create, update, delete): if isSignedIn()
-     * @deny (get, list, create, update, delete): if !isSignedIn()
-     * @principle Restricts access to contact form submissions to authenticated users.
+     * @description Allows read access to site settings for all users and restricts write access to authenticated users.
+     * @path /siteSettings/main
+     * @allow (get): Any user can read site settings.
+     * @deny (create, update, delete): No user can create, update, or delete site settings through the client.
+     * @principle Allows public read access while restricting write access.
      */
-    match /contactFormSubmissions/{contactFormSubmissionId} {
-      allow get, list, create, update, delete: if isSignedIn();
-    }
-
-   /**
-    * @description Allows anyone to read the main site settings, but restricts writes to authenticated users.
-    * @path /siteSettings/main
-    * @allow (get): if true
-    * @allow (update, create, delete): if isSignedIn()
-    * @deny (get): if false
-    * @deny (update, create, delete): if !isSignedIn()
-    * @principle Allows public read access to site settings, but restricts write access to authenticated users.
-    */
     match /siteSettings/main {
       allow get: if true;
-      allow update, create, delete: if isSignedIn();
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Allows anyone to read hero slide information, but restricts writes.
+     * @description Allows read access to hero slides for all users and restricts write access.
      * @path /heroSlides/{heroSlideId}
-     * @allow (get, list): if true
-     * @deny (create, update, delete): if false
-     * @principle Allows public read access to hero slide data.
+     * @allow (get, list): Any user can read hero slide information.
+     * @deny (create, update, delete): No user can create, update, or delete hero slides through the client.
+     * @principle Allows public read access while restricting write access.
      */
     match /heroSlides/{heroSlideId} {
       allow get, list: if true;
       allow create, update, delete: if false;
     }
-  }
-}
 
-/**
- * @description Checks if the request is made by an authenticated user.
- * @return {bool} True if the user is signed in, false otherwise.
- */
-function isSignedIn() {
-  return request.auth != null;
+    function isSignedIn() {
+      return request.auth != null;
+    }
+  }
 }
