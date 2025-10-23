@@ -50,6 +50,8 @@ export type SiteSettings = {
     logoTextColor?: string;
     logoFontFamily?: string;
     logoTextSize?: string;
+    logoAlignment?: 'items-start' | 'items-center' | 'items-end';
+    logoSpacing?: string;
 };
 
 export type HeroSlide = {

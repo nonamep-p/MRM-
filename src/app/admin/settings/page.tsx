@@ -35,6 +35,7 @@ import Image from "next/image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { HexColorPicker } from "react-colorful";
 import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
 
 
 const settingsSchema = z.object({
@@ -53,6 +54,8 @@ const settingsSchema = z.object({
   logoTextColor: z.string().optional(),
   logoFontFamily: z.string().optional(),
   logoTextSize: z.string().optional(),
+  logoAlignment: z.enum(['items-start', 'items-center', 'items-end']).optional(),
+  logoSpacing: z.string().optional(),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -94,6 +97,8 @@ export default function SettingsPage() {
       logoTextColor: "#000000",
       logoFontFamily: "sans-serif",
       logoTextSize: "text-2xl",
+      logoAlignment: 'items-center',
+      logoSpacing: "2",
     },
   });
 
@@ -102,7 +107,8 @@ export default function SettingsPage() {
   const watchedLogoTextColor = form.watch("logoTextColor");
   const watchedLogoFontFamily = form.watch("logoFontFamily");
   const watchedLogoTextSize = form.watch("logoTextSize");
-
+  const watchedLogoAlignment = form.watch("logoAlignment");
+  const watchedLogoSpacing = form.watch("logoSpacing");
 
   useEffect(() => {
     if (siteSettings) {
@@ -119,6 +125,8 @@ export default function SettingsPage() {
         logoTextColor: siteSettings.logoTextColor || "#000000",
         logoFontFamily: siteSettings.logoFontFamily || "sans-serif",
         logoTextSize: siteSettings.logoTextSize || "text-2xl",
+        logoAlignment: siteSettings.logoAlignment || "items-center",
+        logoSpacing: siteSettings.logoSpacing || "2",
       });
     }
   }, [siteSettings, form]);
@@ -291,25 +299,62 @@ export default function SettingsPage() {
                                 </FormItem>
                             )}
                         />
+                         <FormField
+                            control={form.control}
+                            name="logoAlignment"
+                            render={({ field }) => (
+                                <FormItem className="mt-4">
+                                <FormLabel>Logo Text Alignment</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select an alignment" />
+                                    </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="items-start">Top</SelectItem>
+                                        <SelectItem value="items-center">Middle</SelectItem>
+                                        <SelectItem value="items-end">Bottom</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="logoSpacing"
+                            render={({ field }) => (
+                                <FormItem className="mt-4">
+                                    <FormLabel>Spacing between Logo and Text: {field.value}</FormLabel>
+                                    <FormControl>
+                                        <Slider
+                                            defaultValue={[parseInt(field.value || "2", 10)]}
+                                            onValueChange={(value) => field.onChange(value[0].toString())}
+                                            max={10}
+                                            step={1}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                     </div>
-                    {(watchedLogoUrl || watchedLogoText) && (
-                        <div className="flex flex-col gap-2">
-                            <FormLabel>Preview</FormLabel>
-                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-40 w-full flex items-center justify-center">
-                                <div className="flex items-center gap-2">
-                                    {watchedLogoUrl && (
-                                        <div className="relative h-20 w-40">
-                                            <Image src={watchedLogoUrl} alt="Logo preview" fill className="object-contain" />
-                                        </div>
-                                    )}
-                                    {watchedLogoText && (
-                                        <span className={cn(watchedLogoTextSize)} style={{ color: watchedLogoTextColor, fontFamily: watchedLogoFontFamily }}>{watchedLogoText}</span>
-                                    )}
-                                </div>
+                    <div>
+                        <FormLabel>Preview</FormLabel>
+                        <div className="mt-2 p-4 border rounded-md bg-muted/40 h-40 w-full flex items-center justify-center">
+                            <div className={cn("flex", watchedLogoAlignment)} style={{gap: `${watchedLogoSpacing ? parseInt(watchedLogoSpacing) * 0.25 : 0.5}rem`}}>
+                                {watchedLogoUrl && (
+                                    <div className="relative h-20 flex-shrink-0">
+                                        <Image src={watchedLogoUrl} alt="Logo preview" height={80} width={160} style={{objectFit: "contain", height: "100%", width: "auto"}}/>
+                                    </div>
+                                )}
+                                {watchedLogoText && (
+                                    <span className={cn(watchedLogoTextSize)} style={{ color: watchedLogoTextColor, fontFamily: watchedLogoFontFamily }}>{watchedLogoText}</span>
+                                )}
                             </div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                 </div>
                 
                 <Separator />
                 

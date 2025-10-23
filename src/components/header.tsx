@@ -40,14 +40,17 @@ export function Header({ onContactClick }: HeaderProps) {
     { name: "Recommendations", href: "/#recommendations" },
   ];
 
+  const logoAlignment = siteSettings?.logoAlignment || 'items-center';
+  const logoSpacing = siteSettings?.logoSpacing ? `${parseInt(siteSettings.logoSpacing) * 0.25}rem` : '0.5rem';
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-24 items-center">
         <div className="mr-8 flex items-center">
-            <Link href="/" className="flex items-center gap-2">
+             <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}}>
               {siteSettings?.logoUrl && (
-                <div className="relative h-20 w-52">
-                  <Image src={siteSettings.logoUrl} alt="Logo" fill className="object-contain" />
+                <div className="relative h-12 flex-shrink-0">
+                  <Image src={siteSettings.logoUrl} alt="Logo" height={48} width={150} style={{objectFit: "contain", height: "100%", width: "auto"}}/>
                 </div>
               )}
               {siteSettings?.logoText && (

@@ -37,16 +37,18 @@ export function Footer() {
       siteSettings.pinterestUrl
   );
 
+  const logoAlignment = siteSettings?.logoAlignment || 'items-center';
+  const logoSpacing = siteSettings?.logoSpacing ? `${parseInt(siteSettings.logoSpacing) * 0.25}rem` : '0.5rem';
 
   return (
     <footer className="bg-primary/50 text-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col">
-          <Link href="/" className="flex items-center gap-2 mb-4">
+          <Link href="/" className={cn("flex mb-4", logoAlignment)} style={{gap: logoSpacing}}>
               {siteSettings?.logoUrl && (
-                <div className="relative h-20 w-52">
-                  <Image src={siteSettings.logoUrl} alt="Logo" fill className="object-contain" />
+                <div className="relative h-12 flex-shrink-0">
+                   <Image src={siteSettings.logoUrl} alt="Logo" height={48} width={150} style={{objectFit: "contain", height: "100%", width: "auto"}}/>
                 </div>
               )}
               {siteSettings?.logoText && (
