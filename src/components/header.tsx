@@ -96,7 +96,7 @@ export function Header({ onContactClick }: HeaderProps) {
             <>
               <div className="hidden md:flex items-center">
                    <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                      <Link href={contactLink.href} onClick={onContactClick}>{contactLink.name}</Link>
+                      <Link href={contactLink.href} onClick={(e) => { e.preventDefault(); onContactClick(); }}>{contactLink.name}</Link>
                   </Button>
               </div>
               <div className="md:hidden">
@@ -107,22 +107,22 @@ export function Header({ onContactClick }: HeaderProps) {
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="right" className="w-full sm:w-[300px]">
+                  <SheetContent side="right" className="w-full sm:w-[300px] p-0">
                     <div className="flex flex-col h-full">
-                       <div className="p-6">
+                       <div className="p-6 border-b">
                          <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}} onClick={() => setIsSheetOpen(false)}>
                            {siteSettings?.logoUrl && <div className="relative h-10 flex-shrink-0"><Image src={siteSettings.logoUrl} alt="Logo" height={40} width={120} style={{objectFit: "contain"}}/></div>}
                            {siteSettings?.logoText && <span className={cn("font-bold", siteSettings.logoTextSize)} style={{color: siteSettings.logoTextColor}}>{siteSettings.logoText}</span>}
                          </Link>
                        </div>
-                       <nav className="flex flex-col space-y-4 px-6 text-lg">
+                       <nav className="flex flex-col space-y-2 p-6 text-lg">
                           {navLinks.map((link) => (
                               <SheetClose asChild key={link.href}>
-                                <Link href={link.href} className="text-foreground/80 hover:text-foreground">{link.name}</Link>
+                                <Link href={link.href} className="text-foreground/80 hover:text-foreground p-2 rounded-md transition-colors hover:bg-accent/10">{link.name}</Link>
                               </SheetClose>
                           ))}
                        </nav>
-                       <div className="mt-auto p-6">
+                       <div className="mt-auto p-6 border-t">
                           <SheetClose asChild>
                             <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" onClick={onContactClick}>
                               {contactLink.name}
