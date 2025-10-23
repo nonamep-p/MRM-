@@ -117,7 +117,7 @@ export function MapSection() {
           disableDefaultUI={true}
         >
           {travelPackages?.map((pkg) => (
-             pkg.location && <Marker key={pkg.id} position={pkg.location} title={pkg.title}/>
+             pkg.location?.lat && pkg.location?.lng && <Marker key={pkg.id} position={pkg.location} title={pkg.location.name}/>
           ))}
         </Map>
       </APIProvider>
