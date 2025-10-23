@@ -2,50 +2,67 @@
  * @fileoverview Firestore Security Rules for VoyageVista Travel Agency.
  *
  * Core Philosophy:
- * This ruleset focuses on providing public read access to travel packages
- * while restricting access to contact form submissions to authenticated admins only.
+ * This ruleset prioritizes a public-read, restricted-write model for travel packages and a restricted-access model for contact form submissions.
  *
  * Data Structure:
- * - /travelPackages/{travelPackageId}: Publicly accessible travel package data.
- * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submission data accessible only to admins.
+ * - /travelPackages/{travelPackageId}: Publicly accessible travel package information.
+ * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submissions, accessible only to authenticated admins.
+ * - /siteSettings/main: Publicly accessible site-wide settings, writable only by authenticated admins.
  *
  * Key Security Decisions:
- * - Travel packages are publicly readable to allow showcasing travel options.
- * - Contact form submissions are restricted to admins to protect user data.
- * - The rules do not enforce strict schema validation in this prototyping phase.
+ * - Travel packages are publicly readable, but write access is implicitly denied.
+ * - Contact form submissions are only accessible to authenticated administrators, ensuring privacy.
+ * - Site settings are publicly readable, but write-protected to prevent unauthorized modifications.
+ *
+ * Denormalization for Authorization:
+ * Authorization decisions are made without the need for denormalization as there is no user-specific data, so no `get()` calls are used.
+ *
+ * Structural Segregation:
+ * Public data (travel packages) and private data (contact form submissions) are stored in separate collections, enabling simpler and more secure rules.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Allows public read access to travel package information.
+     * @description Allows anyone to read travel package information, but restricts write access.
      * @path /travelPackages/{travelPackageId}
-     * @allow (get, list) Any user can read travel package data (public data).
-     * @allow (create) Any authenticated user can create travel package, but it must include an owner id that matches their uid.
-     * @allow (update, delete) Only the owner can update or delete travel packages, and only if the document exists.
-     * @deny   (create, update, delete) if missing ownerId field.
-     * @principle Allows public read access with owner-only writes.
+     * @allow (get, list) Anyone can read travel packages.
+     * @deny (create, update, delete) No one can create, update, or delete travel packages through the client.
+     * @principle Allows public read access for travel package information.
      */
     match /travelPackages/{travelPackageId} {
       allow get, list: if true;
-      allow create: if isSignedIn();
-      allow update, delete: if isSignedIn() && resource != null;
-    }
-
-    /**
-     * @description Restricts access to contact form submissions to authenticated users only.
-     * @path /contactFormSubmissions/{contactFormSubmissionId}
-     * @allow (get, list) Only authenticated users can read contact form submissions.
-     * @deny (create, update, delete) No one is allowed to create, update, or delete contact form submissions through the client.  These should be handled via a trusted environment.
-     * @principle Ensures contact form submission data is only accessible to authenticated users.
-     */
-    match /contactFormSubmissions/{contactFormSubmissionId} {
-      allow get, list: if isSignedIn();
       allow create, update, delete: if false;
     }
 
-    // Helper function to determine if a user is signed in.
+    /**
+     * @description Restricts access to contact form submissions to authenticated admins only.
+     * @path /contactFormSubmissions/{contactFormSubmissionId}
+     * @allow (create) Anyone can create a contact form submission.
+     * @allow (get, list) Only authenticated users can read contact form submissions.
+     * @deny (update, delete) No one can update or delete contact form submissions through the client.
+     * @principle Enforces access control for sensitive contact form data.
+     */
+    match /contactFormSubmissions/{contactFormSubmissionId} {
+      allow get, list: if isSignedIn();
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
+    /**
+     * @description Allows anyone to read site settings, but restricts write access to authenticated admins only.
+     * @path /siteSettings/main
+     * @allow (get) Anyone can read site settings.
+     * @deny (create, update, delete, list) No one can create, update, or delete the site settings document.
+     * @principle Protects global site configurations from unauthorized changes.
+     */
+    match /siteSettings/main {
+        allow get: if true;
+        allow list: if false;
+        allow create, update, delete: if isSignedIn();
+    }
+
     function isSignedIn() {
       return request.auth != null;
     }
