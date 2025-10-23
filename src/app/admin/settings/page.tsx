@@ -187,7 +187,7 @@ export default function SettingsPage() {
                         {item.preview && (
                             <div className="mt-4 p-2 border rounded-md">
                                 <FormLabel className="text-xs">Preview</FormLabel>
-                                <div className="relative h-16 w-full bg-muted">
+                                <div className="relative h-20 w-full bg-muted ml-4">
                                     <Image src={item.preview} alt={`${item.label} preview`} fill className="object-contain" />
                                 </div>
                             </div>
