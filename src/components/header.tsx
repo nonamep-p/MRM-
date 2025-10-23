@@ -119,18 +119,24 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-20 items-center justify-between px-4 md:px-6">
-        <Logo />
+      <div className="container flex h-20 items-center justify-between px-4 md:px-6 md:grid md:grid-cols-[auto_1fr_auto]">
         
-        <div className="hidden md:flex flex-1 justify-center">
+        {/* Logo - First column in grid on desktop */}
+        <div className="md:justify-self-start">
+            <Logo />
+        </div>
+        
+        {/* Centered Nav - Second column in grid on desktop */}
+        <div className="hidden md:flex justify-center">
           <NavMenu />
         </div>
         
+        {/* Action Buttons - Third column in grid on desktop */}
         <div className="hidden md:flex justify-end">
           <ActionButtons />
         </div>
         
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Only shown when grid is not active */}
         <div className="md:hidden flex items-center">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
