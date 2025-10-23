@@ -2,9 +2,9 @@
 'use client';
 
 import { useState } from "react";
-import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import { useCollection, useFirestore, useMemoFirebase, useDoc } from "@/firebase";
 import { collection, query, doc } from "firebase/firestore";
-import type { TravelPackage } from "@/lib/types";
+import type { TravelPackage, SiteSettings } from "@/lib/types";
 import {
   Table,
   TableBody,
@@ -37,6 +37,13 @@ export default function AdminPage() {
     return query(collection(firestore, "travelPackages"));
   }, [firestore]);
   const { data: travelPackages, isLoading } = useCollection<TravelPackage>(packagesCollection);
+
+  const settingsDocRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, "siteSettings", "main");
+  }, [firestore]);
+  const { data: siteSettings } = useDoc<SiteSettings>(settingsDocRef);
+
 
   const handleAddNew = () => {
     setSelectedPackage(null);
@@ -105,7 +112,7 @@ export default function AdminPage() {
                   <TableCell className="font-medium">{pkg.title}</TableCell>
                   <TableCell>{pkg.location ? `${pkg.location.lat.toFixed(2)}, ${pkg.location.lng.toFixed(2)}` : 'N/A'}</TableCell>
                   <TableCell>{pkg.duration}</TableCell>
-                  <TableCell>{pkg.currency} {pkg.price.toLocaleString()}</TableCell>
+                  <TableCell>{siteSettings?.defaultCurrency} {pkg.price.toLocaleString()}</TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" onClick={() => handleEdit(pkg)}>
                       <Edit className="h-4 w-4" />

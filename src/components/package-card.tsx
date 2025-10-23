@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { TravelPackage } from "@/lib/types";
+import type { SiteSettings, TravelPackage } from "@/lib/types";
 import {
   Card,
   CardContent,
@@ -22,13 +22,22 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 interface PackageCardProps {
   travelPackage: TravelPackage;
 }
 
 export function PackageCard({ travelPackage }: PackageCardProps) {
-  const { id, title, description, duration, price, currency, location, inclusions, image } = travelPackage;
+  const { id, title, description, duration, price, location, inclusions, image } = travelPackage;
+
+  const firestore = useFirestore();
+  const settingsDocRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, "siteSettings", "main");
+  }, [firestore]);
+  const { data: siteSettings } = useDoc<SiteSettings>(settingsDocRef);
 
   return (
     <Dialog>
@@ -58,7 +67,7 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
               <div className="flex items-center gap-2">
                   <Tag className="h-4 w-4" />
                   <span className="font-semibold text-foreground">
-                      {currency} {price.toLocaleString()}
+                      {siteSettings?.defaultCurrency} {price.toLocaleString()}
                   </span>
               </div>
           </div>

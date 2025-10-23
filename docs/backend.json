@@ -23,10 +23,6 @@
           "type": "number",
           "description": "Price of the travel package."
         },
-        "currency": {
-          "type": "string",
-          "description": "Currency of the travel package price (e.g., USD, EUR, GBP)."
-        },
         "image": {
           "type": "string",
           "description": "URL of an image showcasing the travel package.",
@@ -68,7 +64,7 @@
           }
         }
       },
-      "required": ["title", "description", "price", "currency", "image", "duration", "location", "category"]
+      "required": ["title", "description", "price", "image", "duration", "location", "category"]
     },
     "ContactFormSubmission": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -146,6 +142,11 @@
           "type": "string",
           "format": "email"
         },
+        "defaultCurrency": {
+            "type": "string",
+            "enum": ["AED", "USD", "EUR", "GBP"],
+            "description": "The default currency for the entire site."
+        },
         "twitterUrl": {
           "type": "string",
           "format": "uri"
@@ -170,7 +171,8 @@
           "type": "string",
           "format": "uri"
         }
-      }
+      },
+      "required": ["address", "phone", "email", "defaultCurrency"]
     },
     "HeroSlide": {
       "$schema": "http://json-schema.org/draft-07/schema#",

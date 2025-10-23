@@ -2,24 +2,33 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { getSdks } from '@/firebase/firebase-server';
 import { notFound } from 'next/navigation';
-import type { TravelPackage } from '@/lib/types';
+import type { TravelPackage, SiteSettings } from '@/lib/types';
 import { PackageDetailsClient } from './package-details-client';
 
-async function getPackage(id: string): Promise<TravelPackage | null> {
-    // We cannot use the useFirestore hook here as this is a Server Component.
-    // Instead, we get a new firestore instance from the server-only function.
-    const { firestore } = getSdks();
-    const docRef = doc(firestore, 'travelPackages', id);
-    const docSnap = await getDoc(docRef);
+type PackageDetailsProps = {
+  travelPackage: TravelPackage,
+  siteSettings: SiteSettings | null
+}
 
-    if (docSnap.exists()) {
-        const data = docSnap.data();
-        return {
-            id: docSnap.id,
+async function getPageData(id: string): Promise<PackageDetailsProps> {
+    const { firestore } = getSdks();
+    
+    const packageDocRef = doc(firestore, 'travelPackages', id);
+    const settingsDocRef = doc(firestore, "siteSettings", "main");
+
+    const [packageSnap, settingsSnap] = await Promise.all([
+        getDoc(packageDocRef),
+        getDoc(settingsDocRef)
+    ]);
+
+    let travelPackage: TravelPackage | null = null;
+    if (packageSnap.exists()) {
+        const data = packageSnap.data();
+        travelPackage = {
+            id: packageSnap.id,
             title: data.title,
             description: data.description,
             price: data.price,
-            currency: data.currency,
             image: data.image,
             duration: data.duration,
             location: data.location,
@@ -29,8 +38,12 @@ async function getPackage(id: string): Promise<TravelPackage | null> {
             itinerary: data.itinerary,
         };
     } else {
-        return null;
+        notFound();
     }
+    
+    const siteSettings = settingsSnap.exists() ? settingsSnap.data() as SiteSettings : null;
+
+    return { travelPackage, siteSettings };
 }
 
 
@@ -39,11 +52,11 @@ export default async function PackageDetailsPage({
 }: {
   params: { id: string };
 }) {
-  const travelPackage = await getPackage(params.id);
+  const { travelPackage, siteSettings } = await getPageData(params.id);
 
   if (!travelPackage) {
     notFound();
   }
 
-  return <PackageDetailsClient travelPackage={travelPackage} />;
+  return <PackageDetailsClient travelPackage={travelPackage} siteSettings={siteSettings} />;
 }

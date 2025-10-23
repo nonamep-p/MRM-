@@ -17,6 +17,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import type { SiteSettings } from "@/lib/types";
 import { Loader2 } from "lucide-react";
@@ -28,6 +35,7 @@ const settingsSchema = z.object({
   address: z.string().min(1, "Address is required."),
   phone: z.string().min(1, "Phone number is required."),
   email: z.string().email("Invalid email address."),
+  defaultCurrency: z.enum(['AED', 'USD', 'EUR', 'GBP']),
   twitterUrl: z.string().url().or(z.literal('')),
   instagramUrl: z.string().url().or(z.literal('')),
   facebookUrl: z.string().url().or(z.literal('')),
@@ -56,6 +64,7 @@ export default function SettingsPage() {
       address: "",
       phone: "",
       email: "",
+      defaultCurrency: 'AED',
       twitterUrl: "",
       instagramUrl: "",
       facebookUrl: "",
@@ -97,12 +106,39 @@ export default function SettingsPage() {
        <h1 className="text-3xl font-bold font-headline mb-8">Site Settings</h1>
        <Card>
            <CardHeader>
-               <CardTitle>Contact & Social Media</CardTitle>
-               <CardDescription>Update the contact details and social media links for your site.</CardDescription>
+               <CardTitle>General Settings</CardTitle>
+               <CardDescription>Update general, contact, and social media settings for your site.</CardDescription>
            </CardHeader>
            <CardContent>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                
+                <h3 className="text-lg font-medium">General</h3>
+                 <FormField
+                  control={form.control}
+                  name="defaultCurrency"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Default Currency</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a default currency" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="AED">AED - UAE Dirham</SelectItem>
+                          <SelectItem value="USD">USD - US Dollar</SelectItem>
+                          <SelectItem value="EUR">EUR - Euro</SelectItem>
+                          <SelectItem value="GBP">GBP - British Pound</SelectItem>
+                        </SelectContent>
+                      </Select>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Separator />
                 
                 <h3 className="text-lg font-medium">Contact Information</h3>
                 <FormField

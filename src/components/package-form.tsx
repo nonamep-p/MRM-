@@ -37,7 +37,6 @@ const packageSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters."),
   description: z.string().min(10, "Description must be at least 10 characters."),
   price: z.coerce.number().positive("Price must be a positive number."),
-  currency: z.string().min(3, "Currency is required.").max(3),
   image: z.string().url("Please enter a valid image URL or upload a file."),
   duration: z.string().min(2, "Duration is required."),
   location: z.object({
@@ -73,7 +72,6 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
       title: "",
       description: "",
       price: 0,
-      currency: "AED",
       image: "",
       duration: "",
       location: { lat: 0, lng: 0 },
@@ -258,44 +256,19 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
             )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="1499" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="currency"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Currency</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a currency" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="AED">AED</SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="EUR">EUR</SelectItem>
-                      <SelectItem value="GBP">GBP</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-        </div>
+        <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+            <FormItem>
+                <FormLabel>Price (in site's default currency)</FormLabel>
+                <FormControl>
+                <Input type="number" placeholder="1499" {...field} />
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+            )}
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
                 control={form.control}

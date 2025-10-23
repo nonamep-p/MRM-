@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import type { TravelPackage } from '@/lib/types';
+import type { TravelPackage, SiteSettings } from '@/lib/types';
 
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -29,10 +29,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { CalendarDays, Check, MapPin, Plane, Tag, X } from 'lucide-react';
 
-export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelPackage }) {
+export function PackageDetailsClient({ travelPackage, siteSettings }: { travelPackage: TravelPackage, siteSettings: SiteSettings | null }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   
-  const { title, description, duration, price, currency, location, category, inclusions, exclusions, itinerary, image } = travelPackage;
+  const { title, description, duration, price, location, category, inclusions, exclusions, itinerary, image } = travelPackage;
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -70,7 +70,7 @@ export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelP
                     <div className="flex items-center gap-2">
                          <Tag className="h-5 w-5" />
                         <span className="font-bold">
-                            {currency} {price.toLocaleString()}
+                            {siteSettings?.defaultCurrency} {price.toLocaleString()}
                         </span>
                     </div>
                 </div>

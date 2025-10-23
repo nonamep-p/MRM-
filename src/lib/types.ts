@@ -12,7 +12,6 @@ export type TravelPackage = {
   title: string;
   description: string;
   price: number;
-  currency: string;
   image: string;
   duration: string;
   location: {
@@ -29,6 +28,7 @@ export type SiteSettings = {
     address: string;
     phone: string;
     email: string;
+    defaultCurrency: 'AED' | 'USD' | 'EUR' | 'GBP';
     twitterUrl: string;
     instagramUrl: string;
     facebookUrl: string;
