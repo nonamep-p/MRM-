@@ -1,13 +1,5 @@
 {
-  "/admin/availability/page": "app/admin/availability/page.js",
-  "/admin/hero/page": "app/admin/hero/page.js",
   "/admin/packages/page": "app/admin/packages/page.js",
   "/admin/page": "app/admin/page.js",
-  "/admin/settings/page": "app/admin/settings/page.js",
-  "/admin/submissions/page": "app/admin/submissions/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/login/page": "app/login/page.js",
-  "/packages/[id]/page": "app/packages/[id]/page.js",
-  "/packages/page": "app/packages/page.js",
-  "/page": "app/page.js"
+  "/login/page": "app/login/page.js"
 }

@@ -721,6 +721,10 @@ body {
   height: 6rem;
 }
 
+.h-3 {
+  height: .75rem;
+}
+
 .h-3\.5 {
   height: .875rem;
 }
@@ -765,6 +769,10 @@ body {
   height: 1px;
 }
 
+.h-\[400px\] {
+  height: 400px;
+}
+
 .h-\[500px\] {
   height: 500px;
 }
@@ -799,14 +807,6 @@ body {
 
 .h-svh {
   height: 100svh;
-}
-
-.h-3 {
-  height: .75rem;
-}
-
-.h-\[400px\] {
-  height: 400px;
 }
 
 .max-h-96 {
@@ -849,6 +849,10 @@ body {
   width: .25rem;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
 .w-10 {
   width: 2.5rem;
 }
@@ -867,6 +871,10 @@ body {
 
 .w-24 {
   width: 6rem;
+}
+
+.w-3 {
+  width: .75rem;
 }
 
 .w-3\.5 {
@@ -939,14 +947,6 @@ body {
 
 .w-full {
   width: 100%;
-}
-
-.w-1\/2 {
-  width: 50%;
-}
-
-.w-3 {
-  width: .75rem;
 }
 
 .min-w-0 {
@@ -1248,6 +1248,12 @@ body {
   margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.space-y-0 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0px * var(--tw-space-y-reverse));
+}
+
 .space-y-1 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(.25rem * calc(1 - var(--tw-space-y-reverse)));
@@ -1288,12 +1294,6 @@ body {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
-}
-
-.space-y-0 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0px * var(--tw-space-y-reverse));
 }
 
 .overflow-auto {
@@ -1498,10 +1498,6 @@ body {
   background-color: hsl(var(--muted));
 }
 
-.bg-muted-foreground\/20 {
-  background-color: hsl(var(--muted-foreground) / .2);
-}
-
 .bg-muted\/40 {
   background-color: hsl(var(--muted) / .4);
 }
@@ -1670,6 +1666,10 @@ body {
   padding-bottom: 1rem;
 }
 
+.pb-2 {
+  padding-bottom: .5rem;
+}
+
 .pb-3 {
   padding-bottom: .75rem;
 }
@@ -1724,10 +1724,6 @@ body {
 
 .pt-8 {
   padding-top: 2rem;
-}
-
-.pb-2 {
-  padding-bottom: .5rem;
 }
 
 .text-left {
@@ -1928,14 +1924,14 @@ body {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.text-yellow-800 {
-  --tw-text-opacity: 1;
-  color: rgb(133 77 14 / var(--tw-text-opacity, 1));
-}
-
 .text-yellow-500 {
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity, 1));
+}
+
+.text-yellow-800 {
+  --tw-text-opacity: 1;
+  color: rgb(133 77 14 / var(--tw-text-opacity, 1));
 }
 
 .underline-offset-4 {
