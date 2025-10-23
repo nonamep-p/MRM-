@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Package, Settings } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -31,9 +34,26 @@ export default function AdminLayout({
 
   return (
     <div className="flex flex-col min-h-screen">
-        {/* The header doesn't need onContactClick for the admin area */}
         <Header onContactClick={() => {}} /> 
-        <main className="flex-1 bg-background">{children}</main>
+        <div className="flex flex-1">
+            <aside className="w-64 bg-background border-r p-4">
+                <nav className="flex flex-col space-y-2">
+                    <Button variant="ghost" className="justify-start" asChild>
+                        <Link href="/admin">
+                            <Package className="mr-2 h-4 w-4" />
+                            Packages
+                        </Link>
+                    </Button>
+                    <Button variant="ghost" className="justify-start" asChild>
+                        <Link href="/admin/settings">
+                             <Settings className="mr-2 h-4 w-4" />
+                             Site Settings
+                        </Link>
+                    </Button>
+                </nav>
+            </aside>
+            <main className="flex-1 bg-background">{children}</main>
+        </div>
         <Footer />
     </div>
   );

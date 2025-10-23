@@ -93,6 +93,36 @@
         "message",
         "submittedAt"
       ]
+    },
+    "SiteSettings": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SiteSettings",
+      "type": "object",
+      "description": "Stores global site settings like contact info and social media links.",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "twitterUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "instagramUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "facebookUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
     }
   },
   "auth": {
@@ -134,8 +164,16 @@
             }
           ]
         }
+      },
+      {
+        "path": "/siteSettings/main",
+        "definition": {
+            "entityName": "SiteSettings",
+            "schema": { "$ref": "#/backend/entities/SiteSettings" },
+            "description": "Stores the main site settings as a single document. Publicly readable."
+        }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to support the VoyageVista travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\nThis design prioritizes simplicity, security, and maintainability. The use of descriptive collection names and the clear separation of concerns contribute to a more understandable and manageable application."
+    "reasoning": "The Firestore data structure is designed to support the VoyageVista travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\n3. **Site Settings:** The `siteSettings` collection holds a single document 'main' for global configurations like contact info. This data is public and readable by anyone, but writable only by authenticated admins."
   }
 }

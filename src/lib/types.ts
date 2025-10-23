@@ -22,3 +22,12 @@ export type TravelPackage = {
   exclusions?: string[];
   itinerary?: ItineraryItem[];
 };
+
+export type SiteSettings = {
+    address: string;
+    phone: string;
+    email: string;
+    twitterUrl: string;
+    instagramUrl: string;
+    facebookUrl: string;
+};
