@@ -100,7 +100,7 @@ export default function Home() {
             ) : (
                <div className="relative z-10 p-4 max-w-4xl mx-auto flex flex-col items-center justify-center h-full text-foreground">
                   <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-headline">
-                    Welcome to VoyageVista
+                    Welcome to MRM Internationals
                   </h1>
                   <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">
                     Add slides in the admin panel to populate the hero carousel.

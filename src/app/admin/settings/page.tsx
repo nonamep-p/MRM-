@@ -175,7 +175,7 @@ export default function SettingsPage() {
                         <FormItem>
                             <FormLabel>Email Address</FormLabel>
                             <FormControl>
-                            <Input placeholder="hello@voyagevista.com" {...field} />
+                            <Input placeholder="hello@mrminternationals.com" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

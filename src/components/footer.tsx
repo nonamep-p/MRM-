@@ -33,7 +33,7 @@ export function Footer() {
           <div className="flex flex-col">
             <Link href="/" className="flex items-center gap-2 mb-4">
                <div className="relative h-10 w-10">
-                <Image src="/Logo.png" alt="VoyageVista Logo" fill className="object-contain" />
+                <Image src="/Logo.png" alt="MRM Internationals Logo" fill className="object-contain" />
               </div>
               <div className="flex flex-col">
                 <div className="relative h-5 w-28">
@@ -83,7 +83,7 @@ export function Footer() {
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-accent" />
-                <a href="mailto:hello@voyagevista.com" className="hover:text-accent">hello@voyagevista.com</a>
+                <a href="mailto:hello@mrminternationals.com" className="hover:text-accent">hello@mrminternationals.com</a>
               </li>
             </ul>
             )}
@@ -142,7 +142,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-border text-center text-sm text-foreground/60">
-          <p>&copy; {new Date().getFullYear()} VoyageVista. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} MRM Internationals. All rights reserved.</p>
         </div>
       </div>
     </footer>

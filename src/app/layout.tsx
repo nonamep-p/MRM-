@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
-  title: 'VoyageVista',
-  description: 'A vibrant and inviting website for a travel agency, showcasing various travel packages.',
+  title: 'MRM Internationals',
+  description: 'A vibrant and inviting website for MRM Internationals, a travel agency showcasing various travel packages.',
 };
 
 export default function RootLayout({

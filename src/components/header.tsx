@@ -34,7 +34,7 @@ export function Header({ onContactClick }: HeaderProps) {
         <div className="flex-1 flex items-center justify-start">
             <Link href="/" className="flex items-center gap-2">
               <div className="relative h-8 w-8">
-                <Image src="/Logo.png" alt="VoyageVista Logo" fill className="object-contain" />
+                <Image src="/Logo.png" alt="MRM Internationals Logo" fill className="object-contain" />
               </div>
               <div className="flex flex-col">
                 <div className="relative h-4 w-24">
