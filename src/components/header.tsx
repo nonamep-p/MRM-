@@ -1,5 +1,4 @@
 
-      
 'use client';
 
 import Link from "next/link";
@@ -45,7 +44,8 @@ export function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-24 items-center">
+      <div className="container flex h-24 items-center justify-between">
+        {/* Left Section - Logo */}
         <div className="flex-1 flex justify-start">
              <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}}>
               {siteSettings?.logoUrl && (
@@ -59,7 +59,8 @@ export function Header({ onContactClick }: HeaderProps) {
             </Link>
         </div>
         
-        <nav className="hidden md:flex justify-center">
+        {/* Center Section - Navigation */}
+        <nav className="hidden md:flex justify-center flex-1">
             <div className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
                 <Link
@@ -73,6 +74,7 @@ export function Header({ onContactClick }: HeaderProps) {
             </div>
         </nav>
         
+        {/* Right Section - Actions */}
         <div className="flex flex-1 items-center justify-end space-x-4">
           {!isUserLoading && user ? (
             <>
@@ -100,4 +102,3 @@ export function Header({ onContactClick }: HeaderProps) {
     </header>
   );
 }
-    
