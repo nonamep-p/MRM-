@@ -8,6 +8,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -22,7 +23,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { ContactForm } from '@/components/contact-form';
-import { Clock, Tag, MapPin, Plane, Check, ArrowLeft, CalendarDays } from 'lucide-react';
+import { Clock, Tag, MapPin, Plane, Check, X, ArrowLeft, CalendarDays, Award } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PackageDetailsPage({
@@ -38,7 +39,7 @@ export default function PackageDetailsPage({
   }
 
   const image = PlaceHolderImages.find((img) => img.id === travelPackage.image);
-  const { title, description, duration, price, location, inclusions, itinerary } = travelPackage;
+  const { title, description, duration, price, location, grade, inclusions, exclusions, itinerary } = travelPackage;
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -81,6 +82,9 @@ export default function PackageDetailsPage({
               </div>
 
               <div>
+                <Badge variant="outline" className="mb-2 border-accent text-accent flex items-center gap-2 w-min whitespace-nowrap">
+                  <Award className="h-4 w-4" /> {grade}
+                </Badge>
                 <h1 className="text-3xl md:text-4xl font-bold font-headline mb-2">{title}</h1>
                 <div className="flex items-center gap-2 text-muted-foreground mb-6">
                     <MapPin className="h-4 w-4" />
@@ -89,19 +93,34 @@ export default function PackageDetailsPage({
 
                 <p className="text-muted-foreground text-lg mb-6">{description}</p>
                 
-                {inclusions && inclusions.length > 0 && (
-                    <div className="mb-6">
-                        <h3 className="font-semibold text-xl mb-3 font-headline">What's Included</h3>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-muted-foreground">
-                            {inclusions.map((item, index) => (
-                                <li key={index} className="flex items-center gap-3">
-                                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
-                                    <span>{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  {inclusions && inclusions.length > 0 && (
+                      <div>
+                          <h3 className="font-semibold text-xl mb-3 font-headline">What's Included</h3>
+                          <ul className="space-y-2 text-muted-foreground">
+                              {inclusions.map((item, index) => (
+                                  <li key={index} className="flex items-center gap-3">
+                                      <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                                      <span>{item}</span>
+                                  </li>
+                              ))}
+                          </ul>
+                      </div>
+                  )}
+                  {exclusions && exclusions.length > 0 && (
+                       <div>
+                          <h3 className="font-semibold text-xl mb-3 font-headline">What's Not Included</h3>
+                          <ul className="space-y-2 text-muted-foreground">
+                              {exclusions.map((item, index) => (
+                                  <li key={index} className="flex items-center gap-3">
+                                      <X className="h-5 w-5 text-red-500 flex-shrink-0" />
+                                      <span>{item}</span>
+                                  </li>
+                              ))}
+                          </ul>
+                      </div>
+                  )}
+                </div>
                 
                 <Button size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => setIsContactOpen(true)}>
                     <Plane className="mr-2 h-5 w-5" /> Book This Trip

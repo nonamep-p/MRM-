@@ -16,6 +16,8 @@ export type TravelPackage = {
     lat: number;
     lng: number;
   };
+  grade: 'Luxury' | 'Comfort' | 'Adventure';
   inclusions?: string[];
+  exclusions?: string[];
   itinerary?: ItineraryItem[];
 };

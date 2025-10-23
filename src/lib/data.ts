@@ -8,8 +8,10 @@ export const travelPackages: TravelPackage[] = [
     price: 1499,
     image: 'paris',
     duration: '7 Days',
+    grade: 'Comfort',
     location: { lat: 48.8566, lng: 2.3522 },
-    inclusions: ['Round-trip flights', '4-star hotel', 'Eiffel Tower Tour', 'Daily breakfast'],
+    inclusions: ['Round-trip flights', '4-star hotel accommodation', 'Eiffel Tower Summit Tour', 'Daily breakfast', 'Seine river cruise'],
+    exclusions: ['Lunches and dinners', 'Visa fees', 'Personal expenses', 'Optional tours'],
     itinerary: [
       { day: 1, title: 'Arrival in Paris', description: 'Arrive at Charles de Gaulle Airport, transfer to your hotel. Evening walk along the Seine.' },
       { day: 2, title: 'Iconic Landmarks', description: 'Visit the Eiffel Tower and the Louvre Museum. See the Mona Lisa and Venus de Milo.' },
@@ -27,8 +29,10 @@ export const travelPackages: TravelPackage[] = [
     price: 1899,
     image: 'bali',
     duration: '10 Days',
+    grade: 'Luxury',
     location: { lat: -8.3405, lng: 115.092 },
-    inclusions: ['Round-trip flights', 'Beachfront villa', 'Surfing lessons', 'Yoga sessions'],
+    inclusions: ['Round-trip flights', '5-star beachfront villa', 'Private surfing lessons', 'Daily yoga and meditation sessions', 'All-inclusive meals'],
+    exclusions: ['Travel insurance', 'Spa treatments (outside of package)', 'Alcoholic beverages', 'Souvenirs'],
     itinerary: [
         { day: 1, title: 'Arrival in Denpasar', description: 'Arrive in Bali, transfer to your beachfront villa in Seminyak. Relax and enjoy the sunset.' },
         { day: 2, title: 'Beach & Surf', description: 'Morning surf lesson at Kuta Beach, followed by an afternoon relaxing on the sand.' },
@@ -49,8 +53,10 @@ export const travelPackages: TravelPackage[] = [
     price: 2299,
     image: 'andes',
     duration: '12 Days',
+    grade: 'Adventure',
     location: { lat: -13.1631, lng: -72.545 },
-    inclusions: ['Guided treks', 'Machu Picchu entry', 'Local guide', 'All transportation'],
+    inclusions: ['Guided Inca Trail trek', 'Machu Picchu entrance fee', 'Professional local guide', 'All transportation and transfers', 'Camping equipment'],
+    exclusions: ['International flights', 'Sleeping bag rental', 'Gratuities for guide and porters', 'Meals in Cusco'],
     itinerary: [
         { day: 1, title: 'Arrival in Cusco', description: 'Arrive in Cusco, acclimatize to the altitude, and explore the historic city center.' },
         { day: 2, title: 'Sacred Valley Tour', description: 'Explore the Sacred Valley of the Incas, visiting Pisac market and the Ollantaytambo fortress.' },
@@ -73,8 +79,9 @@ export const travelPackages: TravelPackage[] = [
     price: 2100,
     image: 'tokyo',
     duration: '8 Days',
+    grade: 'Comfort',
     location: { lat: 35.6762, lng: 139.6503 },
-    inclusions: ['Round-trip flights', 'Capsule hotel stay', 'Sushi making class', 'Robot Restaurant show']
+    inclusions: ['Round-trip flights', 'Unique capsule hotel stay', 'Sushi making class', 'Sumo wrestling stable visit']
   },
   {
     id: 'santorini',
@@ -83,8 +90,9 @@ export const travelPackages: TravelPackage[] = [
     price: 1750,
     image: 'santorini',
     duration: '6 Days',
+    grade: 'Luxury',
     location: { lat: 36.3932, lng: 25.4615 },
-    inclusions: ['Round-trip flights', 'Caldera view hotel', 'Sunset cruise', 'Wine tasting tour']
+    inclusions: ['Round-trip flights', 'Caldera view hotel with private pool', 'Sunset catamaran cruise', 'Volcanic wine tasting tour']
   },
   {
     id: 'safari',
@@ -93,7 +101,8 @@ export const travelPackages: TravelPackage[] = [
     price: 3500,
     image: 'safari',
     duration: '9 Days',
+    grade: 'Luxury',
     location: { lat: -2.154, lng: 34.6857 },
-    inclusions: ['Guided game drives', 'Luxury tented camp', 'All meals', 'Park fees']
+    inclusions: ['Daily guided game drives', 'Luxury tented camp accommodation', 'All meals and select drinks', 'National Park fees']
   },
 ];
