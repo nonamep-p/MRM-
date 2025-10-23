@@ -66,7 +66,7 @@ export default function Home() {
                 align: "start",
                 loop: true,
               }}
-              className="w-full"
+              className="w-full max-w-6xl mx-auto"
             >
               <CarouselContent>
                 {travelPackages.map((pkg) => (
