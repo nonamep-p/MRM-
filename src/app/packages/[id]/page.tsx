@@ -38,7 +38,8 @@ export default function PackageDetailsPage({
   params: { id: string };
 }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const travelPackage = travelPackages.find((p) => p.id === params.id);
+  const { id } = params;
+  const travelPackage = travelPackages.find((p) => p.id === id);
 
   if (!travelPackage) {
     notFound();
