@@ -44,7 +44,7 @@ const packageSchema = z.object({
     lat: z.coerce.number().min(-90).max(90, "Latitude must be between -90 and 90."),
     lng: z.coerce.number().min(-180).max(180, "Longitude must be between -180 and 180."),
   }),
-  category: z.enum(['Luxury', 'Comfort', 'Adventure', 'Family', 'Honeymoon', 'Cultural', 'Budget']),
+  category: z.enum(['Luxury', 'Comfort', 'Adventure', 'Family', 'Honeymoon', 'Cultural', 'Budget', 'Romantic']),
   inclusions: z.array(z.object({ value: z.string().min(1, "Inclusion cannot be empty.") })).optional(),
   exclusions: z.array(z.object({ value: z.string().min(1, "Exclusion cannot be empty.") })).optional(),
   itinerary: z.array(z.object({
@@ -344,6 +344,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
                   <SelectItem value="Honeymoon">Honeymoon</SelectItem>
                   <SelectItem value="Cultural">Cultural</SelectItem>
                   <SelectItem value="Budget">Budget</SelectItem>
+                  <SelectItem value="Romantic">Romantic</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

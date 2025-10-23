@@ -45,7 +45,7 @@
         },
         "category": {
           "type": "string",
-          "enum": ["Luxury", "Comfort", "Adventure", "Family", "Honeymoon", "Cultural", "Budget"]
+          "enum": ["Luxury", "Comfort", "Adventure", "Family", "Honeymoon", "Cultural", "Budget", "Romantic"]
         },
         "inclusions": {
           "type": "array",
