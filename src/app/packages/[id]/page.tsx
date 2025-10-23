@@ -15,8 +15,14 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import { ContactForm } from '@/components/contact-form';
-import { Clock, Tag, MapPin, Plane, Check, ArrowLeft } from 'lucide-react';
+import { Clock, Tag, MapPin, Plane, Check, ArrowLeft, CalendarDays } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PackageDetailsPage({
@@ -32,7 +38,7 @@ export default function PackageDetailsPage({
   }
 
   const image = PlaceHolderImages.find((img) => img.id === travelPackage.image);
-  const { title, description, duration, price, location, inclusions } = travelPackage;
+  const { title, description, duration, price, location, inclusions, itinerary } = travelPackage;
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -102,6 +108,28 @@ export default function PackageDetailsPage({
                 </Button>
               </div>
             </div>
+            
+            {itinerary && itinerary.length > 0 && (
+                <div className="mt-16">
+                    <h2 className="text-2xl md:text-3xl font-bold font-headline mb-6 text-center">Daily Itinerary</h2>
+                    <Accordion type="single" collapsible className="w-full max-w-2xl mx-auto" defaultValue="item-0">
+                        {itinerary.map((item, index) => (
+                        <AccordionItem value={`item-${index}`} key={index}>
+                            <AccordionTrigger>
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-accent text-accent-foreground rounded-full h-8 w-8 flex items-center justify-center font-bold">{item.day}</div>
+                                    <span className="font-semibold">{item.title}</span>
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="pl-12">
+                               {item.description}
+                            </AccordionContent>
+                        </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+            )}
+
           </div>
         </main>
         <Footer />

@@ -9,7 +9,16 @@ export const travelPackages: TravelPackage[] = [
     image: 'paris',
     duration: '7 Days',
     location: { lat: 48.8566, lng: 2.3522 },
-    inclusions: ['Round-trip flights', '4-star hotel', 'Eiffel Tower Tour', 'Daily breakfast']
+    inclusions: ['Round-trip flights', '4-star hotel', 'Eiffel Tower Tour', 'Daily breakfast'],
+    itinerary: [
+      { day: 1, title: 'Arrival in Paris', description: 'Arrive at Charles de Gaulle Airport, transfer to your hotel. Evening walk along the Seine.' },
+      { day: 2, title: 'Iconic Landmarks', description: 'Visit the Eiffel Tower and the Louvre Museum. See the Mona Lisa and Venus de Milo.' },
+      { day: 3, title: 'Art and Culture', description: 'Explore Montmartre, visit the Sacré-Cœur Basilica, and watch local artists at work.' },
+      { day: 4, title: 'Versailles Palace', description: 'A day trip to the magnificent Palace of Versailles and its stunning gardens.' },
+      { day: 5, title: 'Gourmet Experience', description: 'French cooking class in the morning, followed by a gourmet dinner cruise in the evening.' },
+      { day: 6, title: 'Shopping and Leisure', description: 'Explore the shops on the Champs-Élysées and enjoy a leisurely afternoon at a Parisian café.' },
+      { day: 7, title: 'Departure', description: 'Enjoy a final croissant before heading to the airport for your departure.' },
+    ]
   },
   {
     id: 'bali',
@@ -19,7 +28,19 @@ export const travelPackages: TravelPackage[] = [
     image: 'bali',
     duration: '10 Days',
     location: { lat: -8.3405, lng: 115.092 },
-    inclusions: ['Round-trip flights', 'Beachfront villa', 'Surfing lessons', 'Yoga sessions']
+    inclusions: ['Round-trip flights', 'Beachfront villa', 'Surfing lessons', 'Yoga sessions'],
+    itinerary: [
+        { day: 1, title: 'Arrival in Denpasar', description: 'Arrive in Bali, transfer to your beachfront villa in Seminyak. Relax and enjoy the sunset.' },
+        { day: 2, title: 'Beach & Surf', description: 'Morning surf lesson at Kuta Beach, followed by an afternoon relaxing on the sand.' },
+        { day: 3, title: 'Ubud Exploration', description: 'Visit the Ubud Monkey Forest and explore the vibrant Ubud market.' },
+        { day: 4, title: 'Rice Terraces & Temples', description: 'Hike through the Tegalalang Rice Terraces and visit the Tirta Empul water temple.' },
+        { day: 5, title: 'Volcano Sunrise', description: 'Early morning trek up Mount Batur to watch a spectacular sunrise over the caldera.' },
+        { day: 6, title: 'Yoga & Wellness', description: 'A full day of relaxation with yoga classes and a traditional Balinese spa treatment.' },
+        { day: 7, title: 'Island Hopping', description: 'Take a boat trip to the nearby Gili Islands for snorkeling and diving.' },
+        { day: 8, title: 'Cultural Immersion', description: 'Experience a traditional Balinese dance performance and enjoy a local feast.' },
+        { day: 9, title: 'Free Day', description: 'Enjoy a free day to explore at your own pace, shop for souvenirs, or relax by the pool.' },
+        { day: 10, title: 'Departure', description: 'Enjoy a final Balinese breakfast before heading to the airport.' },
+    ]
   },
   {
     id: 'andes',
@@ -29,7 +50,21 @@ export const travelPackages: TravelPackage[] = [
     image: 'andes',
     duration: '12 Days',
     location: { lat: -13.1631, lng: -72.545 },
-    inclusions: ['Guided treks', 'Machu Picchu entry', 'Local guide', 'All transportation']
+    inclusions: ['Guided treks', 'Machu Picchu entry', 'Local guide', 'All transportation'],
+    itinerary: [
+        { day: 1, title: 'Arrival in Cusco', description: 'Arrive in Cusco, acclimatize to the altitude, and explore the historic city center.' },
+        { day: 2, title: 'Sacred Valley Tour', description: 'Explore the Sacred Valley of the Incas, visiting Pisac market and the Ollantaytambo fortress.' },
+        { day: 3, title: 'Start of the Inca Trail', description: 'Begin the classic 4-day Inca Trail trek, surrounded by stunning mountain scenery.' },
+        { day: 4, title: 'Hiking to Dead Woman\'s Pass', description: 'A challenging day of hiking to the highest point of the trail, Warmiwañusqa (Dead Woman\'s Pass).' },
+        { day: 5, title: 'Cloud Forest and Inca Ruins', description: 'Descend into the cloud forest, exploring ancient Inca ruins along the way.' },
+        { day: 6, title: 'Machu Picchu Sunrise', description: 'Arrive at the Sun Gate for a sunrise view of Machu Picchu, followed by a guided tour of the citadel.' },
+        { day: 7, title: 'Rest in Aguas Calientes', description: 'A relaxing day in the town of Aguas Calientes, with an option to visit the hot springs.' },
+        { day: 8, title: 'Rainbow Mountain', description: 'A full-day trip to the spectacular Vinicunca, the Rainbow Mountain.' },
+        { day: 9, title: 'Return to Cusco', description: 'Travel back to Cusco and enjoy a farewell dinner with traditional music.' },
+        { day: 10, title: 'Lake Humantay', description: 'Hike to the breathtaking turquoise waters of Lake Humantay.' },
+        { day: 11, title: 'Free Day in Cusco', description: 'A free day to explore Cusco\'s museums, shops, and cafes.' },
+        { day: 12, title: 'Departure', description: 'Transfer to the airport for your departure.' },
+    ]
   },
   {
     id: 'tokyo',

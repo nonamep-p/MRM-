@@ -1,3 +1,10 @@
+
+export type ItineraryItem = {
+  day: number;
+  title: string;
+  description: string;
+};
+
 export type TravelPackage = {
   id: string;
   title: string;
@@ -10,4 +17,5 @@ export type TravelPackage = {
     lng: number;
   };
   inclusions?: string[];
+  itinerary?: ItineraryItem[];
 };
