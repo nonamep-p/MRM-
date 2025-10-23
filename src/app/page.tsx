@@ -1,6 +1,7 @@
 
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -59,9 +60,9 @@ export default function Home() {
                 Discover breathtaking destinations and create unforgettable memories with VoyageVista.
               </p>
               <Button size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                <a href="#packages">
+                <Link href="/packages">
                   Explore Packages <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
+                </Link>
               </Button>
             </div>
           </section>

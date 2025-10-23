@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Compass } from "lucide-react";
 import { Button } from "./ui/button";
+import { DialogTrigger } from "./ui/dialog";
 
 interface HeaderProps {
   onContactClick: () => void;
@@ -8,9 +9,9 @@ interface HeaderProps {
 
 export function Header({ onContactClick }: HeaderProps) {
   const navLinks = [
-    { name: "Packages", href: "#packages" },
-    { name: "Destinations", href: "#map" },
-    { name: "Recommendations", href: "#recommendations" },
+    { name: "Packages", href: "/packages" },
+    { name: "Destinations", href: "/#map" },
+    { name: "Recommendations", href: "/#recommendations" },
   ];
 
   return (
@@ -38,12 +39,14 @@ export function Header({ onContactClick }: HeaderProps) {
             </div>
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <Button 
-            onClick={onContactClick} 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground"
-          >
-            Contact Us
-          </Button>
+          <DialogTrigger asChild>
+            <Button 
+              onClick={onContactClick} 
+              className="bg-accent hover:bg-accent/90 text-accent-foreground"
+            >
+              Contact Us
+            </Button>
+          </DialogTrigger>
         </div>
       </div>
     </header>
