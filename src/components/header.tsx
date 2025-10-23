@@ -34,14 +34,14 @@ export function Header({ onContactClick }: HeaderProps) {
         <div className="flex-1 flex items-center justify-start">
             <Link href="/" className="flex items-center gap-2">
               <div className="relative h-8 w-8">
-                <Image src="/Logo.png" alt="MRM Internationals Logo" fill className="object-contain" />
+                <Image src="/Logo.jpeg" alt="MRM Internationals Logo" fill className="object-contain" />
               </div>
               <div className="flex flex-col">
                 <div className="relative h-4 w-24">
-                   <Image src="/INTERNATIONALS.png" alt="Internationals" fill className="object-contain" />
+                   <Image src="/INTERNATIONALS.jpeg" alt="Internationals" fill className="object-contain" />
                 </div>
                 <div className="relative h-3 w-28">
-                   <Image src="/TRAVEL_TOURISM.png" alt="Travel & Tourism" fill className="object-contain" />
+                   <Image src="/TRAVEL & TOURISM.jpeg" alt="Travel & Tourism" fill className="object-contain" />
                 </div>
               </div>
             </Link>

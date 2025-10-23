@@ -33,14 +33,14 @@ export function Footer() {
           <div className="flex flex-col">
             <Link href="/" className="flex items-center gap-2 mb-4">
                <div className="relative h-10 w-10">
-                <Image src="/Logo.png" alt="MRM Internationals Logo" fill className="object-contain" />
+                <Image src="/Logo.jpeg" alt="MRM Internationals Logo" fill className="object-contain" />
               </div>
               <div className="flex flex-col">
                 <div className="relative h-5 w-28">
-                   <Image src="/INTERNATIONALS.png" alt="Internationals" fill className="object-contain" />
+                   <Image src="/INTERNATIONALS.jpeg" alt="Internationals" fill className="object-contain" />
                 </div>
                 <div className="relative h-4 w-32">
-                   <Image src="/TRAVEL_TOURISM.png" alt="Travel & Tourism" fill className="object-contain" />
+                   <Image src="/TRAVEL & TOURISM.jpeg" alt="Travel & Tourism" fill className="object-contain" />
                 </div>
               </div>
             </Link>
