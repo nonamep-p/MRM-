@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -46,7 +47,7 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
   const logoSpacing = siteSettings?.logoSpacing ? `${parseInt(siteSettings.logoSpacing) * 0.25}rem` : '0.5rem';
 
   const Logo = () => (
-    <Link href="/" className={cn("flex items-center", logoAlignment)} style={{gap: logoSpacing}}>
+    <Link href="/" className={cn("flex items-center shrink-0", logoAlignment)} style={{gap: logoSpacing}}>
       {siteSettings?.logoUrl && (
         <div className="relative h-10 md:h-12 flex-shrink-0">
           <Image src={siteSettings.logoUrl} alt="Logo" height={48} width={150} style={{objectFit: "contain", height: "100%", width: "auto"}}/>
@@ -58,41 +59,45 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
     </Link>
   );
 
-  const NavMenu = ({ isMobile = false }) => (
-    <nav className={cn("items-center text-sm font-medium", isMobile ? "flex flex-col space-y-2 p-6 text-lg" : "hidden md:flex space-x-6")}>
-      {navLinks.map((link) => {
-          const navLink = (
-             <Link
+  const NavMenu = ({ isMobile = false }) => {
+    const navContent = navLinks.map((link) => {
+        const linkElement = (
+            <Link
                 href={link.href}
                 className={cn(
-                    "relative text-foreground/60 transition-colors hover:text-foreground", 
-                    isMobile 
+                    "relative text-foreground/60 transition-colors hover:text-foreground",
+                    isMobile
                         ? "p-2 rounded-md hover:bg-accent/10 w-full text-left"
                         : "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:origin-center after:scale-x-0 after:bg-accent after:transition-transform hover:after:scale-x-100"
                 )}
             >
                 {link.name}
             </Link>
-          );
-          
-          if (isMobile) {
-              return (
-                  <SheetClose asChild key={link.href}>
-                      {navLink}
-                  </SheetClose>
-              );
-          }
-          return (
+        );
+
+        if (isMobile) {
+            return (
+                <SheetClose asChild key={link.href}>
+                    {linkElement}
+                </SheetClose>
+            );
+        }
+        return (
             <div key={link.href}>
-              {navLink}
+                {linkElement}
             </div>
-          );
-      })}
-    </nav>
-  );
+        );
+    });
+
+    return (
+        <nav className={cn("items-center text-sm font-medium", isMobile ? "flex flex-col space-y-2 p-6 text-lg" : "hidden md:flex space-x-6")}>
+            {navContent}
+        </nav>
+    );
+};
   
   const ActionButtons = ({ isMobile = false }) => (
-     <div className={cn("items-center", isMobile ? "mt-auto p-6 border-t" : "flex")}>
+     <div className={cn("items-center shrink-0", isMobile ? "mt-auto p-6 border-t" : "flex")}>
       {!isUserLoading && user ? (
         <div className="flex items-center space-x-2 md:space-x-4">
           <Button variant="ghost" asChild>
@@ -115,16 +120,14 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-20 items-center justify-between px-4 md:px-6">
-        <div className="flex flex-1 items-center justify-start">
-          <Logo />
-        </div>
+        <Logo />
         
         <div className="hidden md:flex flex-1 justify-center">
-            <NavMenu />
+          <NavMenu />
         </div>
         
-        <div className="hidden md:flex flex-1 justify-end">
-            <ActionButtons />
+        <div className="hidden md:flex justify-end">
+          <ActionButtons />
         </div>
         
         {/* Mobile Menu */}
@@ -138,7 +141,7 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
             </SheetTrigger>
             <SheetContent side="right" className="w-full sm:w-[300px] p-0 flex flex-col">
               <SheetHeader className="p-4 border-b">
-                 <SheetTitle className="sr-only">Main Navigation</SheetTitle>
+                 <SheetTitle>Navigation</SheetTitle>
               </SheetHeader>
               <NavMenu isMobile={true} />
               <ActionButtons isMobile={true} />
