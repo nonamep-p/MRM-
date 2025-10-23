@@ -1,0 +1,58 @@
+import type { TravelPackage } from './types';
+
+export const travelPackages: TravelPackage[] = [
+  {
+    id: 'paris',
+    title: 'Parisian Dreams',
+    description: 'Experience the romance and charm of the City of Light. Visit iconic landmarks, indulge in exquisite cuisine, and immerse yourself in art and culture.',
+    price: 1499,
+    image: 'paris',
+    duration: '7 Days',
+    location: { lat: 48.8566, lng: 2.3522 },
+  },
+  {
+    id: 'bali',
+    title: 'Tropical Getaway in Bali',
+    description: 'Relax and rejuvenate on the beautiful beaches of Bali. Explore lush rice terraces, ancient temples, and vibrant local markets.',
+    price: 1899,
+    image: 'bali',
+    duration: '10 Days',
+    location: { lat: -8.3405, lng: 115.092 },
+  },
+  {
+    id: 'andes',
+    title: 'Adventure in the Andes',
+    description: 'Embark on a thrilling journey through the Andes mountains. Hike ancient trails, witness stunning landscapes, and discover Incan history.',
+    price: 2299,
+    image: 'andes',
+    duration: '12 Days',
+    location: { lat: -13.1631, lng: -72.545 },
+  },
+  {
+    id: 'tokyo',
+    title: 'Tokyo Neon Nights',
+    description: 'Dive into the vibrant, futuristic metropolis of Tokyo. Experience the contrast of ancient temples and modern skyscrapers.',
+    price: 2100,
+    image: 'tokyo',
+    duration: '8 Days',
+    location: { lat: 35.6762, lng: 139.6503 },
+  },
+  {
+    id: 'santorini',
+    title: 'Santorini Sunset',
+    description: 'Witness the world-famous sunsets of Santorini. Enjoy the iconic white-washed villages, crystal-clear waters, and volcanic beaches.',
+    price: 1750,
+    image: 'santorini',
+    duration: '6 Days',
+    location: { lat: 36.3932, lng: 25.4615 },
+  },
+  {
+    id: 'safari',
+    title: 'African Safari Expedition',
+    description: 'Get up close with Africa\'s majestic wildlife on an unforgettable safari adventure. Stay in luxury lodges and explore vast national parks.',
+    price: 3500,
+    image: 'safari',
+    duration: '9 Days',
+    location: { lat: -2.154, lng: 34.6857 },
+  },
+];

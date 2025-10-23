@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A beautiful tropical beach with turquoise water and palm trees",
+      "imageUrl": "https://images.unsplash.com/photo-1586500036706-41963de24d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx0cm9waWNhbCUyMGJlYWNofGVufDB8fHx8MTc2MTE3ODcyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tropical beach"
+    },
+    {
+      "id": "paris",
+      "description": "The Eiffel Tower in Paris with a dramatic sky",
+      "imageUrl": "https://images.unsplash.com/photo-1570097703229-b195d6dd291f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxFaWZmZWwlMjBUb3dlcnxlbnwwfHx8fDE3NjExMzc1OTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Eiffel Tower"
+    },
+    {
+      "id": "bali",
+      "description": "Lush green rice terraces in Bali, Indonesia",
+      "imageUrl": "https://images.unsplash.com/photo-1643718220983-d6499832d422?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyaWNlJTIwdGVycmFjZXN8ZW58MHx8fHwxNzYxMTg5MDM1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "rice terraces"
+    },
+    {
+      "id": "andes",
+      "description": "Majestic mountains in the Andes mountain range",
+      "imageUrl": "https://images.unsplash.com/photo-1549145313-da24d87b778e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxBbmRlcyUyMG1vdW50YWluc3xlbnwwfHx8fDE3NjExODkwMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Andes mountains"
+    },
+    {
+      "id": "tokyo",
+      "description": "Shibuya crossing in Tokyo at night with vibrant city lights",
+      "imageUrl": "https://images.unsplash.com/photo-1704251550795-647ac5e50551?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8VG9reW8lMjBjcm9zc2luZ3xlbnwwfHx8fDE3NjExODkwMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Tokyo crossing"
+    },
+    {
+      "id": "santorini",
+      "description": "Iconic white buildings with blue domes in Santorini, Greece",
+      "imageUrl": "https://images.unsplash.com/photo-1580225495234-00e84e19c85e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxTYW50b3JpbmklMjBHcmVlY2V8ZW58MHx8fHwxNzYxMDcwNDk2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Santorini Greece"
+    },
+    {
+      "id": "safari",
+      "description": "Giraffes on the plains of an African safari",
+      "imageUrl": "https://images.unsplash.com/photo-1620197368014-e5a28b2101ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzYWZhcmklMjBnaXJhZmZlc3xlbnwwfHx8fDE3NjExODkwMzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "safari giraffes"
+    }
+  ]
 }
