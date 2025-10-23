@@ -203,7 +203,8 @@ export default function SettingsPage() {
                           <SelectItem value="EUR">EUR - Euro</SelectItem>
                           <SelectItem value="GBP">GBP - British Pound</SelectItem>
                         </SelectContent>
-                       </FormMessage>
+                      </Select>
+                       <FormMessage />
                     </FormItem>
                   )}
                 />
