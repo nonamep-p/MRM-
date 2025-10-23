@@ -44,9 +44,7 @@ export type SiteSettings = {
     linkedinUrl?: string;
     youtubeUrl?: string;
     pinterestUrl?: string;
-    logoIconUrl?: string;
-    logoTextUrl?: string;
-    logoSubtextUrl?: string;
+    logoUrl?: string;
 };
 
 export type HeroSlide = {

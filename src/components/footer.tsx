@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Mail, Phone, MapPin, Twitter, Instagram, Facebook, Linkedin, Youtube, Pin } from "lucide-react";
@@ -42,24 +41,10 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col">
             <Link href="/" className="flex items-center gap-2 mb-4">
-               {siteSettings?.logoIconUrl ? (
-                <>
-                  <div className="relative h-10 w-10">
-                    <Image src={siteSettings.logoIconUrl} alt="MRM Internationals Logo" fill className="object-contain" />
-                  </div>
-                  <div className="flex flex-col">
-                    {siteSettings.logoTextUrl && (
-                      <div className="relative h-5 w-28">
-                        <Image src={siteSettings.logoTextUrl} alt="Internationals" fill className="object-contain" />
-                      </div>
-                    )}
-                    {siteSettings.logoSubtextUrl && (
-                      <div className="relative h-4 w-32">
-                        <Image src={siteSettings.logoSubtextUrl} alt="Travel & Tourism" fill className="object-contain" />
-                      </div>
-                    )}
-                  </div>
-                </>
+               {siteSettings?.logoUrl ? (
+                <div className="relative h-12 w-48">
+                  <Image src={siteSettings.logoUrl} alt="MRM Internationals Logo" fill className="object-contain" />
+                </div>
               ) : (
                 <span className="font-bold text-lg">MRM Internationals</span>
               )}
@@ -148,22 +133,7 @@ export function Footer() {
                         </Link>)}
                     </div>
                 </>
-            ) : (
-                <div className="flex space-x-4">
-                    <Link href="#" className="text-foreground/80 hover:text-accent">
-                        <Twitter className="h-6 w-6" />
-                        <span className="sr-only">Twitter</span>
-                    </Link>
-                    <Link href="#" className="text-foreground/80 hover:text-accent">
-                        <Instagram className="h-6 w-6" />
-                        <span className="sr-only">Instagram</span>
-                    </Link>
-                    <Link href="#" className="text-foreground/80 hover:text-accent">
-                        <Facebook className="h-6 w-6" />
-                        <span className="sr-only">Facebook</span>
-                    </Link>
-                </div>
-            )}
+            ) : null }
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-border text-center text-sm text-foreground/60">

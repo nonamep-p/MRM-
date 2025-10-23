@@ -1,5 +1,4 @@
-
-"use client";
+'use client';
 
 import Link from "next/link";
 import Image from "next/image";
@@ -43,26 +42,12 @@ export function Header({ onContactClick }: HeaderProps) {
       <div className="container flex h-14 items-center">
         <div className="flex-1 flex items-center justify-start">
             <Link href="/" className="flex items-center gap-2">
-              {siteSettings?.logoIconUrl ? (
-                <>
-                  <div className="relative h-8 w-8">
-                    <Image src={siteSettings.logoIconUrl} alt="MRM Internationals Logo" fill className="object-contain" />
-                  </div>
-                  <div className="flex flex-col">
-                    {siteSettings.logoTextUrl && (
-                      <div className="relative h-4 w-24">
-                        <Image src={siteSettings.logoTextUrl} alt="Internationals" fill className="object-contain" />
-                      </div>
-                    )}
-                    {siteSettings.logoSubtextUrl && (
-                      <div className="relative h-3 w-28">
-                        <Image src={siteSettings.logoSubtextUrl} alt="Travel & Tourism" fill className="object-contain" />
-                      </div>
-                    )}
-                  </div>
-                </>
+              {siteSettings?.logoUrl ? (
+                <div className="relative h-10 w-32">
+                  <Image src={siteSettings.logoUrl} alt="MRM Internationals Logo" fill className="object-contain" />
+                </div>
               ) : (
-                <span className="font-bold">MRM Internationals</span>
+                <span className="font-bold text-lg">MRM Internationals</span>
               )}
             </Link>
         </div>

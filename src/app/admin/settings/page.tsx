@@ -1,4 +1,3 @@
-
 'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,9 +43,7 @@ const settingsSchema = z.object({
   linkedinUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
   youtubeUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
   pinterestUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
-  logoIconUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
-  logoTextUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
-  logoSubtextUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  logoUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -76,16 +73,11 @@ export default function SettingsPage() {
       linkedinUrl: "",
       youtubeUrl: "",
       pinterestUrl: "",
-      logoIconUrl: "",
-      logoTextUrl: "",
-      logoSubtextUrl: "",
+      logoUrl: "",
     },
   });
 
-  const watchedLogoIconUrl = form.watch("logoIconUrl");
-  const watchedLogoTextUrl = form.watch("logoTextUrl");
-  const watchedLogoSubtextUrl = form.watch("logoSubtextUrl");
-
+  const watchedLogoUrl = form.watch("logoUrl");
 
   useEffect(() => {
     if (siteSettings) {
@@ -97,20 +89,18 @@ export default function SettingsPage() {
         linkedinUrl: siteSettings.linkedinUrl || "",
         youtubeUrl: siteSettings.youtubeUrl || "",
         pinterestUrl: siteSettings.pinterestUrl || "",
-        logoIconUrl: siteSettings.logoIconUrl || "",
-        logoTextUrl: siteSettings.logoTextUrl || "",
-        logoSubtextUrl: siteSettings.logoSubtextUrl || "",
+        logoUrl: siteSettings.logoUrl || "",
       });
     }
   }, [siteSettings, form]);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, fieldName: keyof SettingsFormValues) => {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const dataUrl = reader.result as string;
-        form.setValue(fieldName, dataUrl, { shouldValidate: true });
+        form.setValue("logoUrl", dataUrl, { shouldValidate: true });
       };
       reader.readAsDataURL(file);
     }
@@ -151,14 +141,9 @@ export default function SettingsPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
                 <h3 className="text-lg font-medium">Logo Settings</h3>
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {([
-                        { name: 'logoIconUrl', label: 'Logo Icon', preview: watchedLogoIconUrl },
-                        { name: 'logoTextUrl', label: 'Logo Text', preview: watchedLogoTextUrl },
-                        { name: 'logoSubtextUrl', label: 'Logo Subtext', preview: watchedLogoSubtextUrl }
-                    ] as const).map(item => (
-                        <div key={item.name}>
-                        <FormLabel>{item.label}</FormLabel>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <div>
+                        <FormLabel>Logo</FormLabel>
                          <Tabs defaultValue="url" className="mt-2">
                             <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="url">URL</TabsTrigger>
@@ -167,7 +152,7 @@ export default function SettingsPage() {
                             <TabsContent value="url" className="pt-2">
                             <FormField
                                 control={form.control}
-                                name={item.name}
+                                name="logoUrl"
                                 render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -180,20 +165,21 @@ export default function SettingsPage() {
                             </TabsContent>
                             <TabsContent value="upload" className="pt-2">
                                 <FormControl>
-                                <Input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, item.name)} className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"/>
+                                <Input type="file" accept="image/*" onChange={(e) => handleImageUpload(e)} className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"/>
                                 </FormControl>
                             </TabsContent>
                         </Tabs>
-                        {item.preview && (
-                            <div className="mt-4 p-2 border rounded-md">
-                                <FormLabel className="text-xs">Preview</FormLabel>
-                                <div className="relative h-20 w-full bg-muted ml-4">
-                                    <Image src={item.preview} alt={`${item.label} preview`} fill className="object-contain" />
+                    </div>
+                    {watchedLogoUrl && (
+                        <div className="flex flex-col gap-2">
+                            <FormLabel>Preview</FormLabel>
+                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-32 flex items-center justify-center">
+                                <div className="relative h-28 w-full">
+                                    <Image src={watchedLogoUrl} alt="Logo preview" fill className="object-contain" />
                                 </div>
                             </div>
-                        )}
                         </div>
-                    ))}
+                    )}
                 </div>
                 
                 <Separator />
