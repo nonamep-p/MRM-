@@ -4,7 +4,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import type { TravelPackage } from '@/lib/types';
 
 import { Header } from '@/components/header';
@@ -33,8 +32,7 @@ import { CalendarDays, Check, MapPin, Plane, Tag, X } from 'lucide-react';
 export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelPackage }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   
-  const image = PlaceHolderImages.find((img) => img.id === travelPackage.image);
-  const { title, description, duration, price, location, grade, inclusions, exclusions, itinerary } = travelPackage;
+  const { title, description, duration, price, location, grade, inclusions, exclusions, itinerary, image } = travelPackage;
 
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
@@ -45,12 +43,11 @@ export function PackageDetailsClient({ travelPackage }: { travelPackage: TravelP
           <section className="relative w-full h-[60vh] flex items-center justify-center text-center text-white">
             {image && (
               <Image
-                src={image.imageUrl}
+                src={image}
                 alt={title}
                 fill
                 className="object-cover"
                 priority
-                data-ai-hint={image.imageHint}
               />
             )}
             <div className="absolute inset-0 bg-black/50" />
