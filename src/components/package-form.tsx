@@ -106,7 +106,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
     if (travelPackage) {
       form.reset({
         ...travelPackage,
-        location: travelPackage.location,
+        location: travelPackage.location || '',
         inclusions: travelPackage.inclusions?.map(v => ({value: v})) || [],
         exclusions: travelPackage.exclusions?.map(v => ({value: v})) || [],
         itinerary: travelPackage.itinerary || [],
