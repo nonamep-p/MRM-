@@ -1,5 +1,5 @@
 
-import { type DocumentReference } from 'firebase/firestore';
+import { type DocumentReference, type Timestamp } from 'firebase/firestore';
 
 export type ItineraryItem = {
   day: number;
@@ -42,4 +42,13 @@ export type HeroSlide = {
   title: string;
   description: string;
   imageUrl: string;
+};
+
+export type ContactFormSubmission = {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber?: string;
+    message: string;
+    submittedAt: Timestamp;
 };
