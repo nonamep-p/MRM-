@@ -76,10 +76,14 @@ export default function PackagesPage() {
     setPriceFilter("any");
   };
 
+  const handleContactClick = () => {
+    setIsContactOpen(true);
+  }
+
   return (
     <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
       <div className="flex flex-col min-h-screen bg-background">
-        <Header onContactClick={() => setIsContactOpen(true)} />
+        <Header onContactClick={handleContactClick} />
         <main className="flex-1 py-12 md:py-20">
           <div className="container mx-auto px-4">
             <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 font-headline">

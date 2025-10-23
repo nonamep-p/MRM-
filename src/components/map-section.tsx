@@ -2,15 +2,21 @@
 "use client";
 
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import { collection, query } from "firebase/firestore";
+import { TravelPackage } from "@/lib/types";
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-interface MapSectionProps {
-  locations: any[]; // Can be string or object
-}
-
-export function MapSection({ locations }: MapSectionProps) {
+export function MapSection() {
   const mapId = "voyage-vista-map";
+  const firestore = useFirestore();
+
+  const packagesCollection = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, "travelPackages"));
+  }, [firestore]);
+  const { data: travelPackages, isLoading } = useCollection<TravelPackage>(packagesCollection);
   
   const mapStyles = [
     {
@@ -78,7 +84,15 @@ export function MapSection({ locations }: MapSectionProps) {
     }
   ];
 
-  const hasCoordinates = locations.every(loc => loc.location && typeof loc.location === 'object' && 'lat' in loc.location && 'lng' in loc.location);
+  if (isLoading) {
+    return (
+       <div className="flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner">
+        <p>Loading map...</p>
+       </div>
+    )
+  }
+
+  const hasCoordinates = travelPackages && travelPackages.every(loc => loc.location && typeof loc.location === 'object' && 'lat' in loc.location && 'lng' in loc.location);
 
   if (!hasCoordinates) {
      return (
@@ -121,13 +135,11 @@ export function MapSection({ locations }: MapSectionProps) {
           disableDefaultUI={true}
           styles={mapStyles}
         >
-          {locations.map((loc) => (
-            <Marker key={loc.id} position={loc.location} />
+          {travelPackages?.map((loc) => (
+            <Marker key={loc.id} position={loc.location as {lat: number, lng: number}} />
           ))}
         </Map>
       </div>
     </APIProvider>
   );
 }
-
-    

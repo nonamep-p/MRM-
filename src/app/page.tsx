@@ -49,12 +49,7 @@ export default function Home() {
   const { data: heroSlides, isLoading: isLoadingSlides } = useCollection<HeroSlide>(heroSlidesCollection);
 
   const handleContactClick = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      setIsContactOpen(true);
-    }
+    setIsContactOpen(true);
   }
 
   return (
@@ -144,8 +139,18 @@ export default function Home() {
             </div>
           </section>
           
+          {/* Map Section */}
+          <section id="map" className="py-12 md:py-20 bg-primary/20">
+            <div className="container mx-auto px-4">
+               <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 font-headline">
+                Where We Go
+              </h2>
+              <MapSection />
+            </div>
+          </section>
+          
           {/* Contact Section */}
-          <section id="contact" className="py-12 md:py-20 bg-primary/20">
+          <section id="contact" className="py-12 md:py-20 bg-background">
             <div className="container mx-auto px-4 text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-headline mb-4">
                 Ready for Your Next Adventure?
@@ -160,7 +165,7 @@ export default function Home() {
           </section>
           
           {/* Personalized Recommendations Section */}
-          <section id="recommendations" className="py-12 md:py-20 bg-background">
+          <section id="recommendations" className="py-12 md:py-20 bg-primary/20">
             <div className="container mx-auto px-4">
               <PersonalizedRecommendations />
             </div>
@@ -181,5 +186,3 @@ export default function Home() {
     </Dialog>
   );
 }
-
-    
