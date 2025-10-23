@@ -434,5 +434,3 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
     </Form>
   );
 }
-
-    

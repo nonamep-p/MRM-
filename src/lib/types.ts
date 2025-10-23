@@ -1,4 +1,5 @@
 
+
 import { type DocumentReference, type Timestamp, type FieldValue } from 'firebase/firestore';
 
 export type ItineraryItem = {
