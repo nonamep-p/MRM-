@@ -5,13 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useFirestore } from "@/firebase";
-import { addDoc, collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,16 +26,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import type { TravelPackage } from "@/lib/types";
-import { Loader2, PlusCircle, Trash2 } from "lucide-react";
+import { Loader2, PlusCircle, Trash2, Upload } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 const packageSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters."),
   description: z.string().min(10, "Description must be at least 10 characters."),
   price: z.coerce.number().positive("Price must be a positive number."),
-  image: z.string().url("Please enter a valid image URL."),
+  image: z.string().url("Please enter a valid image URL or upload a file."),
   duration: z.string().min(2, "Duration is required."),
   location: z.object({
     lat: z.coerce.number().min(-90).max(90, "Latitude must be between -90 and 90."),
@@ -60,6 +61,7 @@ interface PackageFormProps {
 
 export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const firestore = useFirestore();
   const { toast } = useToast();
 
@@ -94,6 +96,13 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
     name: "itinerary",
   });
 
+  const imageUrl = form.watch("image");
+
+  useEffect(() => {
+    if (imageUrl) {
+      setImagePreview(imageUrl);
+    }
+  }, [imageUrl]);
 
   useEffect(() => {
     if (travelPackage) {
@@ -103,10 +112,25 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
         exclusions: travelPackage.exclusions?.map(v => ({value: v})) || [],
         itinerary: travelPackage.itinerary || [],
       });
+      setImagePreview(travelPackage.image);
     } else {
       form.reset();
+      setImagePreview(null);
     }
   }, [travelPackage, form]);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const dataUrl = reader.result as string;
+        form.setValue("image", dataUrl);
+        setImagePreview(dataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   async function onSubmit(values: PackageFormValues) {
     if (!firestore) {
@@ -196,19 +220,51 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Image URL</FormLabel>
-              <FormControl>
-                <Input placeholder="https://example.com/image.jpg" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <div>
+              <FormLabel>Image</FormLabel>
+              <Tabs defaultValue="url" className="mt-2">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="url">URL</TabsTrigger>
+                  <TabsTrigger value="upload">Upload</TabsTrigger>
+                </TabsList>
+                <TabsContent value="url" className="pt-2">
+                  <FormField
+                    control={form.control}
+                    name="image"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="https://example.com/image.jpg" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TabsContent>
+                <TabsContent value="upload" className="pt-2">
+                    <FormControl>
+                      <Input type="file" accept="image/*" onChange={handleImageUpload} className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"/>
+                    </FormControl>
+                </TabsContent>
+              </Tabs>
+            </div>
+             {imagePreview && (
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Preview</FormLabel>
+                  <div className="relative w-full h-40 rounded-md border bg-muted overflow-hidden">
+                      <Image
+                        src={imagePreview}
+                        alt="Package image preview"
+                        fill
+                        className="object-cover"
+                      />
+                  </div>
+                </div>
+            )}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
               control={form.control}
@@ -230,7 +286,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
                     <FormItem>
                         <FormLabel>Latitude</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="48.8566" {...field} />
+                            <Input type="number" step="any" placeholder="48.8566" {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -243,7 +299,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
                     <FormItem>
                         <FormLabel>Longitude</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="2.3522" {...field} />
+                            <Input type="number" step="any" placeholder="2.3522" {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -397,3 +453,5 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
     </Form>
   );
 }
+
+    
