@@ -25,18 +25,18 @@ export function initializeFirebase() {
       firebaseApp = initializeApp(firebaseConfig);
     }
 
-    return getSdks(firebaseApp);
+    const auth = getAuth(firebaseApp);
+    const firestore = getFirestore(firebaseApp);
+    return { firebaseApp, auth, firestore };
+
   }
-
+  
   // If already initialized, return the SDKs with the already initialized App
-  return getSdks(getApp());
-}
-
-export function getSdks(firebaseApp: FirebaseApp) {
-  return {
-    firebaseApp,
-    auth: getAuth(firebaseApp),
-    firestore: getFirestore(firebaseApp)
+  const firebaseApp = getApp();
+  return { 
+    firebaseApp, 
+    auth: getAuth(firebaseApp), 
+    firestore: getFirestore(firebaseApp) 
   };
 }
 

@@ -1,13 +1,13 @@
 
 import { doc, getDoc } from 'firebase/firestore';
-import { getSdks } from '@/firebase';
+import { getSdks } from '@/firebase/firebase-server';
 import { notFound } from 'next/navigation';
 import type { TravelPackage } from '@/lib/types';
 import { PackageDetailsClient } from './package-details-client';
 
 async function getPackage(id: string): Promise<TravelPackage | null> {
     // We cannot use the useFirestore hook here as this is a Server Component.
-    // Instead, we get a new firestore instance.
+    // Instead, we get a new firestore instance from the server-only function.
     const { firestore } = getSdks();
     const docRef = doc(firestore, 'travelPackages', id);
     const docSnap = await getDoc(docRef);
