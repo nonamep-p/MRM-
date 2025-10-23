@@ -33,12 +33,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Award, CalendarDays, Check, Clock, MapPin, Plane, Tag, X } from 'lucide-react';
 
 export default function PackageDetailsPage({
-  params,
+  params: { id },
 }: {
   params: { id: string };
 }) {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const { id } = params;
   const travelPackage = travelPackages.find((p) => p.id === id);
 
   if (!travelPackage) {
