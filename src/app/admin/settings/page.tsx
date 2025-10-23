@@ -38,15 +38,15 @@ const settingsSchema = z.object({
   phone: z.string().min(1, "Phone number is required."),
   email: z.string().email("Invalid email address."),
   defaultCurrency: z.enum(['AED', 'USD', 'EUR', 'GBP']),
-  twitterUrl: z.string().url().or(z.literal('')),
-  instagramUrl: z.string().url().or(z.literal('')),
-  facebookUrl: z.string().url().or(z.literal('')),
-  linkedinUrl: z.string().url().or(z.literal('')),
-  youtubeUrl: z.string().url().or(z.literal('')),
-  pinterestUrl: z.string().url().or(z.literal('')),
-  logoIconUrl: z.string().url().or(z.literal('')),
-  logoTextUrl: z.string().url().or(z.literal('')),
-  logoSubtextUrl: z.string().url().or(z.literal('')),
+  twitterUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  instagramUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  facebookUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  linkedinUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  youtubeUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  pinterestUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  logoIconUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  logoTextUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  logoSubtextUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -91,6 +91,12 @@ export default function SettingsPage() {
     if (siteSettings) {
       form.reset({
         ...siteSettings,
+        twitterUrl: siteSettings.twitterUrl || "",
+        instagramUrl: siteSettings.instagramUrl || "",
+        facebookUrl: siteSettings.facebookUrl || "",
+        linkedinUrl: siteSettings.linkedinUrl || "",
+        youtubeUrl: siteSettings.youtubeUrl || "",
+        pinterestUrl: siteSettings.pinterestUrl || "",
         logoIconUrl: siteSettings.logoIconUrl || "",
         logoTextUrl: siteSettings.logoTextUrl || "",
         logoSubtextUrl: siteSettings.logoSubtextUrl || "",
@@ -183,7 +189,7 @@ export default function SettingsPage() {
                                 <FormLabel className="text-xs">Preview</FormLabel>
                                 <div className="relative h-16 w-full bg-muted">
                                     <Image src={item.preview} alt={`${item.label} preview`} fill className="object-contain" />
-                                _</div>
+                                </div>
                             </div>
                         )}
                         </div>
@@ -264,7 +270,7 @@ export default function SettingsPage() {
 
                 <Separator />
                 
-                <h3 className="text-lg font-medium">Social Media URLs</h3>
+                <h3 className="text-lg font-medium">Social Media URLs (Optional)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                         control={form.control}
@@ -358,5 +364,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-
-    

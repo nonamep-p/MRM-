@@ -25,6 +25,16 @@ export function Footer() {
   }, [firestore]);
 
   const { data: siteSettings, isLoading } = useDoc<SiteSettings>(settingsDocRef);
+  
+  const hasSocials = siteSettings && (
+      siteSettings.twitterUrl ||
+      siteSettings.instagramUrl ||
+      siteSettings.facebookUrl ||
+      siteSettings.linkedinUrl ||
+      siteSettings.youtubeUrl ||
+      siteSettings.pinterestUrl
+  );
+
 
   return (
     <footer className="bg-primary/50 text-foreground">
@@ -99,40 +109,45 @@ export function Footer() {
             )}
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-4 font-headline">Follow Us</h3>
-             {isLoading ? (
-                <div className="flex space-x-4">
-                    <Skeleton className="h-6 w-6 rounded-full" />
-                    <Skeleton className="h-6 w-6 rounded-full" />
-                    <Skeleton className="h-6 w-6 rounded-full" />
+            {isLoading ? (
+                 <div className="space-y-4">
+                    <Skeleton className="h-6 w-24" />
+                    <div className="flex space-x-4">
+                        <Skeleton className="h-6 w-6 rounded-full" />
+                        <Skeleton className="h-6 w-6 rounded-full" />
+                        <Skeleton className="h-6 w-6 rounded-full" />
+                    </div>
                 </div>
-            ) : siteSettings ? (
-                <div className="flex space-x-4">
-                    {siteSettings.twitterUrl && (<Link href={siteSettings.twitterUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
-                        <Twitter className="h-6 w-6" />
-                        <span className="sr-only">Twitter</span>
-                    </Link>)}
-                     {siteSettings.instagramUrl && (<Link href={siteSettings.instagramUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
-                        <Instagram className="h-6 w-6" />
-                        <span className="sr-only">Instagram</span>
-                    </Link>)}
-                     {siteSettings.facebookUrl && (<Link href={siteSettings.facebookUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
-                        <Facebook className="h-6 w-6" />
-                        <span className="sr-only">Facebook</span>
-                    </Link>)}
-                    {siteSettings.linkedinUrl && (<Link href={siteSettings.linkedinUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
-                        <Linkedin className="h-6 w-6" />
-                        <span className="sr-only">LinkedIn</span>
-                    </Link>)}
-                    {siteSettings.youtubeUrl && (<Link href={siteSettings.youtubeUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
-                        <Youtube className="h-6 w-6" />
-                        <span className="sr-only">YouTube</span>
-                    </Link>)}
-                    {siteSettings.pinterestUrl && (<Link href={siteSettings.pinterestUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
-                        <PinterestIcon className="h-6 w-6" />
-                        <span className="sr-only">Pinterest</span>
-                    </Link>)}
-                </div>
+            ) : hasSocials ? (
+                <>
+                    <h3 className="text-lg font-semibold mb-4 font-headline">Follow Us</h3>
+                    <div className="flex space-x-4">
+                        {siteSettings.twitterUrl && (<Link href={siteSettings.twitterUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                            <Twitter className="h-6 w-6" />
+                            <span className="sr-only">Twitter</span>
+                        </Link>)}
+                        {siteSettings.instagramUrl && (<Link href={siteSettings.instagramUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                            <Instagram className="h-6 w-6" />
+                            <span className="sr-only">Instagram</span>
+                        </Link>)}
+                        {siteSettings.facebookUrl && (<Link href={siteSettings.facebookUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                            <Facebook className="h-6 w-6" />
+                            <span className="sr-only">Facebook</span>
+                        </Link>)}
+                        {siteSettings.linkedinUrl && (<Link href={siteSettings.linkedinUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                            <Linkedin className="h-6 w-6" />
+                            <span className="sr-only">LinkedIn</span>
+                        </Link>)}
+                        {siteSettings.youtubeUrl && (<Link href={siteSettings.youtubeUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                            <Youtube className="h-6 w-6" />
+                            <span className="sr-only">YouTube</span>
+                        </Link>)}
+                        {siteSettings.pinterestUrl && (<Link href={siteSettings.pinterestUrl} className="text-foreground/80 hover:text-accent" target="_blank" rel="noopener noreferrer">
+                            <PinterestIcon className="h-6 w-6" />
+                            <span className="sr-only">Pinterest</span>
+                        </Link>)}
+                    </div>
+                </>
             ) : (
                 <div className="flex space-x-4">
                     <Link href="#" className="text-foreground/80 hover:text-accent">
@@ -158,5 +173,3 @@ export function Footer() {
     </footer>
   );
 }
-
-    
