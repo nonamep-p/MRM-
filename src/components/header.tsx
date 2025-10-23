@@ -82,7 +82,7 @@ export function Header({ onContactClick }: HeaderProps) {
         <div className="flex flex-1 items-center justify-end space-x-4">
           {!isUserLoading && user ? (
             <>
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" asChild className="ml-4 text-base">
                 <Link href="/admin">
                   <User className="mr-2 h-4 w-4" /> Admin
                 </Link>
@@ -106,5 +106,3 @@ export function Header({ onContactClick }: HeaderProps) {
     </header>
   );
 }
-
-    
