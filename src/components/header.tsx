@@ -119,24 +119,7 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-20 items-center justify-between px-4 md:grid md:grid-cols-[auto_1fr_auto] md:px-6">
-        
-        {/* Logo - First column in grid on desktop */}
-        <div className="md:justify-self-start">
-            <Logo />
-        </div>
-        
-        {/* Centered Nav - Second column in grid on desktop */}
-        <div className="hidden md:flex justify-center">
-          <NavMenu />
-        </div>
-        
-        {/* Action Buttons - Third column in grid on desktop */}
-        <div className="hidden md:flex justify-end">
-          <ActionButtons />
-        </div>
-        
-        {/* Mobile Menu - Only shown when grid is not active */}
+      <div className="container flex h-20 items-center justify-between">
         <div className="md:hidden flex items-center">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
@@ -145,7 +128,7 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:w-[300px] p-0 flex flex-col">
+            <SheetContent side="left" className="w-full sm:w-[300px] p-0 flex flex-col">
               <SheetHeader className="p-4 border-b">
                  <SheetTitle>Navigation</SheetTitle>
               </SheetHeader>
@@ -154,6 +137,24 @@ export function Header({ onContactClick }: { onContactClick?: () => void }) {
             </SheetContent>
           </Sheet>
         </div>
+        
+        <div className="hidden md:flex">
+          <Logo />
+        </div>
+        
+        <div className="flex-grow flex justify-center">
+          <NavMenu />
+        </div>
+        
+        <div className="flex justify-end">
+          <div className="md:hidden">
+            <Logo />
+          </div>
+          <div className="hidden md:flex">
+            <ActionButtons />
+          </div>
+        </div>
+
       </div>
     </header>
   );

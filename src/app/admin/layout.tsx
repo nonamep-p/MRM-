@@ -4,13 +4,13 @@
 import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Package, Settings, Image, MessageSquare, CalendarCheck, Menu, X, LayoutDashboard } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 
 export default function AdminLayout({
   children,
@@ -102,7 +102,7 @@ export default function AdminLayout({
               </Sheet>
             </div>
             
-            <main className="flex-1 bg-background overflow-y-auto">
+            <main className="flex-1 bg-background overflow-y-auto p-4 md:p-8">
               <Button variant="ghost" size="icon" className="hidden md:inline-flex fixed top-20 left-2 z-40 bg-background/50 backdrop-blur-sm" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                 {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>

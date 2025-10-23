@@ -1,5 +1,6 @@
 {
   "/admin/packages/page": "app/admin/packages/page.js",
   "/admin/page": "app/admin/page.js",
-  "/login/page": "app/login/page.js"
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js"
 }
