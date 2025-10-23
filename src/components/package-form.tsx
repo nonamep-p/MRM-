@@ -73,7 +73,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
       title: "",
       description: "",
       price: 0,
-      currency: "USD",
+      currency: "AED",
       image: "",
       duration: "",
       location: { lat: 0, lng: 0 },
@@ -285,6 +285,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="AED">AED</SelectItem>
                       <SelectItem value="USD">USD</SelectItem>
                       <SelectItem value="EUR">EUR</SelectItem>
                       <SelectItem value="GBP">GBP</SelectItem>
