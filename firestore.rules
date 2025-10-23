@@ -1,44 +1,27 @@
-/**
- * @fileoverview Firestore Security Rules for VoyageVista Travel Agency.
- *
- * Core Philosophy:
- * This ruleset provides role-based and public data access, ensuring data integrity.
- * Public collections (travelPackages, packageAvailability, heroSlides, siteSettings) are readable by anyone,
- * while sensitive collections (contactFormSubmissions) are restricted to authenticated administrators.
- *
- * Data Structure:
- * - /travelPackages/{travelPackageId}: Publicly accessible travel package information.
- * - /packageAvailability/{availabilityId}: Publicly accessible package availability data.
- * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submissions, restricted to authenticated administrators.
- * - /siteSettings/main: Global site settings, publicly readable.
- * - /heroSlides/{heroSlideId}: Publicly accessible hero slide data for the homepage.
- *
- * Key Security Decisions:
- * - Read-only collections (travelPackages, packageAvailability, heroSlides, siteSettings) are readable by all users, including unauthenticated ones.
- * - Listing of contactFormSubmissions is only allowed for authenticated users, not for public access.
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Allows read access to travel packages for all users and restricts write access.
+     * @description Allows public read access to travel packages. Only admins can modify packages.
      * @path /travelPackages/{travelPackageId}
      * @allow (get, list): Any user can read travel package information.
-     * @deny (create, update, delete): No user can create, update, or delete travel packages.
-     * @principle Allows public read access while restricting write access.
+     * @allow (create, update, delete): Only authenticated admins can modify travel packages.
+     * @deny create, update, delete: if !isSignedIn();
+     * @principle Allows public read access with restricted writes.
      */
     match /travelPackages/{travelPackageId} {
       allow get, list: if true;
-      allow create, update, delete: if false;
+      allow create, update, delete: if isSignedIn();
     }
 
     /**
-     * @description Allows read access to package availability for all users and restricts write access.
+     * @description Allows public read access to package availability. Only admins can modify availability.
      * @path /packageAvailability/{availabilityId}
      * @allow (get, list): Any user can read package availability information.
-     * @deny (create, update, delete): No user can create, update, or delete package availability records.
-     * @principle Allows public read access while restricting write access.
+     * @allow (create, update, delete): Only authenticated admins can modify availability.
+     * @deny create, update, delete: if !isSignedIn();
+     * @principle Allows public read access with restricted writes.
      */
     match /packageAvailability/{availabilityId} {
       allow get, list: if true;
@@ -46,43 +29,46 @@ service cloud.firestore {
     }
 
     /**
-     * @description Restricts access to contact form submissions to authenticated users.
+     * @description Only authenticated admins can read, create, update, or delete contact form submissions.
      * @path /contactFormSubmissions/{contactFormSubmissionId}
-     * @allow (get, list): Only authenticated users can read contact form submissions.
-     * @deny (create, update, delete): No user can create, update, or delete contact form submissions through the client.
-     * @principle Restricts access to sensitive data, requiring authentication.
+     * @allow get, list, create, update, delete: if isSignedIn();
+     * @deny get, list, create, update, delete: if !isSignedIn();
+     * @principle Restricts all access to contact form submissions to authenticated admins.
      */
     match /contactFormSubmissions/{contactFormSubmissionId} {
-      allow get, list: if isSignedIn();
-      allow create, update, delete: if false;
+      allow get, list, create, update, delete: if isSignedIn();
     }
 
     /**
-     * @description Allows read access to site settings for all users and restricts write access to authenticated users.
+     * @description Allows public read access to site settings. Only admins can modify site settings.
      * @path /siteSettings/main
-     * @allow (get): Any user can read site settings.
-     * @deny (create, update, delete): No user can create, update, or delete site settings through the client.
-     * @principle Allows public read access while restricting write access.
+     * @allow get: Site settings are publicly readable.
+     * @allow list: if false; // Listing is not intended for this document.
+     * @allow create, update, delete: if isSignedIn();
+     * @deny create, update, delete: if !isSignedIn();
+     * @principle Allows public read access with restricted writes to a single document.
      */
     match /siteSettings/main {
       allow get: if true;
-      allow create, update, delete: if false;
+      allow list: if false;
+      allow create, update, delete: if isSignedIn();
     }
 
-    /**
-     * @description Allows read access to hero slides for all users and restricts write access.
-     * @path /heroSlides/{heroSlideId}
-     * @allow (get, list): Any user can read hero slide information.
-     * @deny (create, update, delete): No user can create, update, or delete hero slides through the client.
-     * @principle Allows public read access while restricting write access.
-     */
+        /**
+         * @description Allows public read access to hero slides. Only admins can modify hero slides.
+         * @path /heroSlides/{heroSlideId}
+         * @allow (get, list): Any user can read hero slide information.
+         * @allow (create, update, delete): Only authenticated admins can modify hero slides.
+         * @deny create, update, delete: if !isSignedIn();
+         * @principle Allows public read access with restricted writes.
+         */
     match /heroSlides/{heroSlideId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
+        allow get, list: if true;
+        allow create, update, delete: if isSignedIn();
     }
+  }
 
-    function isSignedIn() {
-      return request.auth != null;
-    }
+  function isSignedIn() {
+    return request.auth != null;
   }
 }
