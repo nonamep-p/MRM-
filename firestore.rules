@@ -1,70 +1,74 @@
 /**
- * @fileoverview Firestore Security Rules for VoyageVista Travel Agency.
- *
- * Core Philosophy:
- * This ruleset prioritizes a public-read, restricted-write model for travel packages and a restricted-access model for contact form submissions.
- *
- * Data Structure:
- * - /travelPackages/{travelPackageId}: Publicly accessible travel package information.
- * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submissions, accessible only to authenticated admins.
- * - /siteSettings/main: Publicly accessible site-wide settings, writable only by authenticated admins.
- *
- * Key Security Decisions:
- * - Travel packages are publicly readable, but write access is implicitly denied.
- * - Contact form submissions are only accessible to authenticated administrators, ensuring privacy.
- * - Site settings are publicly readable, but write-protected to prevent unauthorized modifications.
- *
- * Denormalization for Authorization:
- * Authorization decisions are made without the need for denormalization as there is no user-specific data, so no `get()` calls are used.
- *
- * Structural Segregation:
- * Public data (travel packages) and private data (contact form submissions) are stored in separate collections, enabling simpler and more secure rules.
+ * @description This ruleset enforces a public read policy for travel packages, hero slides, and site settings,
+ * and an admin-only access policy for contact form submissions.
+ * @dataStructure
+ * - /travelPackages/{travelPackageId}: Publicly readable travel package data.
+ * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submissions, only accessible to authenticated admins.
+ * - /siteSettings/main: Publicly readable site-wide settings.
+ * - /heroSlides/{heroSlideId}: Publicly readable hero slide data.
+ * @keySecurityDecisions
+ * - Travel packages and hero slides are publicly readable.
+ * - Contact form submissions are only accessible to authenticated admins.
+ * - Site settings are publicly readable, but writable only by authenticated admins.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Allows anyone to read travel package information, but restricts write access.
+     * @description Allows anyone to read travel package information, but restricts creation, updates, and deletion to authenticated admins.
      * @path /travelPackages/{travelPackageId}
-     * @allow (get, list) Anyone can read travel packages.
-     * @deny (create, update, delete) No one can create, update, or delete travel packages through the client.
-     * @principle Allows public read access for travel package information.
+     * @allow (get, list): if true - Allows any user (authenticated or not) to read travel package information.
+     * @allow (create, update, delete): if isSignedIn() - Allows authenticated admins to create, update, and delete travel packages.
+     * @deny (create, update, delete): if !isSignedIn() - Denies unauthenticated users from creating, updating, or deleting travel packages.
+     * @principle Allows public reads, restricts writes to authenticated admins.
      */
     match /travelPackages/{travelPackageId} {
       allow get, list: if true;
-      allow create, update, delete: if false;
+      allow create, update, delete: if isSignedIn();
     }
 
     /**
      * @description Restricts access to contact form submissions to authenticated admins only.
      * @path /contactFormSubmissions/{contactFormSubmissionId}
-     * @allow (create) Anyone can create a contact form submission.
-     * @allow (get, list) Only authenticated users can read contact form submissions.
-     * @deny (update, delete) No one can update or delete contact form submissions through the client.
-     * @principle Enforces access control for sensitive contact form data.
+     * @allow (get, list): if isSignedIn() - Allows authenticated admins to read contact form submissions.
+     * @allow create, update, delete: if isSignedIn();
+     * @deny (get, list, create, update, delete): if !isSignedIn() - Denies unauthenticated users from accessing contact form submissions.
+     * @principle Enforces strict admin-only access for sensitive contact form data.
      */
     match /contactFormSubmissions/{contactFormSubmissionId} {
       allow get, list: if isSignedIn();
-      allow create: if true;
-      allow update, delete: if false;
+      allow create, update, delete: if isSignedIn();
     }
 
     /**
-     * @description Allows anyone to read site settings, but restricts write access to authenticated admins only.
+     * @description Allows anyone to read site settings, but restricts creation, updates, and deletion to authenticated admins.
      * @path /siteSettings/main
-     * @allow (get) Anyone can read site settings.
-     * @deny (create, update, delete, list) No one can create, update, or delete the site settings document.
-     * @principle Protects global site configurations from unauthorized changes.
+     * @allow (get): if true - Allows any user (authenticated or not) to read site settings.
+     * @allow (create, update, delete): if isSignedIn() - Allows authenticated admins to create, update, and delete site settings.
+     * @deny (create, update, delete): if !isSignedIn() - Denies unauthenticated users from creating, updating, or deleting site settings.
+     * @principle Allows public reads, restricts writes to authenticated admins.
      */
     match /siteSettings/main {
-        allow get: if true;
-        allow list: if false;
-        allow create, update, delete: if isSignedIn();
+      allow get: if true;
+      allow create, update, delete: if isSignedIn();
     }
 
-    function isSignedIn() {
-      return request.auth != null;
+    /**
+     * @description Allows anyone to read hero slide information, but restricts creation, updates, and deletion to authenticated admins.
+     * @path /heroSlides/{heroSlideId}
+     * @allow (get, list): if true - Allows any user (authenticated or not) to read hero slide information.
+     * @allow (create, update, delete): if isSignedIn() - Allows authenticated admins to create, update, and delete hero slides.
+     * @deny (create, update, delete): if !isSignedIn() - Denies unauthenticated users from creating, updating, or deleting hero slides.
+     * @principle Allows public reads, restricts writes to authenticated admins.
+     */
+    match /heroSlides/{heroSlideId} {
+      allow get, list: if true;
+      allow create, update, delete: if isSignedIn();
     }
+  }
+
+  function isSignedIn() {
+    return request.auth != null;
   }
 }
