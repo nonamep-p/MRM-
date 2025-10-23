@@ -9,6 +9,7 @@ export const travelPackages: TravelPackage[] = [
     image: 'paris',
     duration: '7 Days',
     location: { lat: 48.8566, lng: 2.3522 },
+    inclusions: ['Round-trip flights', '4-star hotel', 'Eiffel Tower Tour', 'Daily breakfast']
   },
   {
     id: 'bali',
@@ -18,6 +19,7 @@ export const travelPackages: TravelPackage[] = [
     image: 'bali',
     duration: '10 Days',
     location: { lat: -8.3405, lng: 115.092 },
+    inclusions: ['Round-trip flights', 'Beachfront villa', 'Surfing lessons', 'Yoga sessions']
   },
   {
     id: 'andes',
@@ -27,6 +29,7 @@ export const travelPackages: TravelPackage[] = [
     image: 'andes',
     duration: '12 Days',
     location: { lat: -13.1631, lng: -72.545 },
+    inclusions: ['Guided treks', 'Machu Picchu entry', 'Local guide', 'All transportation']
   },
   {
     id: 'tokyo',
@@ -36,6 +39,7 @@ export const travelPackages: TravelPackage[] = [
     image: 'tokyo',
     duration: '8 Days',
     location: { lat: 35.6762, lng: 139.6503 },
+    inclusions: ['Round-trip flights', 'Capsule hotel stay', 'Sushi making class', 'Robot Restaurant show']
   },
   {
     id: 'santorini',
@@ -45,6 +49,7 @@ export const travelPackages: TravelPackage[] = [
     image: 'santorini',
     duration: '6 Days',
     location: { lat: 36.3932, lng: 25.4615 },
+    inclusions: ['Round-trip flights', 'Caldera view hotel', 'Sunset cruise', 'Wine tasting tour']
   },
   {
     id: 'safari',
@@ -54,5 +59,6 @@ export const travelPackages: TravelPackage[] = [
     image: 'safari',
     duration: '9 Days',
     location: { lat: -2.154, lng: 34.6857 },
+    inclusions: ['Guided game drives', 'Luxury tented camp', 'All meals', 'Park fees']
   },
 ];

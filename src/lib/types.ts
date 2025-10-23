@@ -9,4 +9,5 @@ export type TravelPackage = {
     lat: number;
     lng: number;
   };
+  inclusions?: string[];
 };
