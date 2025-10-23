@@ -1,3 +1,5 @@
+
+"use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/header";
@@ -9,6 +11,13 @@ import { PersonalizedRecommendations } from "@/components/personalized-recommend
 import { travelPackages } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find((img) => img.id === "hero");
@@ -52,11 +61,25 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 font-headline">
               Featured Travel Packages
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {travelPackages.map((pkg) => (
-                <PackageCard key={pkg.id} travelPackage={pkg} />
-              ))}
-            </div>
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {travelPackages.map((pkg) => (
+                  <CarouselItem key={pkg.id} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1">
+                      <PackageCard travelPackage={pkg} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex" />
+              <CarouselNext className="hidden sm:flex" />
+            </Carousel>
           </div>
         </section>
         
