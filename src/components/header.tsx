@@ -1,13 +1,27 @@
+
+"use client";
+
 import Link from "next/link";
-import { Compass } from "lucide-react";
+import { Compass, LogOut, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { DialogTrigger } from "./ui/dialog";
+import { useAuth, useUser } from "@/firebase";
+import { getAuth } from "firebase/auth";
 
 interface HeaderProps {
   onContactClick: () => void;
 }
 
 export function Header({ onContactClick }: HeaderProps) {
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
+
+  const handleSignOut = () => {
+    if (auth) {
+      auth.signOut();
+    }
+  };
+
   const navLinks = [
     { name: "Packages", href: "/packages" },
     { name: "Destinations", href: "/#map" },
@@ -39,14 +53,27 @@ export function Header({ onContactClick }: HeaderProps) {
             </div>
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <DialogTrigger asChild>
-            <Button 
-              onClick={onContactClick} 
-              className="bg-accent hover:bg-accent/90 text-accent-foreground"
-            >
-              Contact Us
-            </Button>
-          </DialogTrigger>
+          {!isUserLoading && user ? (
+            <>
+              <Button variant="ghost" asChild>
+                <Link href="/admin">
+                  <User className="mr-2 h-4 w-4" /> Admin
+                </Link>
+              </Button>
+              <Button variant="outline" onClick={handleSignOut}>
+                <LogOut className="mr-2 h-4 w-4" /> Sign Out
+              </Button>
+            </>
+          ) : (
+            <DialogTrigger asChild>
+              <Button 
+                onClick={onContactClick} 
+                className="bg-accent hover:bg-accent/90 text-accent-foreground"
+              >
+                Contact Us
+              </Button>
+            </DialogTrigger>
+          )}
         </div>
       </div>
     </header>
