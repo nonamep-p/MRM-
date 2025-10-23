@@ -107,14 +107,8 @@ export function Header({ onContactClick }: HeaderProps) {
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="right" className="w-full sm:w-[300px] p-0">
+                  <SheetContent side="right" className="w-full sm:w-[300px] pt-12">
                     <div className="flex flex-col h-full">
-                       <div className="p-6 border-b">
-                         <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}} onClick={() => setIsSheetOpen(false)}>
-                           {siteSettings?.logoUrl && <div className="relative h-10 flex-shrink-0"><Image src={siteSettings.logoUrl} alt="Logo" height={40} width={120} style={{objectFit: "contain"}}/></div>}
-                           {siteSettings?.logoText && <span className={cn("font-bold", siteSettings.logoTextSize)} style={{color: siteSettings.logoTextColor}}>{siteSettings.logoText}</span>}
-                         </Link>
-                       </div>
                        <nav className="flex flex-col space-y-2 p-6 text-lg">
                           {navLinks.map((link) => (
                               <SheetClose asChild key={link.href}>
@@ -124,7 +118,7 @@ export function Header({ onContactClick }: HeaderProps) {
                        </nav>
                        <div className="mt-auto p-6 border-t">
                           <SheetClose asChild>
-                            <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" onClick={onContactClick}>
+                            <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => {onContactClick(); setIsSheetOpen(false);}}>
                               {contactLink.name}
                             </Button>
                           </SheetClose>
