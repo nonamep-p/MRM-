@@ -15,7 +15,11 @@ export type TravelPackage = {
   price: number;
   image: string;
   duration: string;
-  location: string;
+  location: {
+    lat: number;
+    lng: number;
+    name: string;
+  };
   category: 'Luxury' | 'Comfort' | 'Adventure' | 'Family' | 'Honeymoon' | 'Cultural' | 'Budget' | 'Romantic';
   inclusions?: string[];
   exclusions?: string[];
@@ -72,9 +76,3 @@ export type ContactFormSubmission = {
     sourcePackage?: string; // e.g., The title of the package they were viewing
     status: 'Pending' | 'Confirmed' | 'Canceled';
 };
-
-    
-
-    
-
-    

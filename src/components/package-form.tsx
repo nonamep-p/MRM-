@@ -39,7 +39,11 @@ const packageSchema = z.object({
   price: z.coerce.number().positive("Price must be a positive number."),
   image: z.string().url("Please enter a valid image URL or upload a file."),
   duration: z.string().min(2, "Duration is required."),
-  location: z.string().min(2, "Location is required."),
+  location: z.object({
+    name: z.string().min(1, "Location name is required."),
+    lat: z.coerce.number(),
+    lng: z.coerce.number(),
+  }),
   category: z.enum(['Luxury', 'Comfort', 'Adventure', 'Family', 'Honeymoon', 'Cultural', 'Budget', 'Romantic']),
   inclusions: z.array(z.object({ value: z.string().min(1, "Inclusion cannot be empty.") })).optional(),
   exclusions: z.array(z.object({ value: z.string().min(1, "Exclusion cannot be empty.") })).optional(),
@@ -71,7 +75,7 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
       price: 0,
       image: "",
       duration: "",
-      location: "",
+      location: { name: "", lat: 0, lng: 0 },
       category: 'Comfort',
       inclusions: [],
       exclusions: [],
@@ -106,7 +110,6 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
     if (travelPackage) {
       form.reset({
         ...travelPackage,
-        location: travelPackage.location || '',
         inclusions: travelPackage.inclusions?.map(v => ({value: v})) || [],
         exclusions: travelPackage.exclusions?.map(v => ({value: v})) || [],
         itinerary: travelPackage.itinerary || [],
@@ -268,14 +271,42 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
                 </FormItem>
                 )}
             />
-            <FormField
+             <FormField
                 control={form.control}
-                name="location"
+                name="location.name"
                 render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Location</FormLabel>
+                    <FormLabel>Location Name</FormLabel>
                     <FormControl>
                     <Input placeholder="e.g., Paris, France" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <FormField
+                control={form.control}
+                name="location.lat"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Latitude</FormLabel>
+                    <FormControl>
+                    <Input type="number" placeholder="48.8566" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+             <FormField
+                control={form.control}
+                name="location.lng"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Longitude</FormLabel>
+                    <FormControl>
+                    <Input type="number" placeholder="2.3522" {...field} />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -435,5 +466,3 @@ export function PackageForm({ travelPackage, onSuccess }: PackageFormProps) {
     </Form>
   );
 }
-
-    

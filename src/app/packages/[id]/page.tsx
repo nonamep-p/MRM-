@@ -32,25 +32,14 @@ async function getPageData(id: string): Promise<PackageDetailsProps> {
         getDocs(availabilityQuery)
     ]);
 
-    let travelPackage: TravelPackage | null = null;
-    if (packageSnap.exists()) {
-        const data = packageSnap.data();
-        travelPackage = {
-            id: packageSnap.id,
-            title: data.title,
-            description: data.description,
-            price: data.price,
-            image: data.image,
-            duration: data.duration,
-            location: data.location,
-            category: data.category,
-            inclusions: data.inclusions,
-            exclusions: data.exclusions,
-            itinerary: data.itinerary,
-        };
-    } else {
+    if (!packageSnap.exists()) {
         notFound();
     }
+    
+    const travelPackage = {
+        id: packageSnap.id,
+        ...packageSnap.data(),
+    } as TravelPackage;
     
     const siteSettings = settingsSnap.exists() ? settingsSnap.data() as SiteSettings : null;
 
@@ -85,5 +74,3 @@ export default async function PackageDetailsPage({
 
   return <PackageDetailsClient travelPackage={travelPackage} siteSettings={siteSettings} availability={availability} />;
 }
-
-    
