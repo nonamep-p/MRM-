@@ -1,52 +1,46 @@
 /**
- * @fileoverview Firestore Security Rules for VoyageVista.
+ * @fileoverview Firestore Security Rules for VoyageVista Travel Agency.
  *
  * Core Philosophy:
- * This ruleset provides public read access to travel packages and restricts access to contact form submissions to authenticated users only. There is no user-specific data, so ownership is not a factor.
+ * This ruleset implements a public read, owner-write model for travel packages and restricts access to contact form submissions to authenticated users.
  *
  * Data Structure:
- * - /travelPackages/{travelPackageId}: Stores publicly accessible travel package data.
- * - /contactFormSubmissions/{contactFormSubmissionId}: Stores private contact form submissions.
+ * - /travelPackages/{travelPackageId}: Publicly accessible travel package data.
+ * - /contactFormSubmissions/{contactFormSubmissionId}: Contact form submission data, restricted to authenticated users.
  *
  * Key Security Decisions:
- * - Public read access for travel packages allows for open listing and retrieval.
- * - Contact form submissions are only accessible to authenticated users, ensuring privacy.
+ * - Travel Packages: Read access is public. Write access is not available since there is no author field in the schema to validate the user's access.
+ * - Contact Form Submissions: Only authenticated users have access.
+ *
+ * Note: This ruleset does not implement full schema validation in order to allow for rapid prototyping.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Allows anyone to read travel packages, but restricts writes.
+     * @description Allows anyone to read travel package information, but restricts modification, creation and deletion.
      * @path /travelPackages/{travelPackageId}
-     * @allow (get, list) Anyone can read travel packages.
-     * @allow (create) Anyone can create a travel package.
-     * @deny (create, update, delete) No one can update or delete travel packages without authentication.
-     * @principle Allows public read access to travel packages.
+     * @allow get, list: Anyone can read travel packages.
+     * @deny create, update, delete: No one can create, update or delete travel packages.
+     * @principle Public read-only access with no write access.
      */
     match /travelPackages/{travelPackageId} {
       allow get, list: if true;
-      allow create: if isSignedIn();
-      allow update, delete: if false;
+      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
     }
 
     /**
-     * @description Restricts access to contact form submissions to authenticated users only.
+     * @description Allows only authenticated users to read contact form submissions.
      * @path /contactFormSubmissions/{contactFormSubmissionId}
-     * @allow (create) Any signed-in user can create a contact form submission.
-     * @allow (get, list) Only signed-in users can read contact form submissions.
-     * @deny (update, delete) No one can update or delete contact form submissions.
-     * @principle Restricts access to contact form submissions to authenticated users.
+     * @allow get, list, create, update, delete: Only authenticated users can access contact form submissions.
+     * @deny get, list, create, update, delete: Requests without authentication.
+     * @principle Authenticated-only access.
      */
     match /contactFormSubmissions/{contactFormSubmissionId} {
-      allow get, list: if isSignedIn();
-      allow create: if isSignedIn();
-      allow update, delete: if false;
+      allow get, list, create, update, delete: if isSignedIn();
     }
 
-    /**
-     * @description Checks if the user is signed in.
-     */
     function isSignedIn() {
       return request.auth != null;
     }
