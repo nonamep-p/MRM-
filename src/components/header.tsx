@@ -46,7 +46,7 @@ export function Header({ onContactClick }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-24 items-center justify-between">
         {/* Left Section - Logo */}
-        <div className="flex-1 flex justify-start">
+        <div className="flex-1 flex justify-start pl-4">
              <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}}>
               {siteSettings?.logoUrl && (
                 <div className="relative h-12 flex-shrink-0">
