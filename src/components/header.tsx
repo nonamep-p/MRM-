@@ -44,9 +44,9 @@ export function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-24 items-center">
+      <div className="container flex h-24 items-center justify-between px-4">
         {/* Left: Logo */}
-        <div className="flex-1 flex justify-start">
+        <div className="flex items-center justify-start flex-1">
              <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}}>
               {siteSettings?.logoUrl && (
                 <div className="relative h-12 flex-shrink-0">
@@ -60,7 +60,7 @@ export function Header({ onContactClick }: HeaderProps) {
         </div>
         
         {/* Center: Navigation */}
-        <nav className="hidden md:flex justify-center">
+        <nav className="hidden md:flex justify-center items-center">
             <div className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
                 <Link
@@ -98,7 +98,7 @@ export function Header({ onContactClick }: HeaderProps) {
                 <LogOut className="mr-2 h-4 w-4" /> Sign Out
               </Button>
             </div>
-          ) : null}
+          ) : null }
         </div>
       </div>
     </header>
