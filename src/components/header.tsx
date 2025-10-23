@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -40,14 +41,17 @@ export function Header({ onContactClick }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-20 items-center">
-        <div className="flex-1 flex items-center justify-start">
+        <div className="mr-8 flex items-center">
             <Link href="/" className="flex items-center gap-2">
               {siteSettings?.logoUrl ? (
-                <div className="relative h-16 w-52">
+                <div className="relative h-16 w-36">
                   <Image src={siteSettings.logoUrl} alt="VoyageVista Logo" fill className="object-contain" />
                 </div>
               ) : (
                 <span className="font-bold text-lg">VoyageVista</span>
+              )}
+              {siteSettings?.logoText && (
+                <span style={{ color: siteSettings.logoTextColor, fontFamily: siteSettings.logoFontFamily }} className="text-xl font-bold">{siteSettings.logoText}</span>
               )}
             </Link>
         </div>

@@ -31,6 +31,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { HexColorPicker } from "react-colorful";
+
 
 const settingsSchema = z.object({
   address: z.string().min(1, "Address is required."),
@@ -44,6 +47,9 @@ const settingsSchema = z.object({
   youtubeUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
   pinterestUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
   logoUrl: z.string().url("Must be a valid URL.").or(z.literal('')),
+  logoText: z.string().optional(),
+  logoTextColor: z.string().optional(),
+  logoFontFamily: z.string().optional(),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -74,10 +80,17 @@ export default function SettingsPage() {
       youtubeUrl: "",
       pinterestUrl: "",
       logoUrl: "",
+      logoText: "",
+      logoTextColor: "#000000",
+      logoFontFamily: "sans-serif",
     },
   });
 
   const watchedLogoUrl = form.watch("logoUrl");
+  const watchedLogoText = form.watch("logoText");
+  const watchedLogoTextColor = form.watch("logoTextColor");
+  const watchedLogoFontFamily = form.watch("logoFontFamily");
+
 
   useEffect(() => {
     if (siteSettings) {
@@ -90,6 +103,9 @@ export default function SettingsPage() {
         youtubeUrl: siteSettings.youtubeUrl || "",
         pinterestUrl: siteSettings.pinterestUrl || "",
         logoUrl: siteSettings.logoUrl || "",
+        logoText: siteSettings.logoText || "",
+        logoTextColor: siteSettings.logoTextColor || "#000000",
+        logoFontFamily: siteSettings.logoFontFamily || "sans-serif",
       });
     }
   }, [siteSettings, form]);
@@ -169,13 +185,84 @@ export default function SettingsPage() {
                                 </FormControl>
                             </TabsContent>
                         </Tabs>
+                        
+                        <FormField
+                            control={form.control}
+                            name="logoText"
+                            render={({ field }) => (
+                                <FormItem className="mt-4">
+                                <FormLabel>Logo Text</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter text to display next to the logo" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
+
+                        <div className="grid grid-cols-2 gap-4 mt-4">
+                          <FormField
+                            control={form.control}
+                            name="logoTextColor"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Text Color</FormLabel>
+                                <FormControl>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <Button variant={"outline"} className="w-full justify-start">
+                                        <div className="flex items-center gap-2">
+                                          <div className="h-4 w-4 rounded !bg-center !bg-cover transition-all" style={{ background: field.value }} />
+                                          <div className="truncate flex-1">{field.value ? field.value.toUpperCase() : "Pick a color"}</div>
+                                        </div>
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                      <HexColorPicker color={field.value} onChange={field.onChange} />
+                                    </PopoverContent>
+                                  </Popover>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="logoFontFamily"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Font Family</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select a font" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="sans-serif">Sans-serif</SelectItem>
+                                    <SelectItem value="serif">Serif</SelectItem>
+                                    <SelectItem value="monospace">Monospace</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
                     </div>
-                    {watchedLogoUrl && (
+                    {(watchedLogoUrl || watchedLogoText) && (
                         <div className="flex flex-col gap-2">
                             <FormLabel>Preview</FormLabel>
-                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-40 w-60 flex items-center justify-center">
-                                <div className="relative h-36 w-full">
-                                    <Image src={watchedLogoUrl} alt="Logo preview" fill className="object-contain" />
+                            <div className="mt-4 p-2 border rounded-md bg-muted/40 h-40 w-full flex items-center justify-center">
+                                <div className="flex items-center gap-2">
+                                    {watchedLogoUrl && (
+                                        <div className="relative h-20 w-40">
+                                            <Image src={watchedLogoUrl} alt="Logo preview" fill className="object-contain" />
+                                        </div>
+                                    )}
+                                    {watchedLogoText && (
+                                        <span style={{ color: watchedLogoTextColor, fontFamily: watchedLogoFontFamily, fontSize: '24px', fontWeight: 'bold' }}>{watchedLogoText}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>

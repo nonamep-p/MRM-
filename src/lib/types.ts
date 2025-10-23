@@ -1,4 +1,3 @@
-
 import { type DocumentReference, type Timestamp } from 'firebase/firestore';
 
 export type ItineraryItem = {
@@ -38,13 +37,16 @@ export type SiteSettings = {
     phone: string;
     email: string;
     defaultCurrency: 'AED' | 'USD' | 'EUR' | 'GBP';
-    twitterUrl: string;
-    instagramUrl: string;
-    facebookUrl: string;
+    twitterUrl?: string;
+    instagramUrl?: string;
+    facebookUrl?: string;
     linkedinUrl?: string;
     youtubeUrl?: string;
     pinterestUrl?: string;
     logoUrl?: string;
+    logoText?: string;
+    logoTextColor?: string;
+    logoFontFamily?: string;
 };
 
 export type HeroSlide = {
@@ -68,7 +70,3 @@ export type ContactFormSubmission = {
     sourcePackage?: string; // e.g., The title of the package they were viewing
     status: 'Pending' | 'Confirmed' | 'Canceled';
 };
-
-    
-
-    
