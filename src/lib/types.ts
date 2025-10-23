@@ -44,6 +44,9 @@ export type SiteSettings = {
     linkedinUrl?: string;
     youtubeUrl?: string;
     pinterestUrl?: string;
+    logoIconUrl?: string;
+    logoTextUrl?: string;
+    logoSubtextUrl?: string;
 };
 
 export type HeroSlide = {
@@ -67,5 +70,7 @@ export type ContactFormSubmission = {
     sourcePackage?: string; // e.g., The title of the package they were viewing
     status: 'Pending' | 'Confirmed' | 'Canceled';
 };
+
+    
 
     

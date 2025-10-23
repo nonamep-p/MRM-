@@ -211,6 +211,18 @@
         "pinterestUrl": {
           "type": "string",
           "format": "uri"
+        },
+        "logoIconUrl": {
+            "type": "string",
+            "format": "uri"
+        },
+        "logoTextUrl": {
+            "type": "string",
+            "format": "uri"
+        },
+        "logoSubtextUrl": {
+            "type": "string",
+            "format": "uri"
         }
       },
       "required": ["address", "phone", "email", "defaultCurrency"]
@@ -323,6 +335,8 @@
         }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to support the VoyageVista travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2. **Package Availability:** The `packageAvailability` collection stores availability records for each package, allowing for multiple date ranges and slot counts per package. This data is publicly readable to show customers when they can book. \n\n3.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\n4. **Site Settings:** The `siteSettings` collection holds a single document 'main' for global configurations like contact info. This data is public and readable by anyone, but writable only by authenticated admins.\n\n5. **Hero Slides**: The `heroSlides` collection stores the content for the homepage carousel. This data is publicly readable by all users to display on the homepage, and writable only by authenticated admins to allow for content management."
+    "reasoning": "The Firestore data structure is designed to support the MRM Internationals travel agency application, focusing on showcasing travel packages and handling contact form submissions. Authorization independence is achieved by not requiring any `get()` calls in the security rules, which is naturally achieved since no user specific private data is stored.\n\n1.  **Travel Packages:** The `travelPackages` collection stores the travel package entities. List operations are inherently secure, since no private or user-specific data is stored in this collection. Any user can read any document in the collection, fulfilling the application requirements.\n\n2. **Package Availability:** The `packageAvailability` collection stores availability records for each package, allowing for multiple date ranges and slot counts per package. This data is publicly readable to show customers when they can book. \n\n3.  **Contact Form Submissions:** The `contactFormSubmissions` collection stores contact form submissions.  The security rules allow only authenticated admins to read contact form submissions, maintaining data privacy.  The structure segregates data based on access requirements, simplifying security rules. List operations are secured via authentication.\n\n4. **Site Settings:** The `siteSettings` collection holds a single document 'main' for global configurations like contact info and logo URLs. This data is public and readable by anyone, but writable only by authenticated admins.\n\n5. **Hero Slides**: The `heroSlides` collection stores the content for the homepage carousel. This data is publicly readable by all users to display on the homepage, and writable only by authenticated admins to allow for content management."
   }
 }
+
+    

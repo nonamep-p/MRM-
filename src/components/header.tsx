@@ -6,7 +6,9 @@ import Image from "next/image";
 import { LogOut, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { DialogTrigger } from "./ui/dialog";
-import { useAuth, useUser } from "@/firebase";
+import { useAuth, useDoc, useFirestore, useMemoFirebase, useUser } from "@/firebase";
+import { doc } from "firebase/firestore";
+import type { SiteSettings } from "@/lib/types";
 
 interface HeaderProps {
   onContactClick: () => void;
@@ -15,6 +17,14 @@ interface HeaderProps {
 export function Header({ onContactClick }: HeaderProps) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
+  
+  const firestore = useFirestore();
+  const settingsDocRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, "siteSettings", "main");
+  }, [firestore]);
+  const { data: siteSettings } = useDoc<SiteSettings>(settingsDocRef);
+
 
   const handleSignOut = () => {
     if (auth) {
@@ -33,17 +43,27 @@ export function Header({ onContactClick }: HeaderProps) {
       <div className="container flex h-14 items-center">
         <div className="flex-1 flex items-center justify-start">
             <Link href="/" className="flex items-center gap-2">
-              <div className="relative h-8 w-8">
-                <Image src="/Logo.jpeg" alt="MRM Internationals Logo" fill className="object-contain" />
-              </div>
-              <div className="flex flex-col">
-                <div className="relative h-4 w-24">
-                   <Image src="/INTERNATIONALS.jpeg" alt="Internationals" fill className="object-contain" />
-                </div>
-                <div className="relative h-3 w-28">
-                   <Image src="/TRAVEL & TOURISM.jpeg" alt="Travel & Tourism" fill className="object-contain" />
-                </div>
-              </div>
+              {siteSettings?.logoIconUrl ? (
+                <>
+                  <div className="relative h-8 w-8">
+                    <Image src={siteSettings.logoIconUrl} alt="MRM Internationals Logo" fill className="object-contain" />
+                  </div>
+                  <div className="flex flex-col">
+                    {siteSettings.logoTextUrl && (
+                      <div className="relative h-4 w-24">
+                        <Image src={siteSettings.logoTextUrl} alt="Internationals" fill className="object-contain" />
+                      </div>
+                    )}
+                    {siteSettings.logoSubtextUrl && (
+                      <div className="relative h-3 w-28">
+                        <Image src={siteSettings.logoSubtextUrl} alt="Travel & Tourism" fill className="object-contain" />
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <span className="font-bold">MRM Internationals</span>
+              )}
             </Link>
         </div>
         <nav className="hidden md:flex flex-1 items-center justify-center">
@@ -86,3 +106,5 @@ export function Header({ onContactClick }: HeaderProps) {
     </header>
   );
 }
+
+    

@@ -30,6 +30,8 @@ import { Loader2 } from "lucide-react";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from "next/image";
 
 const settingsSchema = z.object({
   address: z.string().min(1, "Address is required."),
@@ -42,6 +44,9 @@ const settingsSchema = z.object({
   linkedinUrl: z.string().url().or(z.literal('')),
   youtubeUrl: z.string().url().or(z.literal('')),
   pinterestUrl: z.string().url().or(z.literal('')),
+  logoIconUrl: z.string().url().or(z.literal('')),
+  logoTextUrl: z.string().url().or(z.literal('')),
+  logoSubtextUrl: z.string().url().or(z.literal('')),
 });
 
 type SettingsFormValues = z.infer<typeof settingsSchema>;
@@ -71,14 +76,40 @@ export default function SettingsPage() {
       linkedinUrl: "",
       youtubeUrl: "",
       pinterestUrl: "",
+      logoIconUrl: "",
+      logoTextUrl: "",
+      logoSubtextUrl: "",
     },
   });
 
+  const watchedLogoIconUrl = form.watch("logoIconUrl");
+  const watchedLogoTextUrl = form.watch("logoTextUrl");
+  const watchedLogoSubtextUrl = form.watch("logoSubtextUrl");
+
+
   useEffect(() => {
     if (siteSettings) {
-      form.reset(siteSettings);
+      form.reset({
+        ...siteSettings,
+        logoIconUrl: siteSettings.logoIconUrl || "",
+        logoTextUrl: siteSettings.logoTextUrl || "",
+        logoSubtextUrl: siteSettings.logoSubtextUrl || "",
+      });
     }
   }, [siteSettings, form]);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>, fieldName: keyof SettingsFormValues) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const dataUrl = reader.result as string;
+        form.setValue(fieldName, dataUrl, { shouldValidate: true });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 
   async function onSubmit(values: SettingsFormValues) {
     if (!settingsDocRef) {
@@ -112,6 +143,54 @@ export default function SettingsPage() {
            <CardContent>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+                <h3 className="text-lg font-medium">Logo Settings</h3>
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {([
+                        { name: 'logoIconUrl', label: 'Logo Icon', preview: watchedLogoIconUrl },
+                        { name: 'logoTextUrl', label: 'Logo Text', preview: watchedLogoTextUrl },
+                        { name: 'logoSubtextUrl', label: 'Logo Subtext', preview: watchedLogoSubtextUrl }
+                    ] as const).map(item => (
+                        <div key={item.name}>
+                        <FormLabel>{item.label}</FormLabel>
+                         <Tabs defaultValue="url" className="mt-2">
+                            <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="url">URL</TabsTrigger>
+                            <TabsTrigger value="upload">Upload</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="url" className="pt-2">
+                            <FormField
+                                control={form.control}
+                                name={item.name}
+                                render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                    <Input placeholder="https://..." {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            </TabsContent>
+                            <TabsContent value="upload" className="pt-2">
+                                <FormControl>
+                                <Input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, item.name)} className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"/>
+                                </FormControl>
+                            </TabsContent>
+                        </Tabs>
+                        {item.preview && (
+                            <div className="mt-4 p-2 border rounded-md">
+                                <FormLabel className="text-xs">Preview</FormLabel>
+                                <div className="relative h-16 w-full bg-muted">
+                                    <Image src={item.preview} alt={`${item.label} preview`} fill className="object-contain" />
+                                _</div>
+                            </div>
+                        )}
+                        </div>
+                    ))}
+                </div>
+                
+                <Separator />
                 
                 <h3 className="text-lg font-medium">General</h3>
                  <FormField
@@ -279,3 +358,5 @@ export default function SettingsPage() {
     </div>
   );
 }
+
+    

@@ -32,17 +32,27 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="flex flex-col">
             <Link href="/" className="flex items-center gap-2 mb-4">
-               <div className="relative h-10 w-10">
-                <Image src="/Logo.jpeg" alt="MRM Internationals Logo" fill className="object-contain" />
-              </div>
-              <div className="flex flex-col">
-                <div className="relative h-5 w-28">
-                   <Image src="/INTERNATIONALS.jpeg" alt="Internationals" fill className="object-contain" />
-                </div>
-                <div className="relative h-4 w-32">
-                   <Image src="/TRAVEL & TOURISM.jpeg" alt="Travel & Tourism" fill className="object-contain" />
-                </div>
-              </div>
+               {siteSettings?.logoIconUrl ? (
+                <>
+                  <div className="relative h-10 w-10">
+                    <Image src={siteSettings.logoIconUrl} alt="MRM Internationals Logo" fill className="object-contain" />
+                  </div>
+                  <div className="flex flex-col">
+                    {siteSettings.logoTextUrl && (
+                      <div className="relative h-5 w-28">
+                        <Image src={siteSettings.logoTextUrl} alt="Internationals" fill className="object-contain" />
+                      </div>
+                    )}
+                    {siteSettings.logoSubtextUrl && (
+                      <div className="relative h-4 w-32">
+                        <Image src={siteSettings.logoSubtextUrl} alt="Travel & Tourism" fill className="object-contain" />
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <span className="font-bold text-lg">MRM Internationals</span>
+              )}
             </Link>
             <p className="text-foreground/80 max-w-sm">
               Crafting unforgettable travel experiences tailored just for you.
@@ -148,3 +158,5 @@ export function Footer() {
     </footer>
   );
 }
+
+    
