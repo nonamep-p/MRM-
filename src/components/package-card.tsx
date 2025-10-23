@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { TravelPackage } from "@/lib/types";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import {
@@ -29,11 +30,11 @@ interface PackageCardProps {
 
 export function PackageCard({ travelPackage }: PackageCardProps) {
   const image = PlaceHolderImages.find((img) => img.id === travelPackage.image);
-  const { title, description, duration, price, location, inclusions } = travelPackage;
+  const { id, title, description, duration, price, location, inclusions } = travelPackage;
 
   return (
     <Dialog>
-      <Card className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+      <Card className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-xl h-full">
         <CardHeader className="p-0">
           <div className="relative h-56 w-full">
             {image && (
@@ -51,7 +52,7 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
           <CardTitle className="font-headline mb-2">{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardContent>
-        <CardFooter className="p-6 pt-0 flex flex-col items-start">
+        <CardFooter className="p-6 pt-0 flex flex-col items-start mt-auto">
           <div className="w-full flex justify-between items-center mb-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
@@ -68,7 +69,9 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
             <DialogTrigger asChild>
                 <Button variant="outline" className="w-full">Quick View</Button>
             </DialogTrigger>
-            <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">Book Now</Button>
+            <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+              <Link href={`/packages/${id}`}>View Details</Link>
+            </Button>
           </div>
         </CardFooter>
       </Card>
@@ -118,8 +121,10 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
             <DialogTrigger asChild>
                 <Button variant="outline">Close</Button>
             </DialogTrigger>
-            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                <Plane className="mr-2 h-4 w-4" /> Book Your Trip
+            <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+              <Link href={`/packages/${id}`}>
+                <Plane className="mr-2 h-4 w-4" /> Go to Details
+              </Link>
             </Button>
         </div>
       </DialogContent>
