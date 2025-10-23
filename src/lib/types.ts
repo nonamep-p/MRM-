@@ -71,3 +71,5 @@ export type ContactFormSubmission = {
     sourcePackage?: string; // e.g., The title of the package they were viewing
     status: 'Pending' | 'Confirmed' | 'Canceled';
 };
+
+    

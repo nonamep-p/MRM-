@@ -91,57 +91,19 @@ export function MapSection() {
        </div>
     )
   }
-
-  // The map is disabled because location is a string.
-  // To re-enable, the location data needs to be an object with lat/lng.
-  const hasCoordinates = false;
-
-  if (!hasCoordinates) {
-     return (
-      <div className="flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner">
-        <div className="text-center p-4">
-          <h3 className="text-lg font-semibold text-foreground">Interactive Map is Unavailable</h3>
-          <p className="mt-2 text-sm text-muted-foreground">
-            The map requires latitude and longitude, but location names are being used.
-            <br/>
-            To re-enable the map, update the package data to include coordinates.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!apiKey || apiKey === "YOUR_API_KEY") {
-    return (
-      <div className="flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner">
-        <div className="text-center p-4">
-          <h3 className="text-lg font-semibold text-foreground">Interactive Map is Unavailable</h3>
-          <p className="mt-2 text-sm text-muted-foreground">
-            To enable this feature, please get a Google Maps API Key and add it to your project.
-            <br />
-            In the file explorer, open <code className="font-mono text-xs bg-muted-foreground/20 p-1 rounded">.env.local</code> and replace <code className="font-mono text-xs bg-muted-foreground/20 p-1 rounded">"YOUR_API_KEY"</code> with your actual key.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
+  
   return (
-    <APIProvider apiKey={apiKey}>
-      <div className="h-[500px] w-full rounded-lg overflow-hidden shadow-lg border">
-        <Map
-          defaultCenter={{ lat: 20, lng: 10 }}
-          defaultZoom={2}
-          mapId={mapId}
-          gestureHandling={"greedy"}
-          disableDefaultUI={true}
-          styles={mapStyles}
-        >
-          {travelPackages?.map((loc) => (
-            <Marker key={loc.id} position={loc.location as {lat: number, lng: number}} />
-          ))}
-        </Map>
+    <div className="flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner">
+      <div className="text-center p-4">
+        <h3 className="text-lg font-semibold text-foreground">Interactive Map is Unavailable</h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          The map requires latitude and longitude coordinates to display markers.
+          <br/>
+          To re-enable the map, the package data structure would need to be updated to include coordinates.
+        </p>
       </div>
-    </APIProvider>
+    </div>
   );
 }
+
+    
