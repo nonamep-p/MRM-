@@ -67,9 +67,9 @@ export function PackageDetailsClient({ travelPackage, siteSettings }: { travelPa
                         <CalendarDays className="h-5 w-5" />
                         <span>{duration}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                         <Tag className="h-5 w-5" />
-                        <span className="font-bold">
+                    <div className="flex items-center gap-2 text-2xl font-bold bg-background/20 text-white backdrop-blur-sm py-1 px-3 rounded-lg">
+                         <Tag className="h-6 w-6" />
+                        <span>
                             {siteSettings?.defaultCurrency} {price.toLocaleString()}
                         </span>
                     </div>
@@ -112,9 +112,16 @@ export function PackageDetailsClient({ travelPackage, siteSettings }: { travelPa
               <div className="lg:sticky top-24 h-fit">
                 <Card className="shadow-lg">
                     <CardHeader>
-                        <CardTitle className="font-headline text-2xl">Pricing Details</CardTitle>
+                        <CardTitle className="font-headline text-2xl">Pricing & Booking</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
+                        <div className="text-center my-4">
+                            <p className="text-sm text-muted-foreground">Starting from</p>
+                            <p className="text-4xl font-bold text-foreground">
+                                {siteSettings?.defaultCurrency} {price.toLocaleString()}
+                            </p>
+                            <p className="text-sm text-muted-foreground">per person</p>
+                        </div>
                         {inclusions && inclusions.length > 0 && (
                             <div>
                                 <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">

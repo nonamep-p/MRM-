@@ -24,13 +24,14 @@ import {
 } from "@/components/ui/dialog";
 import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
+import { Badge } from "./ui/badge";
 
 interface PackageCardProps {
   travelPackage: TravelPackage;
 }
 
 export function PackageCard({ travelPackage }: PackageCardProps) {
-  const { id, title, description, duration, price, location, inclusions, image } = travelPackage;
+  const { id, title, description, duration, price, location, inclusions, image, category } = travelPackage;
 
   const firestore = useFirestore();
   const settingsDocRef = useMemoFirebase(() => {
@@ -42,7 +43,7 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
   return (
     <Dialog>
       <Card className="flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-xl h-full">
-        <CardHeader className="p-0">
+        <CardHeader className="p-0 relative">
           <div className="relative h-56 w-full">
             {image && (
               <Image
@@ -52,6 +53,9 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
                 className="object-cover"
               />
             )}
+             <div className="absolute top-3 right-3">
+                <Badge variant="outline" className="border-accent text-accent bg-background/80 backdrop-blur-sm">{category}</Badge>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-6 flex-grow">
@@ -66,7 +70,7 @@ export function PackageCard({ travelPackage }: PackageCardProps) {
               </div>
               <div className="flex items-center gap-2">
                   <Tag className="h-4 w-4" />
-                  <span className="font-semibold text-foreground">
+                  <span className="font-bold text-lg text-foreground">
                       {siteSettings?.defaultCurrency} {price.toLocaleString()}
                   </span>
               </div>

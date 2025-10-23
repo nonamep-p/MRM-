@@ -88,7 +88,7 @@ export default function AdminPage() {
                 <TableHead>Title</TableHead>
                 <TableHead>Location</TableHead>
                 <TableHead>Duration</TableHead>
-                <TableHead>Price</TableHead>
+                <TableHead className="text-right">Price</TableHead>
                 <TableHead className="w-[100px] text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -112,7 +112,7 @@ export default function AdminPage() {
                   <TableCell className="font-medium">{pkg.title}</TableCell>
                   <TableCell>{pkg.location ? `${pkg.location.lat.toFixed(2)}, ${pkg.location.lng.toFixed(2)}` : 'N/A'}</TableCell>
                   <TableCell>{pkg.duration}</TableCell>
-                  <TableCell>{siteSettings?.defaultCurrency} {pkg.price.toLocaleString()}</TableCell>
+                  <TableCell className="text-right font-medium">{siteSettings?.defaultCurrency} {pkg.price.toLocaleString()}</TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" onClick={() => handleEdit(pkg)}>
                       <Edit className="h-4 w-4" />
