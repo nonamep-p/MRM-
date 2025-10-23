@@ -1,14 +1,20 @@
-
 'use client';
 
 import Link from "next/link";
 import Image from "next/image";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, useDoc, useFirestore, useMemoFirebase, useUser } from "@/firebase";
 import { doc } from "firebase/firestore";
 import type { SiteSettings } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose
+} from "@/components/ui/sheet";
+import { useState } from "react";
 
 interface HeaderProps {
   onContactClick: () => void;
@@ -17,6 +23,7 @@ interface HeaderProps {
 export function Header({ onContactClick }: HeaderProps) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   
   const firestore = useFirestore();
   const settingsDocRef = useMemoFirebase(() => {
@@ -45,24 +52,22 @@ export function Header({ onContactClick }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-24 items-center justify-between px-4">
-        {/* Left: Logo */}
-        <div className="flex items-center justify-start flex-1">
-             <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}}>
-              {siteSettings?.logoUrl && (
-                <div className="relative h-12 flex-shrink-0">
-                  <Image src={siteSettings.logoUrl} alt="Logo" height={48} width={150} style={{objectFit: "contain", height: "100%", width: "auto"}}/>
-                </div>
-              )}
-              {siteSettings?.logoText && (
-                <span className={cn("font-bold", siteSettings.logoTextSize)} style={{ color: siteSettings.logoTextColor, fontFamily: siteSettings.logoFontFamily }}>{siteSettings.logoText}</span>
-              )}
-            </Link>
+      <div className="container flex h-20 items-center px-4 md:px-6">
+        <div className="flex-1 flex items-center justify-start">
+          <Link href="/" className={cn("flex items-center", logoAlignment)} style={{gap: logoSpacing}}>
+            {siteSettings?.logoUrl && (
+              <div className="relative h-10 md:h-12 flex-shrink-0">
+                <Image src={siteSettings.logoUrl} alt="Logo" height={48} width={150} style={{objectFit: "contain", height: "100%", width: "auto"}}/>
+              </div>
+            )}
+            {siteSettings?.logoText && (
+              <span className={cn("font-bold", siteSettings.logoTextSize)} style={{ color: siteSettings.logoTextColor, fontFamily: siteSettings.logoFontFamily }}>{siteSettings.logoText}</span>
+            )}
+          </Link>
         </div>
         
-        {/* Center: Navigation */}
-        <nav className="hidden md:flex justify-center items-center">
-            <div className="flex items-center space-x-6 text-sm font-medium">
+        <nav className="hidden md:flex flex-1 justify-center items-center">
+          <div className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
                 <Link
                 key={link.href}
@@ -72,13 +77,12 @@ export function Header({ onContactClick }: HeaderProps) {
                 {link.name}
                 </Link>
             ))}
-            </div>
+          </div>
         </nav>
         
-        {/* Right: Actions */}
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end items-center">
           {!isUserLoading && user ? (
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-4">
               <Button variant="ghost" asChild>
                 <Link href="/admin">
                   <User className="mr-2 h-4 w-4" /> Admin
@@ -89,11 +93,47 @@ export function Header({ onContactClick }: HeaderProps) {
               </Button>
             </div>
           ) : !user && (
-            <div className="hidden md:flex items-center">
-                 <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Link href="/#contact">Contact Us</Link>
-                </Button>
-            </div>
+            <>
+              <div className="hidden md:flex items-center">
+                   <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                      <Link href={contactLink.href} onClick={onContactClick}>{contactLink.name}</Link>
+                  </Button>
+              </div>
+              <div className="md:hidden">
+                <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+                  <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Menu className="h-6 w-6" />
+                      <span className="sr-only">Open menu</span>
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="right" className="w-full sm:w-[300px]">
+                    <div className="flex flex-col h-full">
+                       <div className="p-6">
+                         <Link href="/" className={cn("flex", logoAlignment)} style={{gap: logoSpacing}} onClick={() => setIsSheetOpen(false)}>
+                           {siteSettings?.logoUrl && <div className="relative h-10 flex-shrink-0"><Image src={siteSettings.logoUrl} alt="Logo" height={40} width={120} style={{objectFit: "contain"}}/></div>}
+                           {siteSettings?.logoText && <span className={cn("font-bold", siteSettings.logoTextSize)} style={{color: siteSettings.logoTextColor}}>{siteSettings.logoText}</span>}
+                         </Link>
+                       </div>
+                       <nav className="flex flex-col space-y-4 px-6 text-lg">
+                          {navLinks.map((link) => (
+                              <SheetClose asChild key={link.href}>
+                                <Link href={link.href} className="text-foreground/80 hover:text-foreground">{link.name}</Link>
+                              </SheetClose>
+                          ))}
+                       </nav>
+                       <div className="mt-auto p-6">
+                          <SheetClose asChild>
+                            <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" onClick={onContactClick}>
+                              {contactLink.name}
+                            </Button>
+                          </SheetClose>
+                       </div>
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
+            </>
           )}
         </div>
       </div>

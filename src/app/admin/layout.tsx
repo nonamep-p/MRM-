@@ -3,12 +3,14 @@
 
 import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Package, Settings, Image, MessageSquare, CalendarCheck } from 'lucide-react';
+import { Package, Settings, Image, MessageSquare, CalendarCheck, Menu, X } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 
 export default function AdminLayout({
   children,
@@ -17,6 +19,7 @@ export default function AdminLayout({
 }) {
   const { user, isUserLoading } = useUser();
   const router = useRouter();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     if (!isUserLoading && !user) {
@@ -31,46 +34,71 @@ export default function AdminLayout({
       </div>
     );
   }
+  
+  const NavLinks = () => (
+     <nav className="flex flex-col space-y-2">
+        <Button variant="ghost" className="justify-start" asChild>
+            <Link href="/admin">
+                <Package className="mr-2 h-4 w-4" />
+                Packages
+            </Link>
+        </Button>
+        <Button variant="ghost" className="justify-start" asChild>
+            <Link href="/admin/availability">
+                <CalendarCheck className="mr-2 h-4 w-4" />
+                Availability
+            </Link>
+        </Button>
+        <Button variant="ghost" className="justify-start" asChild>
+            <Link href="/admin/hero">
+                 <Image className="mr-2 h-4 w-4" />
+                 Hero Slides
+            </Link>
+        </Button>
+        <Button variant="ghost" className="justify-start" asChild>
+            <Link href="/admin/submissions">
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Submissions
+            </Link>
+        </Button>
+        <Button variant="ghost" className="justify-start" asChild>
+            <Link href="/admin/settings">
+                 <Settings className="mr-2 h-4 w-4" />
+                 Site Settings
+            </Link>
+        </Button>
+    </nav>
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
         <Header onContactClick={() => {}} /> 
         <div className="flex flex-1">
-            <aside className="w-64 bg-background border-r p-4">
-                <nav className="flex flex-col space-y-2">
-                    <Button variant="ghost" className="justify-start" asChild>
-                        <Link href="/admin">
-                            <Package className="mr-2 h-4 w-4" />
-                            Packages
-                        </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                        <Link href="/admin/availability">
-                            <CalendarCheck className="mr-2 h-4 w-4" />
-                            Availability
-                        </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                        <Link href="/admin/hero">
-                             <Image className="mr-2 h-4 w-4" />
-                             Hero Slides
-                        </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                        <Link href="/admin/submissions">
-                            <MessageSquare className="mr-2 h-4 w-4" />
-                            Submissions
-                        </Link>
-                    </Button>
-                    <Button variant="ghost" className="justify-start" asChild>
-                        <Link href="/admin/settings">
-                             <Settings className="mr-2 h-4 w-4" />
-                             Site Settings
-                        </Link>
-                    </Button>
-                </nav>
+            {/* Desktop Sidebar */}
+            <aside className={cn("w-64 bg-background border-r p-4 transition-all duration-300 hidden md:block", isSidebarOpen ? "translate-x-0" : "-translate-x-full w-0 p-0")}>
+                <NavLinks />
             </aside>
-            <main className="flex-1 bg-background">{children}</main>
+
+            {/* Mobile Sidebar */}
+            <div className="md:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="fixed top-20 left-2 z-40 bg-background/50 backdrop-blur-sm">
+                    <Menu />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-64 p-4">
+                  <NavLinks />
+                </SheetContent>
+              </Sheet>
+            </div>
+            
+            <main className="flex-1 bg-background overflow-y-auto">
+              <Button variant="ghost" size="icon" className="hidden md:inline-flex fixed top-20 left-2 z-40 bg-background/50 backdrop-blur-sm" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+              {children}
+            </main>
         </div>
         <Footer />
     </div>
