@@ -78,17 +78,15 @@ export function MapSection({ locations }: MapSectionProps) {
     }
   ];
 
-  if (!apiKey) {
+  if (!apiKey || apiKey === "YOUR_API_KEY") {
     return (
       <div className="flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner">
         <div className="text-center p-4">
           <h3 className="text-lg font-semibold text-foreground">Interactive Map is Unavailable</h3>
           <p className="mt-2 text-sm text-muted-foreground">
-            To enable this feature, please add your Google Maps API Key.
+            To enable this feature, please get a Google Maps API Key and add it to your project.
             <br />
-            Create a <code className="font-mono text-xs bg-muted-foreground/20 p-1 rounded">.env.local</code> file and add:
-            <br />
-            <code className="font-mono text-xs bg-muted-foreground/20 p-1 rounded">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=YOUR_API_KEY</code>
+            In the file explorer, open <code className="font-mono text-xs bg-muted-foreground/20 p-1 rounded">.env.local</code> and replace <code className="font-mono text-xs bg-muted-foreground/20 p-1 rounded">"YOUR_API_KEY"</code> with your actual key.
           </p>
         </div>
       </div>
