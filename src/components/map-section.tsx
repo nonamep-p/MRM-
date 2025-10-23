@@ -92,7 +92,9 @@ export function MapSection() {
     )
   }
 
-  const hasCoordinates = travelPackages && travelPackages.every(loc => loc.location && typeof loc.location === 'object' && 'lat' in loc.location && 'lng' in loc.location);
+  // The map is disabled because location is a string.
+  // To re-enable, the location data needs to be an object with lat/lng.
+  const hasCoordinates = false;
 
   if (!hasCoordinates) {
      return (

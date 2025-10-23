@@ -85,5 +85,3 @@ export default async function PackageDetailsPage({
 
   return <PackageDetailsClient travelPackage={travelPackage} siteSettings={siteSettings} availability={availability} />;
 }
-
-    

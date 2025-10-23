@@ -1,5 +1,4 @@
 
-      
 import { type DocumentReference, type Timestamp, type FieldValue } from 'firebase/firestore';
 
 export type ItineraryItem = {
@@ -72,7 +71,3 @@ export type ContactFormSubmission = {
     sourcePackage?: string; // e.g., The title of the package they were viewing
     status: 'Pending' | 'Confirmed' | 'Canceled';
 };
-
-    
-
-    
