@@ -20,6 +20,9 @@ import { handleContactForm } from "@/app/actions";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
+import type { SiteSettings } from "@/lib/types";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -37,9 +40,23 @@ interface ContactFormProps {
   sourcePackage?: string;
 }
 
+const currencySymbols: Record<string, string> = {
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'AED': 'AED',
+};
+
 export function ContactForm({ sourcePackage }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  const firestore = useFirestore();
+  const settingsDocRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, "siteSettings", "main");
+  }, [firestore]);
+  const { data: siteSettings } = useDoc<SiteSettings>(settingsDocRef);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,6 +72,8 @@ export function ContactForm({ sourcePackage }: ContactFormProps) {
       sourcePackage: sourcePackage || "",
     },
   });
+
+  const currencySymbol = siteSettings ? currencySymbols[siteSettings.defaultCurrency] : '$';
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
@@ -165,10 +184,10 @@ export function ContactForm({ sourcePackage }: ContactFormProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="<2000">&lt; $2,000</SelectItem>
-                      <SelectItem value="2000-4000">$2,000 - $4,000</SelectItem>
-                      <SelectItem value="4000-6000">$4,000 - $6,000</SelectItem>
-                      <SelectItem value="6000+">$6,000+</SelectItem>
+                      <SelectItem value="<2000">&lt; {currencySymbol}2,000</SelectItem>
+                      <SelectItem value="2000-4000">{currencySymbol}2,000 - {currencySymbol}4,000</SelectItem>
+                      <SelectItem value="4000-6000">{currencySymbol}4,000 - {currencySymbol}6,000</SelectItem>
+                      <SelectItem value="6000+">{currencySymbol}6,000+</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
