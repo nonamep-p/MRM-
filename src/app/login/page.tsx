@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth, useUser } from '@/firebase';
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
@@ -69,33 +68,11 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       router.push('/admin');
     } catch (err: any) {
-      setError("Invalid email or password. Please try again or sign up.");
+      setError("Invalid credentials or unauthorized user.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  const handleSignUp = async (values: z.infer<typeof loginSchema>) => {
-    setIsLoading(true);
-    setError(null);
-    if (!auth) {
-        setError("Authentication service is not available.");
-        setIsLoading(false);
-        return;
-    }
-    try {
-        await createUserWithEmailAndPassword(auth, values.email, values.password);
-        router.push('/admin');
-    } catch (err: any) {
-        if (err.code === 'auth/email-already-in-use') {
-            setError("An account with this email already exists. Please sign in.");
-        } else {
-            setError("Failed to create an account. Please try again.");
-        }
-    } finally {
-        setIsLoading(false);
-    }
-  }
 
   if (isUserLoading || user) {
       return <div className="flex h-screen items-center justify-center">Loading...</div>
@@ -107,7 +84,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle className="font-headline text-2xl">Admin Access</CardTitle>
           <CardDescription>
-            Enter your credentials to manage the website.
+            Enter your credentials to manage the website. Access is restricted to authorized users only.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -148,15 +125,6 @@ export default function LoginPage() {
                 <Button type="submit" disabled={isLoading} className="w-full">
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Sign In
-                </Button>
-                <Button
-                    type="button"
-                    variant="secondary"
-                    disabled={isLoading}
-                    onClick={form.handleSubmit(handleSignUp)}
-                >
-                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Sign Up (First Time)
                 </Button>
               </div>
             </form>

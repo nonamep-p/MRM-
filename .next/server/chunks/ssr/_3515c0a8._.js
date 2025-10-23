@@ -68,9 +68,7 @@ __turbopack_context__.s({
     "deleteDocumentNonBlocking": (()=>deleteDocumentNonBlocking),
     "errorEmitter": (()=>errorEmitter),
     "initializeFirebase": (()=>initializeFirebase),
-    "initiateAnonymousSignIn": (()=>initiateAnonymousSignIn),
     "initiateEmailSignIn": (()=>initiateEmailSignIn),
-    "initiateEmailSignUp": (()=>initiateEmailSignUp),
     "setDocumentNonBlocking": (()=>setDocumentNonBlocking),
     "updateDocumentNonBlocking": (()=>updateDocumentNonBlocking),
     "useAuth": (()=>useAuth),
@@ -108,15 +106,9 @@ const errorEmitter = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_mo
 const initializeFirebase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
     throw new Error("Attempted to call initializeFirebase() from the server but initializeFirebase is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
 }, "[project]/src/firebase/index.ts <module evaluation>", "initializeFirebase");
-const initiateAnonymousSignIn = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
-    throw new Error("Attempted to call initiateAnonymousSignIn() from the server but initiateAnonymousSignIn is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
-}, "[project]/src/firebase/index.ts <module evaluation>", "initiateAnonymousSignIn");
 const initiateEmailSignIn = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
     throw new Error("Attempted to call initiateEmailSignIn() from the server but initiateEmailSignIn is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
 }, "[project]/src/firebase/index.ts <module evaluation>", "initiateEmailSignIn");
-const initiateEmailSignUp = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
-    throw new Error("Attempted to call initiateEmailSignUp() from the server but initiateEmailSignUp is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
-}, "[project]/src/firebase/index.ts <module evaluation>", "initiateEmailSignUp");
 const setDocumentNonBlocking = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
     throw new Error("Attempted to call setDocumentNonBlocking() from the server but setDocumentNonBlocking is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
 }, "[project]/src/firebase/index.ts <module evaluation>", "setDocumentNonBlocking");
@@ -162,9 +154,7 @@ __turbopack_context__.s({
     "deleteDocumentNonBlocking": (()=>deleteDocumentNonBlocking),
     "errorEmitter": (()=>errorEmitter),
     "initializeFirebase": (()=>initializeFirebase),
-    "initiateAnonymousSignIn": (()=>initiateAnonymousSignIn),
     "initiateEmailSignIn": (()=>initiateEmailSignIn),
-    "initiateEmailSignUp": (()=>initiateEmailSignUp),
     "setDocumentNonBlocking": (()=>setDocumentNonBlocking),
     "updateDocumentNonBlocking": (()=>updateDocumentNonBlocking),
     "useAuth": (()=>useAuth),
@@ -202,15 +192,9 @@ const errorEmitter = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_mo
 const initializeFirebase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
     throw new Error("Attempted to call initializeFirebase() from the server but initializeFirebase is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
 }, "[project]/src/firebase/index.ts", "initializeFirebase");
-const initiateAnonymousSignIn = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
-    throw new Error("Attempted to call initiateAnonymousSignIn() from the server but initiateAnonymousSignIn is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
-}, "[project]/src/firebase/index.ts", "initiateAnonymousSignIn");
 const initiateEmailSignIn = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
     throw new Error("Attempted to call initiateEmailSignIn() from the server but initiateEmailSignIn is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
 }, "[project]/src/firebase/index.ts", "initiateEmailSignIn");
-const initiateEmailSignUp = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
-    throw new Error("Attempted to call initiateEmailSignUp() from the server but initiateEmailSignUp is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
-}, "[project]/src/firebase/index.ts", "initiateEmailSignUp");
 const setDocumentNonBlocking = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$server$2d$dom$2d$turbopack$2d$server$2d$edge$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerClientReference"])(function() {
     throw new Error("Attempted to call setDocumentNonBlocking() from the server but setDocumentNonBlocking is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
 }, "[project]/src/firebase/index.ts", "setDocumentNonBlocking");

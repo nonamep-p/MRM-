@@ -374,12 +374,12 @@ __turbopack_context__.s({
     "firebaseConfig": (()=>firebaseConfig)
 });
 const firebaseConfig = {
-    "projectId": "studio-1304473320-b8220",
-    "appId": "1:238314388245:web:64a2dc88091e02d4e0871c",
-    "apiKey": "AIzaSyAlRG8yAw4u8Q5rg9L9TqVWaGMzsZ5CmFA",
-    "authDomain": "studio-1304473320-b8220.firebaseapp.com",
-    "measurementId": "",
-    "messagingSenderId": "238314388245"
+    projectId: ("TURBOPACK compile-time value", "studio-1304473320-b8220"),
+    appId: ("TURBOPACK compile-time value", "1:238314388245:web:64a2dc88091e02d4e0871c"),
+    apiKey: ("TURBOPACK compile-time value", "AIzaSyAlRG8yAw4u8Q5rg9L9TqVWaGMzsZ5CmFA"),
+    authDomain: ("TURBOPACK compile-time value", "studio-1304473320-b8220.firebaseapp.com"),
+    measurementId: ("TURBOPACK compile-time value", ""),
+    messagingSenderId: ("TURBOPACK compile-time value", "238314388245")
 };
 }}),
 "[externals]/util [external] (util, cjs)": (function(__turbopack_context__) {
@@ -1022,26 +1022,12 @@ function deleteDocumentNonBlocking(docRef) {
 var { g: global, __dirname } = __turbopack_context__;
 {
 __turbopack_context__.s({
-    "initiateAnonymousSignIn": (()=>initiateAnonymousSignIn),
-    "initiateEmailSignIn": (()=>initiateEmailSignIn),
-    "initiateEmailSignUp": (()=>initiateEmailSignUp)
+    "initiateEmailSignIn": (()=>initiateEmailSignIn)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$auth$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/node_modules/firebase/auth/dist/index.mjs [app-ssr] (ecmascript) <module evaluation>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$node$2d$esm$2f$totp$2d$18137433$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__a1__as__signInAnonymously$3e$__ = __turbopack_context__.i("[project]/node_modules/firebase/node_modules/@firebase/auth/dist/node-esm/totp-18137433.js [app-ssr] (ecmascript) <export a1 as signInAnonymously>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$node$2d$esm$2f$totp$2d$18137433$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__ab__as__createUserWithEmailAndPassword$3e$__ = __turbopack_context__.i("[project]/node_modules/firebase/node_modules/@firebase/auth/dist/node-esm/totp-18137433.js [app-ssr] (ecmascript) <export ab as createUserWithEmailAndPassword>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$node$2d$esm$2f$totp$2d$18137433$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__ac__as__signInWithEmailAndPassword$3e$__ = __turbopack_context__.i("[project]/node_modules/firebase/node_modules/@firebase/auth/dist/node-esm/totp-18137433.js [app-ssr] (ecmascript) <export ac as signInWithEmailAndPassword>");
 'use client';
 ;
-function initiateAnonymousSignIn(authInstance) {
-    // CRITICAL: Call signInAnonymously directly. Do NOT use 'await signInAnonymously(...)'.
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$node$2d$esm$2f$totp$2d$18137433$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__a1__as__signInAnonymously$3e$__["signInAnonymously"])(authInstance);
-// Code continues immediately. Auth state change is handled by onAuthStateChanged listener.
-}
-function initiateEmailSignUp(authInstance, email, password) {
-    // CRITICAL: Call createUserWithEmailAndPassword directly. Do NOT use 'await createUserWithEmailAndPassword(...)'.
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$node$2d$esm$2f$totp$2d$18137433$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__ab__as__createUserWithEmailAndPassword$3e$__["createUserWithEmailAndPassword"])(authInstance, email, password);
-// Code continues immediately. Auth state change is handled by onAuthStateChanged listener.
-}
 function initiateEmailSignIn(authInstance, email, password) {
     // CRITICAL: Call signInWithEmailAndPassword directly. Do NOT use 'await signInWithEmailAndPassword(...)'.
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$node$2d$esm$2f$totp$2d$18137433$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__ac__as__signInWithEmailAndPassword$3e$__["signInWithEmailAndPassword"])(authInstance, email, password);
@@ -1188,9 +1174,7 @@ __turbopack_context__.s({
     "deleteDocumentNonBlocking": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$non$2d$blocking$2d$updates$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["deleteDocumentNonBlocking"]),
     "errorEmitter": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$error$2d$emitter$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["errorEmitter"]),
     "initializeFirebase": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["initializeFirebase"]),
-    "initiateAnonymousSignIn": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$non$2d$blocking$2d$login$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["initiateAnonymousSignIn"]),
     "initiateEmailSignIn": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$non$2d$blocking$2d$login$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["initiateEmailSignIn"]),
-    "initiateEmailSignUp": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$non$2d$blocking$2d$login$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["initiateEmailSignUp"]),
     "setDocumentNonBlocking": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$non$2d$blocking$2d$updates$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["setDocumentNonBlocking"]),
     "updateDocumentNonBlocking": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$non$2d$blocking$2d$updates$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["updateDocumentNonBlocking"]),
     "useAuth": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$provider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAuth"]),
@@ -1226,9 +1210,7 @@ __turbopack_context__.s({
     "deleteDocumentNonBlocking": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["deleteDocumentNonBlocking"]),
     "errorEmitter": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["errorEmitter"]),
     "initializeFirebase": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["initializeFirebase"]),
-    "initiateAnonymousSignIn": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["initiateAnonymousSignIn"]),
     "initiateEmailSignIn": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["initiateEmailSignIn"]),
-    "initiateEmailSignUp": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["initiateEmailSignUp"]),
     "setDocumentNonBlocking": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["setDocumentNonBlocking"]),
     "updateDocumentNonBlocking": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["updateDocumentNonBlocking"]),
     "useAuth": (()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$exports$3e$__["useAuth"]),

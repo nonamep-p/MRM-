@@ -3265,7 +3265,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-const apiKey = ("TURBOPACK compile-time value", "YOUR_API_KEY");
+const apiKey = ("TURBOPACK compile-time value", "");
 function MapSection() {
     _s();
     const mapId = "voyage-vista-map";
@@ -3362,62 +3362,52 @@ function MapSection() {
             ]
         }
     ];
-    if ("TURBOPACK compile-time falsy", 0) {
-        "TURBOPACK unreachable";
-    }
-    if (isLoading) {
+    if ("TURBOPACK compile-time truthy", 1) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "flex h-[500px] w-full items-center justify-center rounded-lg bg-muted shadow-inner",
-            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                children: "Loading map..."
-            }, void 0, false, {
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "text-center p-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                        className: "text-lg font-semibold text-foreground",
+                        children: "Interactive Map is Unavailable"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/map-section.tsx",
+                        lineNumber: 91,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "mt-2 text-sm text-muted-foreground",
+                        children: [
+                            "A Google Maps API key is required. Please set the ",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("code", {
+                                className: "font-mono bg-background px-1 py-0.5 rounded",
+                                children: "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/map-section.tsx",
+                                lineNumber: 93,
+                                columnNumber: 63
+                            }, this),
+                            " environment variable."
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/map-section.tsx",
+                        lineNumber: 92,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/components/map-section.tsx",
-                lineNumber: 103,
+                lineNumber: 90,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/map-section.tsx",
-            lineNumber: 102,
-            columnNumber: 8
+            lineNumber: 89,
+            columnNumber: 7
         }, this);
     }
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "h-[500px] w-full rounded-lg overflow-hidden shadow-lg border",
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$vis$2e$gl$2f$react$2d$google$2d$maps$2f$dist$2f$index$2e$modern$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["APIProvider"], {
-            apiKey: apiKey,
-            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$vis$2e$gl$2f$react$2d$google$2d$maps$2f$dist$2f$index$2e$modern$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Map"], {
-                defaultCenter: {
-                    lat: 25,
-                    lng: 15
-                },
-                defaultZoom: 1,
-                mapId: mapId,
-                styles: mapStyles,
-                gestureHandling: 'greedy',
-                disableDefaultUI: true,
-                children: travelPackages?.map((pkg)=>pkg.location?.lat && pkg.location?.lng && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$vis$2e$gl$2f$react$2d$google$2d$maps$2f$dist$2f$index$2e$modern$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Marker"], {
-                        position: pkg.location,
-                        title: pkg.location.name
-                    }, pkg.id, false, {
-                        fileName: "[project]/src/components/map-section.tsx",
-                        lineNumber: 120,
-                        columnNumber: 56
-                    }, this))
-            }, void 0, false, {
-                fileName: "[project]/src/components/map-section.tsx",
-                lineNumber: 111,
-                columnNumber: 9
-            }, this)
-        }, void 0, false, {
-            fileName: "[project]/src/components/map-section.tsx",
-            lineNumber: 110,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
-        fileName: "[project]/src/components/map-section.tsx",
-        lineNumber: 109,
-        columnNumber: 5
-    }, this);
+    "TURBOPACK unreachable";
 }
 _s(MapSection, "r1SXXHWAa8cc+QES5ckXOLio7/Y=", false, function() {
     return [
