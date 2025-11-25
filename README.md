@@ -98,5 +98,3 @@ TravelEase/
 
 Reach out for project inquiries, collaborations, or freelance travel site development.
 
-
-Do you want me to do that next?
