@@ -1,8 +1,4 @@
-Ah! That makes sense now — the README you shared was describing **MRM as a resource manager**, but your actual site is a **travel agency website with an admin dashboard**. If your goal is **SEO and clicks**, we need to pivot the copy so it accurately reflects your site, highlights its value, and targets search terms your audience would actually search for.
 
-Here’s a full revamp of your README and SEO-friendly content:
-
----
 
 # <div align="center">🌴 TravelEase — Smart Travel Agency Website 🌴</div>
 
